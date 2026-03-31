@@ -1,0 +1,214 @@
+id: "ISSUE-CLI-013"
+issue_number: "013"
+title: "快捷命令与别名系统"
+slug: "shortcut-aliases"
+status: "pending"
+completion: 0
+description: "实现 CLI 快捷命令和别名系统，支持用户自定义命令别名、快捷操作、命令组合（宏）等功能，提升使用效率"
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-CLI-001B"
+related_specs:
+  - "CLI-CMD-013"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-CLI-013~criterion-1"
+    name: "命令别名管理"
+    description: "实现 `alias` 命令，支持创建、查看、删除命令别名"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持参数占位符"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/alias/index.ts"
+
+  - id: "ISSUE-CLI-013~criterion-2"
+    name: "内置快捷命令"
+    description: "提供常用操作的快捷命令（如 `ls` 代替 `behavior list`）"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "与完整命令等价"
+    execution_time: "<3 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/alias/builtins.ts"
+
+  - id: "ISSUE-CLI-013~criterion-3"
+    name: "命令宏系统"
+    description: "实现命令宏（组合命令）功能，支持将多个命令组合为一个快捷操作"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持条件执行和变量传递"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/alias/macro.ts"
+
+  - id: "ISSUE-CLI-013~criterion-4"
+    name: "别名持久化"
+    description: "实现别名配置的持久化存储，支持用户级和项目级配置"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "配置优先级处理"
+    execution_time: "<3 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/alias/storage.ts"
+
+  - id: "ISSUE-CLI-013~criterion-5"
+    name: "别名解析引擎"
+    description: "实现别名解析引擎，支持嵌套别名和循环检测"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "递归深度限制"
+    execution_time: "<3 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/alias/resolver.ts"
+
+  - id: "ISSUE-CLI-013~criterion-6"
+    name: "最近命令历史"
+    description: "实现 `history` 命令，支持查看和重新执行最近使用的命令"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持历史搜索"
+    execution_time: "<3 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/history/index.ts"
+
+  - id: "ISSUE-CLI-013~criterion-7"
+    name: "快捷方式导入导出"
+    description: "实现别名的导入导出功能，支持共享和迁移"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "社区分享支持"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/alias/import-export.ts"
+
+  - id: "ISSUE-CLI-013~criterion-8"
+    name: "单元测试覆盖"
+    description: "别名系统单元测试覆盖率 >= 80%，包括解析和循环检测"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "边界条件测试"
+    execution_time: "<15 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/unit/cli/commands/alias/*.test.ts"
+
+  - id: "ISSUE-CLI-013~criterion-9"
+    name: "集成测试通过"
+    description: "与 CLI-001B 命令路由系统的集成测试通过"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "别名解析链测试"
+    execution_time: "<60 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/integration/cli/commands/alias.integration.test.ts"
+
+  - id: "ISSUE-CLI-013~criterion-10"
+    name: "E2E测试通过"
+    description: "完整别名和快捷命令流程的端到端测试通过"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: sufficient
+      ai: sufficient
+      manual: sufficient
+    note: "复杂宏组合测试"
+    execution_time: "<120 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/e2e/cli/alias-workflow.test.ts"
+
+  - id: "ISSUE-CLI-013~criterion-11"
+    name: "别名文档生成"
+    description: "自动生成用户自定义别名的帮助文档"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    note: "包含示例说明"
+    execution_time: "N/A"
+    prerequisites: []
+    implementations:
+      - type: "messages"
+        path: "docs/cli/aliases.md"

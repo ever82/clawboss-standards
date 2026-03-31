@@ -1,0 +1,145 @@
+id: "ISSUE-CORE-002B1"
+issue_number: "2B1"
+title: "基础查询服务"
+slug: "basic-query"
+status: "pending"
+completion: 0
+description: |
+  实现 Behavior 基础查询服务，支持按 ID、状态、优先级等条件查询。
+  包含分页、排序等基础功能。
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-001"
+  - "ISSUE-CORE-002A"
+related_specs:
+  - "SPEC-CORE-002"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-CORE-002B1~criterion-1"
+    name: "功能实现完成"
+    description: |
+      完成基础查询服务的核心功能：
+      - getBehaviorById() 按ID查询
+      - getBehaviorsByStatus() 按状态查询
+      - getBehaviorsByPriority() 按优先级查询
+      - listBehaviors() 列表查询（支持分页）
+      - 排序功能（按创建时间、优先级等）
+      - 分页支持（limit/offset 或 cursor）
+      - 查询结果计数
+      - 缓存集成（如适用）
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-002B1~criterion-2"
+    name: "单元测试通过 (覆盖率 ≥ 80%)"
+    description: |
+      单元测试覆盖：
+      - 各种查询条件的测试
+      - 分页逻辑的边界测试
+      - 排序功能的测试
+      - 空结果处理测试
+      - 无效ID/参数的异常测试
+      - 缓存命中率测试
+      - 代码覆盖率 ≥ 80%
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-002B1~criterion-3"
+    name: "集成测试通过 (与依赖模块)"
+    description: |
+      集成测试验证：
+      - 与 CORE-001 (Behavior实体) 的查询集成
+      - 与 CORE-002A (创建服务) 的数据流集成
+      - 与数据库索引的查询优化
+      - 与缓存层的集成
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-002B1~criterion-4"
+    name: "E2E 测试通过 (Feature 类必须)"
+    description: |
+      E2E 测试场景：
+      - 从 CLI/API 查询 Behavior 的完整流程
+      - 分页浏览大量数据的端到端体验
+      - 组合查询条件的验证
+      - 查询性能基准测试
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-002B1~criterion-5"
+    name: "AI 测试通过 (Component 类必须)"
+    description: |
+      AI 辅助测试：
+      - 使用 LLM 生成复杂查询场景
+      - 模糊测试：随机查询条件验证
+      - 查询结果正确性的语义验证
+      - 边界条件智能检测
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+
+  - id: "ISSUE-CORE-002B1~criterion-6"
+    name: "代码审查通过"
+    description: |
+      代码审查检查项：
+      - 查询构建器模式正确使用
+      - SQL/查询注入防护
+      - 性能优化（N+1问题避免）
+      - 代码复用性
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-002B1~criterion-7"
+    name: "文档更新完成"
+    description: |
+      文档要求：
+      - 查询API接口文档
+      - 分页和排序使用说明
+      - 性能优化建议
+      - 查询示例代码
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed

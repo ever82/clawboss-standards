@@ -1,0 +1,146 @@
+id: "ISSUE-CORE-013C"
+issue_number: "13C"
+title: "格式转换器"
+slug: "data-format"
+status: "pending"
+completion: 0
+description: |
+  实现格式转换器，支持各种数据格式的解析和转换（JSON、CSV、YAML、XML等）。
+category: "component"
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-013A"
+  - "ISSUE-CORE-013B"
+related_specs:
+  - "SPEC-CORE-013"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-CORE-013C~criterion-1"
+    name: "功能实现完成"
+    description: |
+      完成格式转换器的核心功能：
+      - JSON 解析和序列化
+      - CSV 解析和生成
+      - YAML 解析和生成
+      - XML 解析和生成
+      - 格式检测（自动识别）
+      - 格式验证
+      - 格式间相互转换
+      - 大文件流式处理
+      - 编码处理（UTF-8等）
+      - 扩展接口（支持自定义格式）
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-013C~criterion-2"
+    name: "单元测试通过 (覆盖率 ≥ 80%)"
+    description: |
+      单元测试覆盖：
+      - 各种格式的解析测试
+      - 格式间转换的测试
+      - 格式检测的准确性测试
+      - 编码处理测试
+      - 大文件流式处理测试
+      - 错误处理测试
+      - 代码覆盖率 ≥ 80%
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-013C~criterion-3"
+    name: "集成测试通过 (与依赖模块)"
+    description: |
+      集成测试验证：
+      - 与 CORE-013A (数据导出) 的导出格式集成
+      - 与 CORE-013B (数据导入) 的导入格式集成
+      - 与 CORE-010C (报告导出) 的报告格式集成
+      - 与第三方解析库的集成
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-013C~criterion-4"
+    name: "E2E 测试通过 (Feature 类必须)"
+    description: |
+      E2E 测试场景：
+      - 完整格式转换流程
+      - 复杂数据结构的转换
+      - 大文件转换性能
+      - 格式兼容性验证
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-013C~criterion-5"
+    name: "AI 测试通过 (Component 类必须)"
+    description: |
+      AI 辅助测试：
+      - 使用 LLM 生成复杂数据结构
+      - 模糊测试：各种格式的边界测试
+      - 格式转换的智能验证
+      - 编码兼容性测试
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+
+  - id: "ISSUE-CORE-013C~criterion-6"
+    name: "代码审查通过"
+    description: |
+      代码审查检查项：
+      - 解析库的选择合理性
+      - 内存使用优化（流式处理）
+      - 错误处理的健壮性
+      - 扩展接口的设计合理性
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-013C~criterion-7"
+    name: "文档更新完成"
+    description: |
+      文档要求：
+      - 格式转换器API文档
+      - 支持格式列表
+      - 扩展开发指南
+      - 使用示例代码
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed

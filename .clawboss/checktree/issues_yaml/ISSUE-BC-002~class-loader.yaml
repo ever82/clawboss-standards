@@ -1,0 +1,119 @@
+id: "ISSUE-BC-002"
+issue_number: 2
+module: "BC"
+title: "行为类加载器"
+slug: "class-loader"
+status: "pending"
+completion: 0
+description: "实现行为类定义文件的加载和解析功能，支持从本地文件系统、远程URL加载类定义，处理依赖关系。"
+category: "component"
+is_parent: false
+prerequisites:
+  - "ISSUE-BC-001"
+related_specs:
+  - "BEHAVIOR_CLASS"
+  - "LOADER"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-BC-002~criterion-1"
+    name: "本地文件加载"
+    description: "实现从本地文件系统加载行为类定义文件，支持递归目录扫描"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持.yaml/.yml/.json扩展名"
+    execution_time: "<2 seconds for 100 files"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/loader/local-class-loader.ts"
+      - type: "utility"
+        path: "src/behavior-class/utils/file-scanner.ts"
+
+  - id: "ISSUE-BC-002~criterion-2"
+    name: "远程URL加载"
+    description: "实现从远程URL加载行为类定义，支持HTTP/HTTPS协议，处理缓存和重试"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持URL重定向和基本认证"
+    execution_time: "<5 seconds with timeout"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/loader/remote-class-loader.ts"
+      - type: "config"
+        path: "config/remote-loader.yaml"
+
+  - id: "ISSUE-BC-002~criterion-3"
+    name: "类定义解析"
+    description: "实现类定义文件的解析和验证，将YAML/JSON转换为内部表示"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "详细的解析错误报告"
+    execution_time: "<500 milliseconds per file"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/loader/class-parser.ts"
+      - type: "component"
+        path: "src/behavior-class/loader/parse-error-handler.ts"
+
+  - id: "ISSUE-BC-002~criterion-4"
+    name: "依赖解析"
+    description: "实现类定义间的依赖解析，处理import、extends等依赖关系"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "检测循环依赖并提供友好错误"
+    execution_time: "<2 seconds for dependency tree"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/loader/dependency-resolver.ts"
+      - type: "utility"
+        path: "src/behavior-class/utils/cycle-detector.ts"
+
+  - id: "ISSUE-BC-002~criterion-5"
+    name: "加载缓存机制"
+    description: "实现类定义的加载缓存，避免重复加载，支持缓存刷新"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "基于文件修改时间的智能缓存"
+    execution_time: "<100 milliseconds for cached"
+    prerequisites:
+      - "ISSUE-BC-002~criterion-1"
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/loader/class-cache.ts"
+      - type: "component"
+        path: "src/behavior-class/loader/cache-invalidator.ts"

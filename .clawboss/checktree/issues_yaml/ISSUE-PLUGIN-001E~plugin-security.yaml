@@ -1,0 +1,120 @@
+id: "ISSUE-PLUGIN-001E"
+issue_number: "1E"
+module: "PLUGIN"
+title: "插件安全沙箱"
+slug: "plugin-security"
+status: "pending"
+completion: 0
+description: "实现插件安全沙箱机制，隔离插件运行环境，限制权限，防止恶意代码执行和数据泄露。"
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-PLUGIN-001D"
+  - "ISSUE-BC-004"
+  - "ISSUE-SEC-001"
+related_specs:
+  - "PLUGIN"
+  - "SECURITY"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-PLUGIN-001E~criterion-1"
+    name: "权限模型定义"
+    description: "定义插件权限模型，包括文件系统、网络、系统API、数据访问等权限类别"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "权限声明在manifest中，用户授权"
+    execution_time: "<200 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "schema"
+        path: "src/plugin/security/permission-schema.ts"
+      - type: "types"
+        path: "src/plugin/types/permission.types.ts"
+
+  - id: "ISSUE-PLUGIN-001E~criterion-2"
+    name: "代码沙箱"
+    description: "实现插件代码的隔离执行环境，限制全局变量访问和危险操作"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "使用VM2或类似技术实现隔离"
+    execution_time: "<100 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/security/code-sandbox.ts"
+      - type: "component"
+        path: "src/plugin/security/vm-wrapper.ts"
+
+  - id: "ISSUE-PLUGIN-001E~criterion-3"
+    name: "权限验证与拦截"
+    description: "实现运行时权限验证，拦截未授权的操作尝试"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "细粒度的权限控制，支持动态授权"
+    execution_time: "<50 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/security/permission-guard.ts"
+      - type: "component"
+        path: "src/plugin/security/access-controller.ts"
+
+  - id: "ISSUE-PLUGIN-001E~criterion-4"
+    name: "资源限制"
+    description: "实现插件资源使用限制，包括CPU时间、内存、磁盘空间、网络带宽等"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "超限操作时优雅降级或终止"
+    execution_time: "<100 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/security/resource-limiter.ts"
+      - type: "component"
+        path: "src/plugin/security/resource-monitor.ts"
+
+  - id: "ISSUE-PLUGIN-001E~criterion-5"
+    name: "安全审计日志"
+    description: "记录插件的安全相关操作，包括权限请求、异常行为、资源使用峰值等"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "日志可导出用于安全分析"
+    execution_time: "<50 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/security/audit-logger.ts"
+      - type: "component"
+        path: "src/plugin/security/security-reports.ts"

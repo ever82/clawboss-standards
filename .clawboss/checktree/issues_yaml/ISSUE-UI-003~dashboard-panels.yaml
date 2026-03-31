@@ -1,0 +1,94 @@
+id: "ISSUE-UI-003"
+issue_number: 3
+title: "仪表盘面板系统"
+slug: "dashboard-panels"
+status: "pending"
+completion: 0
+description: |
+  开发仪表盘面板系统，提供多个可配置的面板视图，
+  包括进度概览、活跃行为、统计数据、快捷操作等面板。
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-UI-001"
+  - "ISSUE-UI-002"
+  - "ISSUE-CORE-010A"
+  - "ISSUE-CORE-010B"
+related_specs:
+  - "SPEC-UI-003"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-UI-003~criterion-1"
+    name: "面板布局系统"
+    description: "实现可拖拽的面板网格布局，支持自定义排列和大小调整"
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+    note: "参考 Grafana 或 Notion 的仪表盘布局"
+
+  - id: "ISSUE-UI-003~criterion-2"
+    name: "进度概览面板"
+    description: "显示今日/本周/本月行为完成进度，环形图或条形图展示"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-UI-003~criterion-3"
+    name: "活跃行为面板"
+    description: "显示当前进行中的行为和最近活跃的行为列表"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-UI-003~criterion-4"
+    name: "统计数据面板"
+    description: "显示关键统计数据：总行为数、完成率、平均耗时等"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-UI-003~criterion-5"
+    name: "快捷操作面板"
+    description: "提供快速开始行为、标记完成、添加笔记等快捷操作"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-UI-003~criterion-6"
+    name: "面板配置持久化"
+    description: "保存用户的面板布局配置到本地或云端"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: sufficient
+      e2e: lacking
+      ai: not_needed
+      manual: not_needed

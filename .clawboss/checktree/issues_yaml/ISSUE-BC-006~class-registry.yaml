@@ -1,0 +1,120 @@
+id: "ISSUE-BC-006"
+issue_number: 6
+module: "BC"
+title: "行为类注册表"
+slug: "class-registry"
+status: "pending"
+completion: 0
+description: "实现行为类注册表，集中管理所有可用的行为类定义，提供类查找、索引、缓存和生命周期管理。"
+category: "component"
+is_parent: false
+prerequisites:
+  - "ISSUE-BC-002"
+related_specs:
+  - "BEHAVIOR_CLASS"
+  - "REGISTRY"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-BC-006~criterion-1"
+    name: "类注册与注销"
+    description: "实现行为类的注册和注销机制，管理类定义的生命周期"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "注册时验证类定义完整性"
+    execution_time: "<500 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/registry/class-registry.ts"
+      - type: "types"
+        path: "src/behavior-class/types/registry.types.ts"
+
+  - id: "ISSUE-BC-006~criterion-2"
+    name: "类查找与索引"
+    description: "实现高效的行为类查找，支持按名称、标签、命名空间等条件索引"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "使用多级索引加速查询"
+    execution_time: "<100 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/registry/class-index.ts"
+      - type: "component"
+        path: "src/behavior-class/registry/query-engine.ts"
+
+  - id: "ISSUE-BC-006~criterion-3"
+    name: "注册表持久化"
+    description: "实现注册表状态的持久化存储，支持加载和恢复"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "支持增量更新和全量备份"
+    execution_time: "<2 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/registry/registry-persistence.ts"
+      - type: "component"
+        path: "src/behavior-class/registry/registry-loader.ts"
+
+  - id: "ISSUE-BC-006~criterion-4"
+    name: "动态更新机制"
+    description: "实现注册表的动态更新，监听类定义文件变更并自动更新"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持热更新无需重启"
+    execution_time: "<1 second"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/registry/registry-updater.ts"
+      - type: "component"
+        path: "src/behavior-class/registry/file-watcher.ts"
+
+  - id: "ISSUE-BC-006~criterion-5"
+    name: "注册表统计信息"
+    description: "提供注册表的统计信息和健康检查，包括类数量、索引状态、加载时间等"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+    note: "支持导出统计报告"
+    execution_time: "<500 milliseconds"
+    prerequisites:
+      - "ISSUE-BC-006~criterion-1"
+      - "ISSUE-BC-006~criterion-2"
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/registry/registry-stats.ts"
+      - type: "api"
+        path: "src/behavior-class/api/registry-health.ts"

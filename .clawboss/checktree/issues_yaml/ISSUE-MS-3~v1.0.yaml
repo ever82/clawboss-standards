@@ -1,0 +1,103 @@
+id: "ISSUE-MS-3"
+issue_number: 3
+title: "正式版本1.0"
+slug: "v1.0"
+status: "pending"
+completion: 0
+description: |
+  正式版本1.0发布。
+  功能完整、稳定可靠的正式版本，面向所有用户。
+  包含完整功能集、安全特性、性能优化、监控告警、Web UI等。
+category: "milestone"
+is_parent: true
+sub_issues:
+  - "ISSUE-MS-2"
+  - "ISSUE-INFRA-011"
+  - "ISSUE-INFRA-008"
+  - "ISSUE-INFRA-012"
+  - "ISSUE-DEPLOY-004"
+  - "ISSUE-DOC-001"
+  - "ISSUE-PLUGIN-001E"
+  - "ISSUE-SEC-002"
+  - "ISSUE-SEC-003"
+  - "ISSUE-SEC-004"
+  - "ISSUE-UI-004D"
+  - "ISSUE-UI-005"
+prerequisites:
+  - "ISSUE-MS-2"
+  - "ISSUE-INFRA-011"
+  - "ISSUE-INFRA-008"
+  - "ISSUE-INFRA-012"
+  - "ISSUE-DEPLOY-004"
+  - "ISSUE-DOC-001"
+  - "ISSUE-PLUGIN-001E"
+  - "ISSUE-SEC-002"
+  - "ISSUE-SEC-003"
+  - "ISSUE-SEC-004"
+  - "ISSUE-UI-004D"
+  - "ISSUE-UI-005"
+related_specs:
+  - "SPEC-MS-3"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-MS-3~criterion-1"
+    name: "功能完整性"
+    description: "所有v1.0规划功能完成：数据库迁移、备份恢复、插件安全沙箱、安全特性、Web UI"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-MS-3~criterion-2"
+    name: "安全审计通过"
+    description: "通过安全审计：依赖漏洞扫描、渗透测试、代码安全审查"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-MS-3~criterion-3"
+    name: "性能与稳定性"
+    description: "性能测试达标，长期稳定性测试通过(30天无故障)，资源泄漏检查通过"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-MS-3~criterion-4"
+    name: "发布流程就绪"
+    description: "安装脚本、CI/CD流水线、发布管理流程全部就绪并通过测试"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-MS-3~criterion-5"
+    name: "社区与生态"
+    description: "贡献者指南发布，社区准则建立，插件示例发布，用户文档完善"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient

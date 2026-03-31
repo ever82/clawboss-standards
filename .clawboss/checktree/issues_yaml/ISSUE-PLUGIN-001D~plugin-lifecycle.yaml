@@ -1,0 +1,119 @@
+id: "ISSUE-PLUGIN-001D"
+issue_number: "1D"
+module: "PLUGIN"
+title: "插件生命周期管理"
+slug: "plugin-lifecycle"
+status: "pending"
+completion: 0
+description: "实现插件生命周期管理，包括安装、启用、禁用、更新、卸载等状态转换和钩子函数。"
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-PLUGIN-001C"
+related_specs:
+  - "PLUGIN"
+  - "LIFECYCLE"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-PLUGIN-001D~criterion-1"
+    name: "状态机实现"
+    description: "实现插件状态机，定义安装、启用、禁用、卸载等状态和转换规则"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "状态转换需要验证前置条件"
+    execution_time: "<500 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/lifecycle/state-machine.ts"
+      - type: "types"
+        path: "src/plugin/types/lifecycle.types.ts"
+
+  - id: "ISSUE-PLUGIN-001D~criterion-2"
+    name: "生命周期钩子"
+    description: "实现插件生命周期钩子系统，在状态转换时调用插件定义的回调函数"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "钩子包括onInstall、onEnable、onDisable、onUninstall等"
+    execution_time: "<1 second"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/lifecycle/lifecycle-hooks.ts"
+      - type: "component"
+        path: "src/plugin/lifecycle/hook-executor.ts"
+
+  - id: "ISSUE-PLUGIN-001D~criterion-3"
+    name: "插件更新机制"
+    description: "实现插件的更新检测和升级流程，支持热更新和重启后更新"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "更新前自动创建备份"
+    execution_time: "<10 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/lifecycle/update-manager.ts"
+      - type: "component"
+        path: "src/plugin/lifecycle/update-checker.ts"
+
+  - id: "ISSUE-PLUGIN-001D~criterion-4"
+    name: "依赖检查与处理"
+    description: "在状态转换时检查插件依赖关系，处理启用/禁用/卸载的级联影响"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "禁用插件时提示依赖该插件的其他插件"
+    execution_time: "<2 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/lifecycle/dependency-checker.ts"
+      - type: "component"
+        path: "src/plugin/lifecycle/cascade-handler.ts"
+
+  - id: "ISSUE-PLUGIN-001D~criterion-5"
+    name: "恢复与回滚"
+    description: "实现插件操作的恢复和回滚机制，处理失败时的状态恢复"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "原子性操作，失败时自动回滚"
+    execution_time: "<3 seconds"
+    prerequisites:
+      - "ISSUE-PLUGIN-001D~criterion-1"
+    implementations:
+      - type: "component"
+        path: "src/plugin/lifecycle/rollback-manager.ts"
+      - type: "component"
+        path: "src/plugin/lifecycle/backup-manager.ts"

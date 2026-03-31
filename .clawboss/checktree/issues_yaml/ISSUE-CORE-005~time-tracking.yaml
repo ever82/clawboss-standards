@@ -1,0 +1,144 @@
+id: "ISSUE-CORE-005"
+issue_number: 5
+title: "时间追踪和聚合"
+slug: "time-tracking"
+status: "pending"
+completion: 0
+description: |
+  实现 Behavior 时间追踪和聚合服务，支持时间记录、耗时统计、时间线展示等功能。
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-004"
+related_specs:
+  - "SPEC-CORE-005"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-CORE-005~criterion-1"
+    name: "功能实现完成"
+    description: |
+      完成时间追踪和聚合的核心功能：
+      - 时间记录模型定义
+      - 开始/暂停/结束时间追踪
+      - 手动时间记录添加
+      - 时间记录编辑和删除
+      - 行为耗时统计
+      - 时间段聚合（日/周/月）
+      - 时间线展示数据
+      - 预估vs实际时间对比
+      - 时间记录导出
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-005~criterion-2"
+    name: "单元测试通过 (覆盖率 ≥ 80%)"
+    description: |
+      单元测试覆盖：
+      - 时间记录CRUD操作测试
+      - 时间段计算的准确性测试
+      - 时间聚合的正确性测试
+      - 时区处理测试
+      - 夏令时处理测试
+      - 并发时间追踪测试
+      - 代码覆盖率 ≥ 80%
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-005~criterion-3"
+    name: "集成测试通过 (与依赖模块)"
+    description: |
+      集成测试验证：
+      - 与 CORE-004 (状态管理) 的状态变更时间集成
+      - 与 CORE-003A (树构建) 的子行为时间聚合集成
+      - 与 CORE-010A (数据统计) 的数据分析集成
+      - 与数据库的时间存储集成
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-005~criterion-4"
+    name: "E2E 测试通过 (Feature 类必须)"
+    description: |
+      E2E 测试场景：
+      - 完整的番茄工作流时间追踪
+      - 时间线展示的端到端验证
+      - 时间报表的生成流程
+      - 多行为同时追踪的处理
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-005~criterion-5"
+    name: "AI 测试通过 (Component 类必须)"
+    description: |
+      AI 辅助测试：
+      - 使用 LLM 生成复杂时间场景
+      - 模糊测试：随机时间段验证
+      - 时间计算的智能验证
+      - 边界时间条件的自动发现
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+
+  - id: "ISSUE-CORE-005~criterion-6"
+    name: "代码审查通过"
+    description: |
+      代码审查检查项：
+      - 时间计算的准确性
+      - 时区处理的正确性
+      - 并发时间追踪的安全性
+      - 性能优化（时间聚合算法）
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-005~criterion-7"
+    name: "文档更新完成"
+    description: |
+      文档要求：
+      - 时间追踪API文档
+      - 时间记录数据结构说明
+      - 时区处理指南
+      - 使用示例代码
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed

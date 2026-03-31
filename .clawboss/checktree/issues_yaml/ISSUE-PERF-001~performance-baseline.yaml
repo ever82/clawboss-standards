@@ -1,0 +1,81 @@
+id: "ISSUE-PERF-001"
+issue_number: 1
+title: "性能基准测试框架"
+slug: "performance-baseline"
+status: "pending"
+completion: 0
+description: |
+  建立系统性能基准测试框架，为性能优化提供度量基础。
+  包括性能测试工具链、基准测试用例、性能指标定义、性能报告生成等功能。
+  确保系统性能可量化、可追踪、可对比。
+category: "infrastructure"
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-007"
+  - "ISSUE-CORE-002B1"
+related_specs:
+  - "SPEC-PERF-001"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-PERF-001~criterion-1"
+    name: "性能测试框架搭建"
+    description: "集成性能测试框架(Benchmark.js/artillery/k6)，配置自动化测试流水线"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+    note: "选择适合Rust后端和JS前端的测试工具"
+
+  - id: "ISSUE-PERF-001~criterion-2"
+    name: "基准测试用例库"
+    description: "建立核心功能基准测试用例：行为CRUD、树操作、搜索、查询等场景的基准测试"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-PERF-001~criterion-3"
+    name: "性能指标定义"
+    description: "定义关键性能指标：响应时间(P50/P95/P99)、吞吐量(QPS/TPS)、资源占用(CPU/内存/IO)"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-PERF-001~criterion-4"
+    name: "基准线建立"
+    description: "在标准环境下运行基准测试，建立性能基线数据，设定性能目标(SLO)"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-PERF-001~criterion-5"
+    name: "性能回归检测"
+    description: "实现性能回归检测机制，自动对比当前版本与基准线，触发告警"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: lacking
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed

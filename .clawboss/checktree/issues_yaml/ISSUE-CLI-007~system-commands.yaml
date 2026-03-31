@@ -1,0 +1,198 @@
+id: "ISSUE-CLI-007"
+issue_number: "007"
+title: "系统管理命令"
+slug: "system-commands"
+status: "pending"
+completion: 0
+description: "实现系统管理相关的 CLI 命令，包括配置管理、日志查看、系统状态检查、备份恢复等功能"
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-CLI-001B"
+  - "ISSUE-SEC-001"
+  - "ISSUE-INFRA-005"
+related_specs:
+  - "CLI-CMD-007"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-CLI-007~criterion-1"
+    name: "系统配置命令"
+    description: "实现 `system config` 命令，支持查看、修改系统配置，包含配置验证和持久化"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持配置备份和恢复"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/system/config.ts"
+
+  - id: "ISSUE-CLI-007~criterion-2"
+    name: "日志查看命令"
+    description: "实现 `system logs` 命令，支持日志过滤、实时跟踪、级别筛选和导出"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持彩色输出和格式化"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/system/logs.ts"
+
+  - id: "ISSUE-CLI-007~criterion-3"
+    name: "系统状态检查"
+    description: "实现 `system status` 和 `system health` 命令，显示系统运行状态和健康检查"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "数据库连接和存储检查"
+    execution_time: "<10 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/system/status.ts"
+
+  - id: "ISSUE-CLI-007~criterion-4"
+    name: "备份恢复命令"
+    description: "实现 `system backup` 和 `system restore` 命令，支持数据备份和恢复操作"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "增量备份和压缩支持"
+    execution_time: "<60 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/system/backup.ts"
+
+  - id: "ISSUE-CLI-007~criterion-5"
+    name: "用户认证命令"
+    description: "实现 `system auth` 命令，支持登录、登出、令牌管理和权限查看"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "安全令牌存储"
+    execution_time: "<10 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/system/auth.ts"
+
+  - id: "ISSUE-CLI-007~criterion-6"
+    name: "系统维护命令"
+    description: "实现 `system maintenance` 命令，支持数据清理、索引重建、优化等维护操作"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "维护计划调度"
+    execution_time: "<60 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/system/maintenance.ts"
+
+  - id: "ISSUE-CLI-007~criterion-7"
+    name: "单元测试覆盖"
+    description: "系统管理命令单元测试覆盖率 >= 80%"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "包括权限检查测试"
+    execution_time: "<15 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/unit/cli/commands/system/*.test.ts"
+
+  - id: "ISSUE-CLI-007~criterion-8"
+    name: "集成测试通过"
+    description: "与 SEC-001 认证系统、INFRA-005 配置系统的集成测试通过"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "安全集成验证"
+    execution_time: "<60 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/integration/cli/commands/system.integration.test.ts"
+
+  - id: "ISSUE-CLI-007~criterion-9"
+    name: "E2E测试通过"
+    description: "完整系统管理流程的端到端测试通过，包括备份恢复场景"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: sufficient
+      ai: sufficient
+      manual: sufficient
+    note: "灾难恢复测试场景"
+    execution_time: "<180 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/e2e/cli/system-admin-workflow.test.ts"
+
+  - id: "ISSUE-CLI-007~criterion-10"
+    name: "安全审计测试"
+    description: "系统管理命令的安全审计测试通过，验证权限控制和操作日志"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: sufficient
+    note: "渗透测试"
+    execution_time: "N/A"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/security/cli/system-commands.security.test.ts"

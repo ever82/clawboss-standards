@@ -1,0 +1,197 @@
+id: "ISSUE-CLI-009"
+issue_number: "009"
+title: "批量操作命令"
+slug: "batch-commands"
+status: "pending"
+completion: 0
+description: "实现批量操作相关的 CLI 命令，支持批量创建、更新、删除、状态变更等操作，包含预览和回滚机制"
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-CLI-001B"
+  - "ISSUE-CORE-008"
+related_specs:
+  - "CLI-CMD-009"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-CLI-009~criterion-1"
+    name: "批量创建命令"
+    description: "实现 `batch create` 命令，支持从文件导入批量创建行为，支持 CSV/JSON/YAML 格式"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "数据验证和错误报告"
+    execution_time: "<30 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/batch/create.ts"
+
+  - id: "ISSUE-CLI-009~criterion-2"
+    name: "批量更新命令"
+    description: "实现 `batch update` 命令，支持批量修改行为属性，支持条件筛选更新目标"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "原子性保证"
+    execution_time: "<30 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/batch/update.ts"
+
+  - id: "ISSUE-CLI-009~criterion-3"
+    name: "批量删除命令"
+    description: "实现 `batch delete` 命令，支持按条件批量删除行为，包含安全确认机制"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "软删除和恢复支持"
+    execution_time: "<30 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/batch/delete.ts"
+
+  - id: "ISSUE-CLI-009~criterion-4"
+    name: "批量状态变更"
+    description: "实现 `batch status` 命令，支持批量修改行为状态，自动处理状态流转"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "状态流转验证"
+    execution_time: "<30 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/batch/status.ts"
+
+  - id: "ISSUE-CLI-009~criterion-5"
+    name: "操作预览机制"
+    description: "实现批量操作预览功能，在执行前显示受影响项目列表和变更详情"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持预览导出"
+    execution_time: "<10 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/batch/preview.ts"
+
+  - id: "ISSUE-CLI-009~criterion-6"
+    name: "批处理进度显示"
+    description: "实现批量操作进度显示，包含进度条、预估时间和已处理数量"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "实时进度更新"
+    execution_time: "<3 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/batch/progress.ts"
+
+  - id: "ISSUE-CLI-009~criterion-7"
+    name: "单元测试覆盖"
+    description: "批量操作命令单元测试覆盖率 >= 80%，包括错误处理场景"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "部分失败处理测试"
+    execution_time: "<15 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/unit/cli/commands/batch/*.test.ts"
+
+  - id: "ISSUE-CLI-009~criterion-8"
+    name: "集成测试通过"
+    description: "与 CORE-008 批量操作服务的集成测试通过"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "事务一致性验证"
+    execution_time: "<60 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/integration/cli/commands/batch.integration.test.ts"
+
+  - id: "ISSUE-CLI-009~criterion-9"
+    name: "E2E测试通过"
+    description: "完整批量操作流程的端到端测试通过，包括大文件导入场景"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: sufficient
+      ai: sufficient
+      manual: sufficient
+    note: "千条数据批量操作测试"
+    execution_time: "<300 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/e2e/cli/batch-operations.test.ts"
+
+  - id: "ISSUE-CLI-009~criterion-10"
+    name: "性能测试"
+    description: "批量操作性能测试，确保大规模数据处理性能符合要求"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+    note: "1000+ 条数据处理 < 60秒"
+    execution_time: "<60 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/performance/cli/batch-commands.perf.test.ts"

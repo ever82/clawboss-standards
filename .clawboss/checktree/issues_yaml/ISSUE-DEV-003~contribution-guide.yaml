@@ -1,0 +1,80 @@
+id: "ISSUE-DEV-003"
+issue_number: 3
+title: "贡献者指南"
+slug: "contribution-guide"
+status: "pending"
+completion: 0
+description: |
+  编写贡献者指南文档。
+  包括项目介绍、开发环境搭建、贡献流程、代码规范、社区准则等。
+  降低新贡献者的参与门槛。
+category: "infrastructure"
+is_parent: false
+prerequisites:
+  - "ISSUE-DOC-001"
+  - "ISSUE-DOC-003"
+related_specs:
+  - "SPEC-DEV-003"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-DEV-003~criterion-1"
+    name: "项目介绍文档"
+    description: "编写项目介绍，包括项目背景、目标、技术栈、架构概览"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-DEV-003~criterion-2"
+    name: "开发环境指南"
+    description: "编写详细的开发环境搭建指南，支持Windows/Mac/Linux平台"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-DEV-003~criterion-3"
+    name: "贡献流程文档"
+    description: "编写贡献流程文档：Issue报告、功能请求、PR提交、审查流程、合并规范"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-DEV-003~criterion-4"
+    name: "代码规范文档"
+    description: "编写代码规范文档：命名约定、注释规范、错误处理、测试要求、文档要求"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-DEV-003~criterion-5"
+    name: "社区准则"
+    description: "编写社区准则：行为准则、沟通规范、决策流程、核心团队介绍"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient

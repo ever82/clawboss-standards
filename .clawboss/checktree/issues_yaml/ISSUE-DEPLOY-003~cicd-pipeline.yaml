@@ -1,0 +1,106 @@
+id: "ISSUE-DEPLOY-003"
+issue_number: "003"
+title: "CI/CD 流水线"
+slug: "cicd-pipeline"
+status: "pending"
+completion: 0
+description: |
+  建立完整的 CI/CD 流水线，包括代码提交后的自动化测试、构建、
+  安全扫描、以及发布流程。支持多环境部署和灰度发布策略。
+category: "infrastructure"
+is_parent: false
+prerequisites:
+  - "ISSUE-DEPLOY-001"
+related_specs:
+  - "SPEC-DEPLOY-003"
+  - "SPEC-DEV-001"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-DEPLOY-003~criterion-1"
+    name: "GitHub Actions 工作流"
+    description: |
+      配置 GitHub Actions CI/CD 流水线：
+      - Pull Request 触发测试
+      - 主分支合并后自动构建
+      - 多平台测试矩阵（Node.js 版本、操作系统）
+      - 流水线并行优化
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-DEPLOY-003~criterion-2"
+    name: "自动化测试阶段"
+    description: |
+      配置自动化测试流水线阶段：
+      - 单元测试执行和覆盖率报告
+      - 集成测试执行
+      - E2E 测试执行
+      - 测试报告归档
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-DEPLOY-003~criterion-3"
+    name: "安全扫描集成"
+    description: |
+      集成安全扫描工具：
+      - 依赖漏洞扫描（Snyk、Dependabot）
+      - 代码安全扫描（CodeQL）
+      - 密钥泄露检测（git-secrets、truffleHog）
+      - 容器镜像扫描（Trivy）
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    prerequisites:
+      - "ISSUE-SEC-006"
+
+  - id: "ISSUE-DEPLOY-003~criterion-4"
+    name: "自动发布流程"
+    description: |
+      实现自动化发布：
+      - 基于标签的版本发布
+      - 自动生成 Release Notes
+      - 多平台产物上传
+      - npm/GitHub Packages 自动发布
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-DEPLOY-003~criterion-5"
+    name: "环境部署流水线"
+    description: |
+      配置多环境部署：
+      - 开发环境自动部署
+      - 预发布环境部署
+      - 生产环境部署（需审批）
+      - 部署状态通知
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: sufficient

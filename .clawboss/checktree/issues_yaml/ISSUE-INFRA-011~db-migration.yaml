@@ -1,0 +1,91 @@
+id: "ISSUE-INFRA-011"
+issue_number: 11
+title: "数据库迁移工具"
+slug: "db-migration"
+status: "pending"
+completion: 0
+description: |
+  实现数据库迁移工具，管理数据库Schema的版本演进。
+  包括迁移脚本管理、迁移执行、回滚支持、迁移状态跟踪等。
+  确保数据库Schema可以安全、可控地升级。
+category: "infrastructure"
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-003B"
+related_specs:
+  - "SPEC-INFRA-011"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-INFRA-011~criterion-1"
+    name: "迁移框架集成"
+    description: "集成Prisma Migrate/TypeORM Migration等迁移框架"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-INFRA-011~criterion-2"
+    name: "迁移脚本规范"
+    description: "定义迁移脚本命名规范和编写标准"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-INFRA-011~criterion-3"
+    name: "迁移执行命令"
+    description: "实现迁移执行CLI命令，支持执行和状态查询"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-INFRA-011~criterion-4"
+    name: "迁移回滚支持"
+    description: "支持迁移回滚到指定版本，处理回滚失败场景"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-INFRA-011~criterion-5"
+    name: "迁移事务保护"
+    description: "迁移在事务中执行，失败自动回滚"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-INFRA-011~criterion-6"
+    name: "迁移测试"
+    description: "测试迁移执行、回滚，验证数据完整性"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: sufficient

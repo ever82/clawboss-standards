@@ -1,0 +1,108 @@
+id: "ISSUE-INT-001B"
+issue_number: "001B"
+title: "上下文文件生成器"
+slug: "context-generator"
+status: "pending"
+completion: 0
+description: |
+  实现自动化的上下文文件生成器，能够根据当前工作空间的状态、
+  行为树结构和用户活动，智能生成供 Claude Code 使用的上下文文件。
+  该生成器需要支持增量更新、缓存机制和多工作空间场景。
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-INT-001A"
+related_specs:
+  - "SPEC-INT-001"
+  - "SPEC-INT-002"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-INT-001B~criterion-1"
+    name: "上下文生成引擎"
+    description: |
+      实现核心上下文生成引擎：
+      - 工作空间状态扫描器
+      - 行为树遍历与摘要生成
+      - 优先级排序算法（基于截止日期、状态、依赖关系）
+      - 智能裁剪（根据 token 限制优化内容）
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "AI测试验证生成内容的相关性"
+
+  - id: "ISSUE-INT-001B~criterion-2"
+    name: "文件生成与输出"
+    description: |
+      实现上下文文件的生成和输出功能：
+      - .claude.md 文件生成（项目根目录）
+      - .claude/ 目录下的分类上下文文件
+      - 支持 Markdown、YAML、JSON 多种输出格式
+      - 文件头元数据生成（生成时间、版本、校验和）
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-INT-001B~criterion-3"
+    name: "增量更新机制"
+    description: |
+      实现高效的增量更新机制：
+      - 变更检测（基于文件时间戳和内容哈希）
+      - 增量上下文计算（只更新变更部分）
+      - 缓存管理（内存缓存 + 文件缓存）
+      - 更新触发策略（手动、定时、事件驱动）
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+    execution_time: "<50ms for incremental update"
+
+  - id: "ISSUE-INT-001B~criterion-4"
+    name: "多工作空间支持"
+    description: |
+      支持多工作空间的上下文生成：
+      - 跨工作空间行为聚合
+      - 工作空间间依赖关系识别
+      - 全局上下文与局部上下文合并
+      - 工作空间切换时的上下文刷新
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+
+  - id: "ISSUE-INT-001B~criterion-5"
+    name: "CLI 命令集成"
+    description: |
+      提供 CLI 命令用于上下文生成：
+      - `ai-me context generate` - 生成上下文
+      - `ai-me context update` - 增量更新
+      - `ai-me context watch` - 监视模式自动更新
+      - `ai-me context validate` - 验证上下文格式
+      - 命令选项（--format, --output, --scope）
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: sufficient

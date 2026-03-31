@@ -1,0 +1,122 @@
+id: "ISSUE-PLUGIN-001A"
+issue_number: "1A"
+module: "PLUGIN"
+title: "插件架构设计"
+slug: "plugin-arch"
+status: "pending"
+completion: 0
+description: "设计插件系统的整体架构，包括插件类型定义、扩展点规范、事件系统、插件通信机制等。"
+category: "infrastructure"
+is_parent: false
+prerequisites:
+  - "ISSUE-CLI-006B1"
+  - "ISSUE-CLI-006B2"
+  - "ISSUE-INFRA-005"
+related_specs:
+  - "PLUGIN"
+  - "ARCHITECTURE"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-PLUGIN-001A~criterion-1"
+    name: "插件类型定义"
+    description: "定义插件的类型分类，包括核心插件、CLI插件、UI插件、集成插件等"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "不同类型插件有不同的权限和生命周期"
+    execution_time: "<1 second"
+    prerequisites: []
+    implementations:
+      - type: "schema"
+        path: "src/plugin/schemas/plugin-types.schema.ts"
+      - type: "types"
+        path: "src/plugin/types/plugin-types.ts"
+
+  - id: "ISSUE-PLUGIN-001A~criterion-2"
+    name: "扩展点(Extension Points)规范"
+    description: "定义系统的扩展点，规范插件可以扩展的功能位置和方式"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "扩展点需要文档化和版本化"
+    execution_time: "<500 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/core/extension-points.ts"
+      - type: "schema"
+        path: "src/plugin/schemas/extension-point.schema.ts"
+
+  - id: "ISSUE-PLUGIN-001A~criterion-3"
+    name: "插件事件系统"
+    description: "设计插件间通信的事件系统，支持发布订阅和请求响应模式"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "事件需要类型安全和命名空间隔离"
+    execution_time: "<100 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/core/plugin-events.ts"
+      - type: "component"
+        path: "src/plugin/core/event-bus.ts"
+
+  - id: "ISSUE-PLUGIN-001A~criterion-4"
+    name: "插件清单格式"
+    description: "定义插件清单(manifest)的标准格式，包括元数据、依赖、权限声明等"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "清单格式需要向前兼容"
+    execution_time: "<500 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "schema"
+        path: "src/plugin/schemas/plugin-manifest.schema.ts"
+      - type: "types"
+        path: "src/plugin/types/manifest.types.ts"
+
+  - id: "ISSUE-PLUGIN-001A~criterion-5"
+    name: "插件架构文档"
+    description: "编写完整的插件架构文档，包括概念说明、开发指南、最佳实践等"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "文档包含示例代码和API参考"
+    execution_time: "N/A"
+    prerequisites:
+      - "ISSUE-PLUGIN-001A~criterion-1"
+      - "ISSUE-PLUGIN-001A~criterion-2"
+    implementations:
+      - type: "config"
+        path: "docs/plugin/architecture.md"
+      - type: "config"
+        path: "docs/plugin/development-guide.md"

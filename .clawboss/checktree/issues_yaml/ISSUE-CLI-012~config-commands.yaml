@@ -1,0 +1,196 @@
+id: "ISSUE-CLI-012"
+issue_number: "012"
+title: "配置管理命令"
+slug: "config-commands"
+status: "pending"
+completion: 0
+description: "实现配置管理相关的 CLI 命令，支持配置的查看、设置、重置、导入导出，以及配置验证和模板管理"
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-CLI-001B"
+related_specs:
+  - "CLI-CMD-012"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-CLI-012~criterion-1"
+    name: "配置查看命令"
+    description: "实现 `config get` 和 `config list` 命令，支持查看单个配置项和所有配置"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持层级配置显示"
+    execution_time: "<3 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/config/get.ts"
+
+  - id: "ISSUE-CLI-012~criterion-2"
+    name: "配置设置命令"
+    description: "实现 `config set` 命令，支持设置配置项值，包含类型验证和范围检查"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持临时配置（--临时）"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/config/set.ts"
+
+  - id: "ISSUE-CLI-012~criterion-3"
+    name: "配置重置命令"
+    description: "实现 `config reset` 命令，支持重置单个或全部配置到默认值"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "重置前确认提示"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/config/reset.ts"
+
+  - id: "ISSUE-CLI-012~criterion-4"
+    name: "配置导入导出"
+    description: "实现 `config import` 和 `config export` 命令，支持 JSON/YAML 格式"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "配置迁移支持"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/config/import-export.ts"
+
+  - id: "ISSUE-CLI-012~criterion-5"
+    name: "配置验证命令"
+    description: "实现 `config validate` 命令，检查配置有效性和完整性"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "详细的错误提示和修复建议"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/config/validate.ts"
+
+  - id: "ISSUE-CLI-012~criterion-6"
+    name: "配置模板管理"
+    description: "实现配置模板系统，支持预设配置模板（开发、生产、测试等）"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "自定义模板支持"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/config/templates.ts"
+
+  - id: "ISSUE-CLI-012~criterion-7"
+    name: "配置路径显示"
+    description: "实现 `config path` 命令，显示配置文件位置和搜索路径"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "跨平台路径处理"
+    execution_time: "<3 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/config/path.ts"
+
+  - id: "ISSUE-CLI-012~criterion-8"
+    name: "单元测试覆盖"
+    description: "配置管理命令单元测试覆盖率 >= 80%"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "配置持久化测试"
+    execution_time: "<15 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/unit/cli/commands/config/*.test.ts"
+
+  - id: "ISSUE-CLI-012~criterion-9"
+    name: "集成测试通过"
+    description: "与 INFRA-005 配置管理系统的集成测试通过"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "多层级配置合并测试"
+    execution_time: "<60 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/integration/cli/commands/config.integration.test.ts"
+
+  - id: "ISSUE-CLI-012~criterion-10"
+    name: "E2E测试通过"
+    description: "完整配置管理流程的端到端测试通过，包括导入导出场景"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: sufficient
+      ai: sufficient
+      manual: sufficient
+    note: "配置热重载测试"
+    execution_time: "<120 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/e2e/cli/config-workflow.test.ts"

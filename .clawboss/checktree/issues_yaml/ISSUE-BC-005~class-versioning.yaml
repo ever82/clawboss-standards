@@ -1,0 +1,120 @@
+id: "ISSUE-BC-005"
+issue_number: 5
+module: "BC"
+title: "行为类版本管理"
+slug: "class-versioning"
+status: "pending"
+completion: 0
+description: "实现行为类的版本管理，支持语义化版本、版本兼容性检查、迁移脚本、废弃警告等。"
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-BC-004"
+  - "ISSUE-INFRA-003B"
+related_specs:
+  - "BEHAVIOR_CLASS"
+  - "VERSIONING"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-BC-005~criterion-1"
+    name: "语义化版本支持"
+    description: "实现语义化版本规范(SemVer)支持，解析和比较版本号"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持预发布版本和构建元数据"
+    execution_time: "<100 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/versioning/semver-parser.ts"
+      - type: "utility"
+        path: "src/behavior-class/utils/version-compare.ts"
+
+  - id: "ISSUE-BC-005~criterion-2"
+    name: "版本兼容性检查"
+    description: "实现类版本间的兼容性检查，识别破坏性变更和向后兼容的更新"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "基于语义化版本规则判断兼容性"
+    execution_time: "<1 second"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/versioning/compatibility-checker.ts"
+      - type: "component"
+        path: "src/behavior-class/versioning/breaking-change-detector.ts"
+
+  - id: "ISSUE-BC-005~criterion-3"
+    name: "数据迁移脚本"
+    description: "实现类定义变更时的数据迁移机制，支持版本升级和降级"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "迁移脚本支持JavaScript/TypeScript编写"
+    execution_time: "<5 seconds per migration"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/versioning/migration-runner.ts"
+      - type: "types"
+        path: "src/behavior-class/types/migration.types.ts"
+
+  - id: "ISSUE-BC-005~criterion-4"
+    name: "版本历史追踪"
+    description: "实现类定义的版本历史记录，存储变更日志和版本快照"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "版本信息存储在类元数据中"
+    execution_time: "<500 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/versioning/version-history.ts"
+      - type: "schema"
+        path: "src/behavior-class/schemas/version-history.schema.ts"
+
+  - id: "ISSUE-BC-005~criterion-5"
+    name: "废弃警告机制"
+    description: "实现废弃特性检测和警告，提示用户使用新版本替代方案"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持设置废弃时间线和移除版本"
+    execution_time: "<200 milliseconds"
+    prerequisites:
+      - "ISSUE-BC-005~criterion-1"
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/versioning/deprecation-warnings.ts"
+      - type: "component"
+        path: "src/behavior-class/versioning/deprecation-checker.ts"

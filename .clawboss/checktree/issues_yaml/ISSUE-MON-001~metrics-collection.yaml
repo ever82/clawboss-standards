@@ -1,0 +1,82 @@
+id: "ISSUE-MON-001"
+issue_number: 1
+title: "系统指标收集框架"
+slug: "metrics-collection"
+status: "pending"
+completion: 0
+description: |
+  建立系统指标收集框架，实现全链路可观测性。
+  包括业务指标、性能指标、错误指标、用户行为指标等的采集与存储。
+  为监控、告警、分析提供数据基础。
+category: "infrastructure"
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-006A"
+  - "ISSUE-INFRA-006B"
+  - "ISSUE-CORE-011"
+related_specs:
+  - "SPEC-MON-001"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-MON-001~criterion-1"
+    name: "指标采集SDK"
+    description: "实现指标采集SDK，支持Counter、Gauge、Histogram、Summary四种指标类型"
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+    note: "兼容Prometheus格式"
+
+  - id: "ISSUE-MON-001~criterion-2"
+    name: "业务指标定义"
+    description: "定义核心业务指标：行为创建数、完成数、树节点数、活跃用户数等"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: lacking
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-MON-001~criterion-3"
+    name: "性能指标采集"
+    description: "自动采集性能指标：API响应时间、数据库查询时间、缓存命中率等"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-MON-001~criterion-4"
+    name: "指标存储与查询"
+    description: "实现指标数据存储(TSDB)和查询API，支持时间范围、标签过滤"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-MON-001~criterion-5"
+    name: "指标可视化"
+    description: "提供基础指标可视化界面，支持仪表盘、趋势图、实时刷新"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: lacking
+      e2e: lacking
+      ai: not_needed
+      manual: not_needed

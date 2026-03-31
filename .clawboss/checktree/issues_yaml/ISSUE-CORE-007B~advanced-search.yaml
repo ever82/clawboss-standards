@@ -1,0 +1,144 @@
+id: "ISSUE-CORE-007B"
+issue_number: "7B"
+title: "高级搜索服务"
+slug: "advanced-search"
+status: "pending"
+completion: 0
+description: |
+  实现高级搜索服务，支持模糊搜索、语义搜索、搜索筛选器、搜索模板等功能。
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-007A"
+related_specs:
+  - "SPEC-CORE-007"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-CORE-007B~criterion-1"
+    name: "功能实现完成"
+    description: |
+      完成高级搜索服务的核心功能：
+      - 模糊搜索（相似度匹配）
+      - 语义搜索（基于内容理解）
+      - 搜索筛选器面板
+      - 搜索模板保存和加载
+      - 高级查询语法（布尔运算）
+      - 搜索结果排序规则定制
+      - 搜索范围限定（时间、标签、状态）
+      - 搜索结果导出
+      - 搜索性能分析和优化建议
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-007B~criterion-2"
+    name: "单元测试通过 (覆盖率 ≥ 80%)"
+    description: |
+      单元测试覆盖：
+      - 模糊匹配算法测试
+      - 语义搜索的准确性测试
+      - 高级查询语法解析测试
+      - 筛选器组合逻辑测试
+      - 搜索模板的CRUD测试
+      - 搜索结果排序测试
+      - 代码覆盖率 ≥ 80%
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-007B~criterion-3"
+    name: "集成测试通过 (与依赖模块)"
+    description: |
+      集成测试验证：
+      - 与 CORE-007A (基础搜索) 的功能扩展
+      - 与 CORE-016 (标签系统) 的标签搜索集成
+      - 与 CORE-004 (状态管理) 的状态搜索集成
+      - 与 CORE-005 (时间追踪) 的时间范围搜索集成
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-007B~criterion-4"
+    name: "E2E 测试通过 (Feature 类必须)"
+    description: |
+      E2E 测试场景：
+      - 复杂高级搜索的完整流程
+      - 搜索模板的保存和应用
+      - 筛选器面板的交互验证
+      - 搜索结果导出的端到端流程
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-007B~criterion-5"
+    name: "AI 测试通过 (Component 类必须)"
+    description: |
+      AI 辅助测试：
+      - 使用 LLM 生成自然语言查询
+      - 语义搜索的相关性评估
+      - 模糊搜索的智能验证
+      - 搜索结果质量的语义分析
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+
+  - id: "ISSUE-CORE-007B~criterion-6"
+    name: "代码审查通过"
+    description: |
+      代码审查检查项：
+      - 高级搜索算法的正确性
+      - 性能优化（搜索索引）
+      - 查询DSL的安全性
+      - 代码复杂度的合理性
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-007B~criterion-7"
+    name: "文档更新完成"
+    description: |
+      文档要求：
+      - 高级搜索API文档
+      - 查询语法说明
+      - 搜索模板使用指南
+      - 性能优化建议
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed

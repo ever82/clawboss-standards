@@ -1,0 +1,160 @@
+id: "ISSUE-CLI-006A"
+issue_number: "006A"
+title: "交互式框架基础"
+slug: "interactive-framework"
+status: "pending"
+completion: 0
+description: "实现 CLI 交互式框架基础，包括提示库、输入处理、自动补全基础等，为交互式命令模式提供基础设施"
+category: "component"
+is_parent: false
+prerequisites:
+  - "ISSUE-CLI-001B"
+related_specs:
+  - "CLI-ARCH-006"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-CLI-006A~criterion-1"
+    name: "提示组件库"
+    description: "实现丰富的提示组件（文本输入、选择列表、多选、确认、密码、自动完成等）"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持键盘导航和快捷键"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/interactive/prompts.ts"
+
+  - id: "ISSUE-CLI-006A~criterion-2"
+    name: "输入处理系统"
+    description: "实现终端输入处理系统，支持键盘事件、输入缓冲、光标控制和输入验证"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "跨平台终端兼容性"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/interactive/input.ts"
+
+  - id: "ISSUE-CLI-006A~criterion-3"
+    name: "屏幕渲染管理"
+    description: "实现终端屏幕渲染管理，支持清屏、光标定位、颜色输出和动态更新"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持 ANSI 转义码"
+    execution_time: "<3 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/interactive/screen.ts"
+
+  - id: "ISSUE-CLI-006A~criterion-4"
+    name: "交互式会话管理"
+    description: "实现交互式会话状态管理，支持会话启动/结束、上下文保持和历史记录"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持会话恢复"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/interactive/session.ts"
+
+  - id: "ISSUE-CLI-006A~criterion-5"
+    name: "REPL基础框架"
+    description: "实现 REPL（读取-求值-输出循环）基础框架，支持命令解析和执行循环"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "可扩展的命令注册"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/interactive/repl.ts"
+
+  - id: "ISSUE-CLI-006A~criterion-6"
+    name: "单元测试覆盖"
+    description: "交互式框架单元测试覆盖率 >= 80%，包括提示组件和输入处理测试"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "模拟终端输入测试"
+    execution_time: "<15 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/unit/cli/interactive/*.test.ts"
+
+  - id: "ISSUE-CLI-006A~criterion-7"
+    name: "集成测试通过"
+    description: "与 CLI-001B 命令路由系统的集成测试通过"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "验证交互式命令执行流程"
+    execution_time: "<60 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/integration/cli/interactive.integration.test.ts"
+
+  - id: "ISSUE-CLI-006A~criterion-8"
+    name: "文档更新完成"
+    description: "交互式框架使用文档和开发指南更新完成"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    note: "包含 API 文档和示例"
+    execution_time: "N/A"
+    prerequisites: []
+    implementations:
+      - type: "messages"
+        path: "docs/cli/interactive-framework.md"

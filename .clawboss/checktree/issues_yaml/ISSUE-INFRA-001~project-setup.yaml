@@ -1,0 +1,90 @@
+id: "ISSUE-INFRA-001"
+issue_number: 1
+title: "项目初始化和仓库搭建"
+slug: "project-setup"
+status: "pending"
+completion: 0
+description: |
+  初始化AI-Me项目，搭建代码仓库和基础开发环境。
+  包括Git仓库初始化、README编写、LICENSE选择、.gitignore配置、
+  初始提交、分支策略定义等基础工作。
+category: "infrastructure"
+is_parent: false
+prerequisites: []
+related_specs:
+  - "SPEC-INFRA-001"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-INFRA-001~criterion-1"
+    name: "Git仓库初始化"
+    description: "创建Git仓库，配置初始提交，设置分支保护规则"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-INFRA-001~criterion-2"
+    name: "README文档"
+    description: "编写项目README，包含项目介绍、安装说明、使用指南、贡献规范"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: sufficient
+
+  - id: "ISSUE-INFRA-001~criterion-3"
+    name: "LICENSE和版权声明"
+    description: "选择合适的开源许可证(MIT/Apache-2.0)，添加版权声明文件"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-INFRA-001~criterion-4"
+    name: "Git配置"
+    description: "配置.gitignore、.gitattributes，设置换行符处理规则"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-INFRA-001~criterion-5"
+    name: "分支策略"
+    description: "定义Git分支模型(Git Flow/GitHub Flow)，配置分支保护规则"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-INFRA-001~criterion-6"
+    name: "Issue模板配置"
+    description: "配置GitHub/GitLab Issue模板，规范Issue提交格式"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient

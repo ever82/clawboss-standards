@@ -1,0 +1,110 @@
+id: "ISSUE-INT-001A"
+issue_number: "001A"
+title: "Claude Code 协议设计"
+slug: "claude-protocol"
+status: "pending"
+completion: 0
+description: |
+  设计 AI-Me 系统与 Claude Code 之间的通信协议，定义上下文交换格式、
+  行为树数据序列化规范、以及双向同步机制。该协议是后续所有 Claude Code
+  集成功能的基石，确保 AI 助手能够准确理解和操作行为管理系统。
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-CLI-002"
+  - "ISSUE-WS-002B"
+  - "ISSUE-BC-002"
+related_specs:
+  - "SPEC-INT-001"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-INT-001A~criterion-1"
+    name: "协议规范文档"
+    description: |
+      编写完整的 Claude Code 协议规范文档，包括：
+      - 上下文文件格式规范（.claude.md 结构）
+      - 行为树数据序列化格式（JSON Schema）
+      - 命令协议定义（请求/响应格式）
+      - 错误码和异常处理规范
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    note: "文档需通过架构评审"
+
+  - id: "ISSUE-INT-001A~criterion-2"
+    name: "上下文数据结构定义"
+    description: |
+      实现 Claude Code 上下文的核心数据结构：
+      - ProjectContext 类（项目级上下文）
+      - BehaviorContext 类（行为节点上下文）
+      - TreeContext 类（行为树上下文）
+      - 上下文优先级和权重算法
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "AI测试验证上下文质量"
+
+  - id: "ISSUE-INT-001A~criterion-3"
+    name: "协议序列化/反序列化"
+    description: |
+      实现协议数据的序列化和反序列化功能：
+      - 行为树到 Claude 上下文的转换器
+      - 配置数据序列化为 AI 可读的 Markdown
+      - 支持增量更新和全量更新两种模式
+      - 版本兼容性处理（向前/向后兼容）
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    execution_time: "<100ms for 1000 nodes"
+
+  - id: "ISSUE-INT-001A~criterion-4"
+    name: "协议验证与测试"
+    description: |
+      建立协议验证机制：
+      - 协议 Schema 验证器
+      - 模糊测试确保协议鲁棒性
+      - 与 Claude Code 实际通信测试
+      - 边界情况和异常场景测试
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: sufficient
+    note: "需使用真实 Claude Code 环境测试"
+
+  - id: "ISSUE-INT-001A~criterion-5"
+    name: "协议扩展机制"
+    description: |
+      设计协议扩展机制以支持未来功能：
+      - 插件扩展点定义
+      - 自定义字段规范
+      - 协议版本协商机制
+      - 向后兼容性保证策略
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed

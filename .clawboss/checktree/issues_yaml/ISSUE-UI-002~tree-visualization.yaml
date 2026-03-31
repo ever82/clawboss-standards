@@ -1,0 +1,94 @@
+id: "ISSUE-UI-002"
+issue_number: 2
+title: "行为树可视化组件"
+slug: "tree-visualization"
+status: "pending"
+completion: 0
+description: |
+  开发交互式行为树可视化组件，支持树形结构展示、节点展开/折叠、
+  状态显示、拖拽排序、快速编辑等功能。
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-UI-001"
+  - "ISSUE-CORE-003A"
+  - "ISSUE-CORE-003B"
+related_specs:
+  - "SPEC-UI-002"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-UI-002~criterion-1"
+    name: "树形结构渲染"
+    description: "使用D3.js或类似库实现树形结构渲染，支持层级展示和连接线"
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: not_needed
+      manual: not_needed
+    note: "支持多种布局方式：垂直树、水平树、径向树"
+
+  - id: "ISSUE-UI-002~criterion-2"
+    name: "节点交互功能"
+    description: "实现节点展开/折叠、选中、悬停提示、右键菜单等交互"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: sufficient
+      ai: not_needed
+      manual: lacking
+
+  - id: "ISSUE-UI-002~criterion-3"
+    name: "状态可视化"
+    description: "根据行为状态显示不同颜色和图标（待办/进行中/已完成/阻塞）"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-UI-002~criterion-4"
+    name: "画布操作"
+    description: "支持画布缩放、平移、居中、自适应等操作"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: not_needed
+      e2e: lacking
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-UI-002~criterion-5"
+    name: "搜索与高亮"
+    description: "支持在树中搜索行为并高亮显示，快速定位节点"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-UI-002~criterion-6"
+    name: "性能优化"
+    description: "大数据量下的性能优化，虚拟滚动或懒加载"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: not_needed
+      manual: not_needed
+    note: "支持1000+节点的流畅渲染"

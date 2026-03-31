@@ -1,0 +1,81 @@
+id: "ISSUE-UI-004C"
+issue_number: 4
+letter: "C"
+title: "ML推荐模型"
+slug: "recommendation-ml"
+status: "pending"
+completion: 0
+description: |
+  实现基于机器学习的推荐模型模块。
+  利用用户历史行为数据训练个性化推荐模型，提升推荐准确率。
+  包括特征工程、模型训练、模型服务、在线学习等功能。
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-UI-004B"
+related_specs:
+  - "SPEC-UI-004C"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-UI-004C~criterion-1"
+    name: "特征工程系统"
+    description: "构建用户行为特征工程管道，提取时间特征、行为模式、完成偏好等特征"
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-UI-004C~criterion-2"
+    name: "模型训练管道"
+    description: "实现模型训练管道，支持离线训练、超参数调优、模型评估"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+    note: "模型可选择在本地或云端训练"
+
+  - id: "ISSUE-UI-004C~criterion-3"
+    name: "模型服务化"
+    description: "将训练好的模型部署为推理服务，支持低延迟预测"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-UI-004C~criterion-4"
+    name: "混合推荐策略"
+    description: "实现规则引擎与ML模型的混合推荐策略，动态调整权重"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-UI-004C~criterion-5"
+    name: "推荐效果评估"
+    description: "建立推荐效果评估指标：点击率、采纳率、用户满意度，支持A/B测试"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed

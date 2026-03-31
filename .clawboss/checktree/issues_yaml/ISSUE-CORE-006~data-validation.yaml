@@ -1,0 +1,145 @@
+id: "ISSUE-CORE-006"
+issue_number: 6
+title: "数据验证与完整性"
+slug: "data-validation"
+status: "pending"
+completion: 0
+description: |
+  实现数据验证与完整性服务，支持数据校验规则、数据清理、完整性检查等功能。
+category: "component"
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-002B1"
+  - "ISSUE-INFRA-013"
+related_specs:
+  - "SPEC-CORE-006"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-CORE-006~criterion-1"
+    name: "功能实现完成"
+    description: |
+      完成数据验证与完整性的核心功能：
+      - 数据校验规则引擎
+      - 字段级验证（必填、格式、范围）
+      - 业务规则验证
+      - 数据清理和标准化
+      - 数据完整性检查
+      - 验证错误消息管理
+      - 批量验证支持
+      - 异步验证支持
+      - 自定义验证规则扩展
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-006~criterion-2"
+    name: "单元测试通过 (覆盖率 ≥ 80%)"
+    description: |
+      单元测试覆盖：
+      - 各种验证规则的正确性测试
+      - 边界条件的验证测试
+      - 错误消息的本地化测试
+      - 自定义规则扩展测试
+      - 异步验证的测试
+      - 批量验证的性能测试
+      - 代码覆盖率 ≥ 80%
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-006~criterion-3"
+    name: "集成测试通过 (与依赖模块)"
+    description: |
+      集成测试验证：
+      - 与 INFRA-013 (验证层) 的规则集成
+      - 与 CORE-002A (创建服务) 的创建验证集成
+      - 与 CORE-002C (更新服务) 的更新验证集成
+      - 与数据库约束的集成
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-006~criterion-4"
+    name: "E2E 测试通过 (Feature 类必须)"
+    description: |
+      E2E 测试场景：
+      - 完整的数据验证流程
+      - 验证错误的处理和展示
+      - 批量导入的验证流程
+      - 数据清理的端到端验证
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-006~criterion-5"
+    name: "AI 测试通过 (Component 类必须)"
+    description: |
+      AI 辅助测试：
+      - 使用 LLM 生成边界验证数据
+      - 模糊测试：随机数据验证
+      - 验证规则的智能评估
+      - 数据完整性的语义检查
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+
+  - id: "ISSUE-CORE-006~criterion-6"
+    name: "代码审查通过"
+    description: |
+      代码审查检查项：
+      - 验证引擎的可扩展性
+      - 错误处理的完整性
+      - 性能优化（验证缓存）
+      - 规则定义DSL的合理性
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-006~criterion-7"
+    name: "文档更新完成"
+    description: |
+      文档要求：
+      - 验证API文档
+      - 规则定义指南
+      - 内置验证规则列表
+      - 自定义规则扩展示例
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed

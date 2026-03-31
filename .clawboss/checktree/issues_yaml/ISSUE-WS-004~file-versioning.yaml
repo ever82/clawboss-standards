@@ -1,0 +1,121 @@
+id: "ISSUE-WS-004"
+issue_number: 4
+module: "WS"
+title: "文件版本控制"
+slug: "file-versioning"
+status: "pending"
+completion: 0
+description: "实现工作空间内文件的版本控制功能，包括自动备份、版本历史、差异比较、回滚等。"
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-WS-002A"
+  - "ISSUE-INFRA-003B"
+related_specs:
+  - "WORKSPACE"
+  - "VERSIONING"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-WS-004~criterion-1"
+    name: "版本快照管理"
+    description: "实现文件版本快照的创建和存储，支持手动和自动快照策略"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "使用增量存储减少存储空间占用"
+    execution_time: "<2 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/workspace/versioning/snapshot-manager.ts"
+      - type: "schema"
+        path: "src/workspace/schemas/snapshot.schema.ts"
+
+  - id: "ISSUE-WS-004~criterion-2"
+    name: "版本历史查询"
+    description: "实现文件版本历史的查询和浏览，包括时间线展示、版本元数据"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "支持按时间范围、操作类型过滤"
+    execution_time: "<1 second"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/workspace/versioning/version-history.ts"
+      - type: "api"
+        path: "src/workspace/api/list-versions.ts"
+
+  - id: "ISSUE-WS-004~criterion-3"
+    name: "差异比较"
+    description: "实现文件版本间的差异比较，支持文本文件的行级差异和二进制文件的基本比较"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "文本差异使用标准diff算法"
+    execution_time: "<2 seconds for 1MB files"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/workspace/versioning/diff-engine.ts"
+      - type: "utility"
+        path: "src/workspace/utils/diff-formatter.ts"
+
+  - id: "ISSUE-WS-004~criterion-4"
+    name: "版本回滚"
+    description: "实现文件版本回滚功能，支持回滚到指定版本或撤销最近变更"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "回滚前自动创建当前状态的备份"
+    execution_time: "<2 seconds"
+    prerequisites:
+      - "ISSUE-WS-004~criterion-1"
+    implementations:
+      - type: "component"
+        path: "src/workspace/versioning/rollback-service.ts"
+      - type: "api"
+        path: "src/workspace/api/rollback-version.ts"
+
+  - id: "ISSUE-WS-004~criterion-5"
+    name: "自动版本策略"
+    description: "实现可配置的自动版本策略，包括定时备份、编辑前备份、保留策略等"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持按文件类型配置不同策略"
+    execution_time: "<1 second"
+    prerequisites:
+      - "ISSUE-WS-004~criterion-1"
+    implementations:
+      - type: "component"
+        path: "src/workspace/versioning/auto-version-policy.ts"
+      - type: "config"
+        path: "config/versioning-policy.yaml"

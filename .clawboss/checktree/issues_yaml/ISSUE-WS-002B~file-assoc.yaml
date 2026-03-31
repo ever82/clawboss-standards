@@ -1,0 +1,121 @@
+id: "ISSUE-WS-002B"
+issue_number: "2B"
+module: "WS"
+title: "文件关联管理"
+slug: "file-assoc"
+status: "pending"
+completion: 0
+description: "实现文件与工作空间、行为、文件夹的关联管理，支持文件元数据跟踪、文件类型识别、外部文件引用管理。"
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-WS-001"
+  - "ISSUE-WS-002A"
+related_specs:
+  - "WORKSPACE"
+  - "FILESYSTEM"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-WS-002B~criterion-1"
+    name: "文件关联注册"
+    description: "实现文件与行为或文件夹的关联注册，建立文件路径到实体的映射关系"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持相对路径和绝对路径，优先使用相对路径"
+    execution_time: "<500 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/workspace/file/file-association-service.ts"
+      - type: "schema"
+        path: "src/workspace/schemas/file-association.schema.ts"
+
+  - id: "ISSUE-WS-002B~criterion-2"
+    name: "文件类型识别"
+    description: "实现自动文件类型识别，基于扩展名和MIME类型，支持自定义类型映射"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+    note: "内置常见文件类型，支持用户自定义类型"
+    execution_time: "<100 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/workspace/file/file-type-detector.ts"
+      - type: "config"
+        path: "config/file-types.yaml"
+
+  - id: "ISSUE-WS-002B~criterion-3"
+    name: "文件元数据管理"
+    description: "实现文件元数据的提取、存储和查询，包括大小、修改时间、哈希值、标签等"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "文件变更时需要更新元数据缓存"
+    execution_time: "<500 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/workspace/file/file-metadata.ts"
+      - type: "types"
+        path: "src/workspace/types/file-metadata.types.ts"
+
+  - id: "ISSUE-WS-002B~criterion-4"
+    name: "外部文件引用"
+    description: "实现外部文件（工作空间外）的引用管理，支持符号链接和外部路径追踪"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "外部文件需要有效性检查和更新通知"
+    execution_time: "<1 second"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/workspace/file/external-file-manager.ts"
+      - type: "utility"
+        path: "src/workspace/utils/path-resolver.ts"
+
+  - id: "ISSUE-WS-002B~criterion-5"
+    name: "文件变更监控"
+    description: "实现关联文件的变更检测和通知，支持轮询和文件系统事件监听"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "需要处理文件移动、重命名、删除等场景"
+    execution_time: "<2 seconds"
+    prerequisites:
+      - "ISSUE-WS-002B~criterion-1"
+      - "ISSUE-WS-002B~criterion-3"
+    implementations:
+      - type: "component"
+        path: "src/workspace/file/file-watcher.ts"
+      - type: "component"
+        path: "src/workspace/file/change-notifier.ts"

@@ -1,0 +1,118 @@
+id: "ISSUE-PLUGIN-001B"
+issue_number: "1B"
+module: "PLUGIN"
+title: "插件加载器"
+slug: "plugin-loader"
+status: "pending"
+completion: 0
+description: "实现插件加载器，支持从本地文件系统、npm包、远程URL加载插件，处理插件依赖和初始化。"
+category: "component"
+is_parent: false
+prerequisites:
+  - "ISSUE-PLUGIN-001A"
+related_specs:
+  - "PLUGIN"
+  - "LOADER"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-PLUGIN-001B~criterion-1"
+    name: "本地插件加载"
+    description: "实现从本地文件系统加载插件，支持文件夹和压缩包格式"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持.zip/.tar.gz格式的插件包"
+    execution_time: "<3 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/loader/local-plugin-loader.ts"
+      - type: "utility"
+        path: "src/plugin/utils/archive-extractor.ts"
+
+  - id: "ISSUE-PLUGIN-001B~criterion-2"
+    name: "NPM包插件加载"
+    description: "实现从npm registry加载插件，支持私有registry和版本范围"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "自动安装缺失的依赖"
+    execution_time: "<30 seconds with network"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/loader/npm-plugin-loader.ts"
+      - type: "component"
+        path: "src/plugin/loader/npm-client.ts"
+
+  - id: "ISSUE-PLUGIN-001B~criterion-3"
+    name: "插件依赖解析"
+    description: "实现插件依赖的自动解析和安装，处理版本冲突"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持peer dependencies"
+    execution_time: "<10 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/loader/dependency-resolver.ts"
+      - type: "component"
+        path: "src/plugin/loader/version-conflict-resolver.ts"
+
+  - id: "ISSUE-PLUGIN-001B~criterion-4"
+    name: "插件初始化"
+    description: "实现插件的初始化流程，包括配置加载、依赖注入、资源准备"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "初始化失败时提供详细错误信息"
+    execution_time: "<2 seconds per plugin"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/loader/plugin-initializer.ts"
+      - type: "component"
+        path: "src/plugin/loader/plugin-context.ts"
+
+  - id: "ISSUE-PLUGIN-001B~criterion-5"
+    name: "加载错误处理"
+    description: "实现插件加载过程中的错误处理，包括格式错误、依赖缺失、版本不兼容等"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "错误信息需要友好且可定位"
+    execution_time: "<500 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/loader/load-error-handler.ts"
+      - type: "component"
+        path: "src/plugin/loader/diagnostic-reporter.ts"

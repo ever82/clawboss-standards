@@ -1,0 +1,94 @@
+id: "ISSUE-SEC-005"
+issue_number: 5
+title: "输入净化与防注入"
+slug: "input-sanitization"
+status: "pending"
+completion: 0
+description: |
+  实现输入数据的净化和验证机制，防止注入攻击和恶意输入。
+  包括SQL注入防护、XSS防护、命令注入防护、参数验证等。
+  确保所有外部输入都经过严格的验证和清洗。
+category: "component"
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-013"
+related_specs:
+  - "SPEC-SEC-005"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-SEC-005~criterion-1"
+    name: "SQL注入防护"
+    description: "使用参数化查询和ORM防护SQL注入，禁止字符串拼接SQL"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+    note: "所有数据库操作必须通过Repository层，禁止原生SQL"
+
+  - id: "ISSUE-SEC-005~criterion-2"
+    name: "XSS攻击防护"
+    description: "实现输入数据的HTML转义、富文本净化、输出编码"
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+
+  - id: "ISSUE-SEC-005~criterion-3"
+    name: "命令注入防护"
+    description: "防止通过用户输入执行系统命令，严格限制子进程调用"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+    note: "禁止直接使用用户输入拼接系统命令"
+
+  - id: "ISSUE-SEC-005~criterion-4"
+    name: "输入验证框架"
+    description: "与INFRA-013验证层集成，提供安全相关的验证规则"
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-SEC-005~criterion-5"
+    name: "文件上传安全"
+    description: "实现文件类型白名单、文件内容检测、上传大小限制"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: lacking
+
+  - id: "ISSUE-SEC-005~criterion-6"
+    name: "注入攻击测试"
+    description: "使用自动化工具进行注入攻击测试，验证防护有效性"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: sufficient
+    note: "包含SQLMap等工具测试和手工渗透测试"

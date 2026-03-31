@@ -1,0 +1,92 @@
+id: "ISSUE-INFRA-003A"
+issue_number: "3A"
+title: "数据库 Schema 设计"
+slug: "schema-design"
+status: "pending"
+completion: 0
+description: |
+  设计AI-Me系统的数据库Schema，定义数据模型和表结构。
+  包括行为实体、树结构、用户、工作空间等核心表的ER图设计，
+  以及字段类型、索引、约束的详细定义。
+category: "infrastructure"
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-002"
+related_specs:
+  - "SPEC-INFRA-003A"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-INFRA-003A~criterion-1"
+    name: "ER图设计"
+    description: "绘制完整的数据库ER图，定义实体关系和关联类型"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-INFRA-003A~criterion-2"
+    name: "核心表设计"
+    description: "设计Behavior、BehaviorTree、User、Workspace等核心表结构"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-INFRA-003A~criterion-3"
+    name: "字段和类型定义"
+    description: "定义各字段的数据类型、长度、默认值、约束条件"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-INFRA-003A~criterion-4"
+    name: "索引设计"
+    description: "设计主键、外键、唯一索引、普通索引，优化查询性能"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    note: "特别关注树结构查询的索引优化"
+
+  - id: "ISSUE-INFRA-003A~criterion-5"
+    name: "Schema文档"
+    description: "编写详细的数据库设计文档，包含表说明、字段说明、关系说明"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: sufficient
+
+  - id: "ISSUE-INFRA-003A~criterion-6"
+    name: "设计评审"
+    description: "组织Schema设计评审，确保设计合理性和可扩展性"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: sufficient

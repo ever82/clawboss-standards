@@ -1,0 +1,180 @@
+id: "ISSUE-CLI-011A"
+issue_number: "011A"
+title: "Shell 自动补全"
+slug: "shell-completion"
+status: "pending"
+completion: 0
+description: "实现 Shell 自动补全功能，支持 Bash、Zsh、Fish 等主流 Shell，提供命令、参数、选项的动态补全"
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-CLI-002"
+  - "ISSUE-CLI-003"
+  - "ISSUE-CLI-004"
+related_specs:
+  - "CLI-EXP-001"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-CLI-011A~criterion-1"
+    name: "Bash 补全支持"
+    description: "实现 Bash Shell 的自动补全脚本，支持命令、子命令、选项和参数补全"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持可编程补全"
+    execution_time: "<3 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/completion/bash.ts"
+
+  - id: "ISSUE-CLI-011A~criterion-2"
+    name: "Zsh 补全支持"
+    description: "实现 Zsh Shell 的自动补全脚本，支持描述和分组显示"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持补全样式定制"
+    execution_time: "<3 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/completion/zsh.ts"
+
+  - id: "ISSUE-CLI-011A~criterion-3"
+    name: "Fish 补全支持"
+    description: "实现 Fish Shell 的自动补全脚本，支持描述和图形提示"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "Fish 语法兼容"
+    execution_time: "<3 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/completion/fish.ts"
+
+  - id: "ISSUE-CLI-011A~criterion-4"
+    name: "动态补全数据"
+    description: "实现动态补全数据生成，支持从数据库获取行为名称、标签等动态内容"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "缓存机制优化"
+    execution_time: "<3 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/completion/dynamic.ts"
+
+  - id: "ISSUE-CLI-011A~criterion-5"
+    name: "补全安装命令"
+    description: "实现 `completion install` 命令，自动检测 Shell 并安装补全脚本"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持卸载和更新"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/completion/install.ts"
+
+  - id: "ISSUE-CLI-011A~criterion-6"
+    name: "单元测试覆盖"
+    description: "Shell 补全功能单元测试覆盖率 >= 80%"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "脚本生成测试"
+    execution_time: "<10 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/unit/cli/completion/*.test.ts"
+
+  - id: "ISSUE-CLI-011A~criterion-7"
+    name: "集成测试通过"
+    description: "与 CLI 命令系统的集成测试通过，验证补全数据准确性"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "动态数据补全测试"
+    execution_time: "<30 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/integration/cli/completion.integration.test.ts"
+
+  - id: "ISSUE-CLI-011A~criterion-8"
+    name: "E2E测试通过"
+    description: "在各 Shell 环境中的端到端补全测试通过"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: sufficient
+      ai: sufficient
+      manual: sufficient
+    note: "真实 Shell 环境测试"
+    execution_time: "<60 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/e2e/cli/shell-completion.test.ts"
+
+  - id: "ISSUE-CLI-011A~criterion-9"
+    name: "安装文档更新"
+    description: "Shell 补全安装和配置文档更新完成"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    note: "各 Shell 配置指南"
+    execution_time: "N/A"
+    prerequisites: []
+    implementations:
+      - type: "messages"
+        path: "docs/cli/shell-completion.md"

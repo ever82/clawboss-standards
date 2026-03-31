@@ -1,0 +1,105 @@
+id: "ISSUE-DOC-005"
+issue_number: "005"
+title: "架构决策记录"
+slug: "adr"
+status: "pending"
+completion: 0
+description: |
+  建立架构决策记录（ADR）系统，记录项目中的重要架构决策、
+  技术选型、设计模式选择，以及决策背后的原因和权衡。
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-002"
+related_specs:
+  - "SPEC-DOC-005"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-DOC-005~criterion-1"
+    name: "ADR 模板和流程"
+    description: |
+      建立 ADR 标准模板和流程：
+      - ADR 文件结构模板
+      - 决策状态定义（提议、已接受、已弃用、已取代）
+      - ADR 编号和命名规范
+      - 评审和批准流程
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-DOC-005~criterion-2"
+    name: "技术选型 ADR"
+    description: |
+      编写关键技术选型 ADR：
+      - 编程语言选择（TypeScript）
+      - 数据库选择（SQLite）
+      - CLI 框架选择
+      - 测试框架选择
+      - 构建工具选择
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-DOC-005~criterion-3"
+    name: "架构设计 ADR"
+    description: |
+      编写核心架构设计 ADR：
+      - 模块化架构设计
+      - 插件系统设计
+      - 数据模型设计
+      - API 设计原则
+      - 安全架构设计
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-DOC-005~criterion-4"
+    name: "ADR 索引和导航"
+    description: |
+      建立 ADR 索引系统：
+      - ADR 目录索引
+      - 按类别/状态筛选
+      - 决策之间的关系图
+      - 快速搜索功能
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-DOC-005~criterion-5"
+    name: "ADR 维护流程"
+    description: |
+      建立 ADR 维护机制：
+      - 定期评审计划
+      - 过时 ADR 标记流程
+      - 新决策触发条件
+      - 决策变更记录要求
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient

@@ -1,0 +1,197 @@
+id: "ISSUE-CLI-010"
+issue_number: "010"
+title: "报告命令"
+slug: "report-commands"
+status: "pending"
+completion: 0
+description: "实现报告生成相关的 CLI 命令，支持多种报告类型（进度、统计、时间追踪等）、多种输出格式和自定义报告模板"
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-CLI-001B"
+  - "ISSUE-CORE-010B"
+related_specs:
+  - "CLI-CMD-010"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-CLI-010~criterion-1"
+    name: "进度报告命令"
+    description: "实现 `report progress` 命令，生成项目和行为的完成进度报告"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持按标签、状态筛选"
+    execution_time: "<10 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/report/progress.ts"
+
+  - id: "ISSUE-CLI-010~criterion-2"
+    name: "统计报告命令"
+    description: "实现 `report stats` 命令，生成行为统计数据报告（创建、完成、活跃等）"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "时间趋势分析"
+    execution_time: "<10 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/report/stats.ts"
+
+  - id: "ISSUE-CLI-010~criterion-3"
+    name: "时间追踪报告"
+    description: "实现 `report time` 命令，生成时间投入和分布报告，支持时间段选择"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持日历视图导出"
+    execution_time: "<10 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/report/time.ts"
+
+  - id: "ISSUE-CLI-010~criterion-4"
+    name: "多格式输出支持"
+    description: "支持多种报告输出格式（终端表格、JSON、CSV、Markdown、HTML）"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "格式自动检测和转换"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/report/formatters.ts"
+
+  - id: "ISSUE-CLI-010~criterion-5"
+    name: "报告模板系统"
+    description: "实现报告模板系统，支持自定义报告模板和字段选择"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "模板继承和组合"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/report/templates.ts"
+
+  - id: "ISSUE-CLI-010~criterion-6"
+    name: "报告导出功能"
+    description: "实现报告导出功能，支持保存到文件和直接打印"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持压缩和加密"
+    execution_time: "<10 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/cli/commands/report/export.ts"
+
+  - id: "ISSUE-CLI-010~criterion-7"
+    name: "单元测试覆盖"
+    description: "报告命令单元测试覆盖率 >= 80%，包括各种报告类型和格式"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "模板渲染测试"
+    execution_time: "<15 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/unit/cli/commands/report/*.test.ts"
+
+  - id: "ISSUE-CLI-010~criterion-8"
+    name: "集成测试通过"
+    description: "与 CORE-010B 报告生成引擎的集成测试通过"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "数据聚合正确性验证"
+    execution_time: "<60 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/integration/cli/commands/report.integration.test.ts"
+
+  - id: "ISSUE-CLI-010~criterion-9"
+    name: "E2E测试通过"
+    description: "完整报告生成流程的端到端测试通过"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: sufficient
+      ai: sufficient
+      manual: sufficient
+    note: "多格式导出验证"
+    execution_time: "<120 seconds"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/e2e/cli/report-generation.test.ts"
+
+  - id: "ISSUE-CLI-010~criterion-10"
+    name: "报告准确性验证"
+    description: "报告数据准确性的 AI 辅助验证测试"
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: sufficient
+    note: "数据一致性检查"
+    execution_time: "N/A"
+    prerequisites: []
+    implementations:
+      - type: "test"
+        path: "tests/ai/cli/report-accuracy.ai.test.ts"

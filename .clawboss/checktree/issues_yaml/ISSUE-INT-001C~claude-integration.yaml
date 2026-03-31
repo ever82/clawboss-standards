@@ -1,0 +1,108 @@
+id: "ISSUE-INT-001C"
+issue_number: "001C"
+title: "Claude Code 集成配置"
+slug: "claude-integration"
+status: "pending"
+completion: 0
+description: |
+  完成 AI-Me 系统与 Claude Code 的深度集成配置，包括配置文件管理、
+  环境变量设置、API 密钥管理、以及 Claude Code 扩展的安装和配置。
+  确保用户能够一键启用 Claude Code 集成功能。
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-INT-001B"
+related_specs:
+  - "SPEC-INT-002"
+  - "SPEC-INT-003"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-INT-001C~criterion-1"
+    name: "集成配置系统"
+    description: |
+      实现 Claude Code 集成的配置管理：
+      - 集成开关配置（启用/禁用）
+      - Claude Code 路径自动检测
+      - API 配置（端点、超时、重试策略）
+      - 上下文生成策略配置（频率、深度、范围）
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-INT-001C~criterion-2"
+    name: "Claude Code 扩展安装"
+    description: |
+      提供 Claude Code 扩展的自动安装和管理：
+      - 扩展包下载和安装
+      - 版本检查和自动更新
+      - 扩展配置同步
+      - 卸载和清理功能
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: sufficient
+    note: "需在 macOS、Linux、Windows 上测试"
+
+  - id: "ISSUE-INT-001C~criterion-3"
+    name: "身份认证集成"
+    description: |
+      实现与 Claude Code 的身份认证集成：
+      - API 密钥管理（安全存储）
+      - 认证状态检测
+      - 令牌刷新机制
+      - 多账号切换支持
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+    prerequisites:
+      - "ISSUE-SEC-001"
+
+  - id: "ISSUE-INT-001C~criterion-4"
+    name: "初始化向导"
+    description: |
+      提供交互式初始化向导：
+      - 检测 Claude Code 安装状态
+      - 引导用户完成配置
+      - 测试连接和验证
+      - 生成示例配置文件
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-INT-001C~criterion-5"
+    name: "健康检查与诊断"
+    description: |
+      实现集成健康检查和诊断工具：
+      - 连接状态检测
+      - 配置验证
+      - 日志收集和分析
+      - 常见问题自动修复
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: sufficient

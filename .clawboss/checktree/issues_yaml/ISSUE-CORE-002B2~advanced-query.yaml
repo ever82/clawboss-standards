@@ -1,0 +1,143 @@
+id: "ISSUE-CORE-002B2"
+issue_number: "2B2"
+title: "高级查询服务"
+slug: "advanced-query"
+status: "pending"
+completion: 0
+description: |
+  实现 Behavior 高级查询服务，支持复杂过滤、全文搜索、聚合查询等高级功能。
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-002B1"
+related_specs:
+  - "SPEC-CORE-002"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-CORE-002B2~criterion-1"
+    name: "功能实现完成"
+    description: |
+      完成高级查询服务的核心功能：
+      - 复杂过滤条件组合（AND/OR/NOT）
+      - 全文搜索功能（标题、描述）
+      - 时间范围查询（创建时间、更新时间）
+      - 关联查询（标签、依赖、子任务）
+      - 聚合查询（按状态统计、按优先级分组）
+      - 自定义字段查询支持
+      - 查询结果高亮
+      - 查询构建器DSL
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-002B2~criterion-2"
+    name: "单元测试通过 (覆盖率 ≥ 80%)"
+    description: |
+      单元测试覆盖：
+      - 复杂过滤条件的组合测试
+      - 全文搜索的准确性测试
+      - 聚合查询的正确性测试
+      - 查询DSL的解析测试
+      - 边界条件测试（空查询、极端值）
+      - 性能基准测试
+      - 代码覆盖率 ≥ 80%
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-002B2~criterion-3"
+    name: "集成测试通过 (与依赖模块)"
+    description: |
+      集成测试验证：
+      - 与 CORE-002B1 (基础查询) 的功能扩展
+      - 与 CORE-016 (标签系统) 的关联查询
+      - 与 CORE-014 (依赖管理) 的关联查询
+      - 与搜索索引的集成
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-002B2~criterion-4"
+    name: "E2E 测试通过 (Feature 类必须)"
+    description: |
+      E2E 测试场景：
+      - 复杂查询条件的CLI/API使用
+      - 全文搜索的端到端验证
+      - 聚合报表的生成流程
+      - 大数据量下的查询性能
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-002B2~criterion-5"
+    name: "AI 测试通过 (Component 类必须)"
+    description: |
+      AI 辅助测试：
+      - 使用 LLM 生成自然语言查询转换为DSL
+      - 模糊测试：复杂查询组合验证
+      - 搜索结果相关性的语义评估
+      - 查询DSL的智能验证
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+
+  - id: "ISSUE-CORE-002B2~criterion-6"
+    name: "代码审查通过"
+    description: |
+      代码审查检查项：
+      - 查询DSL设计合理性
+      - 性能优化（索引使用）
+      - SQL注入防护
+      - 代码复杂度控制
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-002B2~criterion-7"
+    name: "文档更新完成"
+    description: |
+      文档要求：
+      - 高级查询API文档
+      - 查询DSL语法说明
+      - 性能优化指南
+      - 复杂查询示例
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed

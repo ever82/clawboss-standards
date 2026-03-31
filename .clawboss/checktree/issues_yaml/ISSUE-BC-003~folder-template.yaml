@@ -1,0 +1,119 @@
+id: "ISSUE-BC-003"
+issue_number: 3
+module: "BC"
+title: "类文件夹模板系统"
+slug: "folder-template"
+status: "pending"
+completion: 0
+description: "实现基于行为类的文件夹模板系统，支持根据类定义自动创建标准化的文件夹结构和文件。"
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-BC-002"
+related_specs:
+  - "BEHAVIOR_CLASS"
+  - "TEMPLATE"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-BC-003~criterion-1"
+    name: "模板定义格式"
+    description: "定义类文件夹模板的配置格式，支持目录结构、文件模板、变量替换等"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "模板使用YAML定义，支持条件分支"
+    execution_time: "<1 second"
+    prerequisites: []
+    implementations:
+      - type: "schema"
+        path: "src/behavior-class/template/template-schema.ts"
+      - type: "types"
+        path: "src/behavior-class/types/template.types.ts"
+
+  - id: "ISSUE-BC-003~criterion-2"
+    name: "文件夹结构生成"
+    description: "实现根据类定义生成标准文件夹结构，包括子目录、文件、链接等"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持嵌套目录和多层级结构"
+    execution_time: "<2 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/template/structure-generator.ts"
+      - type: "component"
+        path: "src/behavior-class/template/directory-builder.ts"
+
+  - id: "ISSUE-BC-003~criterion-3"
+    name: "文件模板渲染"
+    description: "实现基于模板的文件内容生成，支持变量替换、条件渲染、循环等"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持EJS、Handlebars等模板引擎"
+    execution_time: "<1 second per file"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/template/template-renderer.ts"
+      - type: "component"
+        path: "src/behavior-class/template/variable-resolver.ts"
+
+  - id: "ISSUE-BC-003~criterion-4"
+    name: "模板验证"
+    description: "实现模板定义的验证，检查语法错误、缺失变量、循环引用等"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "提供详细的验证报告"
+    execution_time: "<2 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/template/template-validator.ts"
+      - type: "utility"
+        path: "src/behavior-class/utils/template-linter.ts"
+
+  - id: "ISSUE-BC-003~criterion-5"
+    name: "模板继承与覆盖"
+    description: "实现模板的继承机制，支持基础模板扩展和局部覆盖"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持多级继承和合并策略配置"
+    execution_time: "<1 second"
+    prerequisites:
+      - "ISSUE-BC-003~criterion-1"
+    implementations:
+      - type: "component"
+        path: "src/behavior-class/template/template-inheritance.ts"
+      - type: "component"
+        path: "src/behavior-class/template/template-merger.ts"

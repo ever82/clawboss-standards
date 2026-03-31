@@ -1,0 +1,109 @@
+id: "ISSUE-DOC-004"
+issue_number: "004"
+title: "故障排除指南"
+slug: "troubleshooting"
+status: "pending"
+completion: 0
+description: |
+  编写全面的故障排除指南，包括常见问题解答、错误码说明、
+  诊断工具使用、日志分析方法，以及问题上报流程。
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-006A"
+  - "ISSUE-INFRA-006B"
+related_specs:
+  - "SPEC-DOC-004"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-DOC-004~criterion-1"
+    name: "常见问题解答 (FAQ)"
+    description: |
+      编写常见问题解答：
+      - 安装和配置问题
+      - 行为树操作问题
+      - 性能问题
+      - 集成问题
+      - 按场景分类的 FAQ
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-DOC-004~criterion-2"
+    name: "错误码文档"
+    description: |
+      编写完整的错误码文档：
+      - 错误码分类和命名规则
+      - 每个错误码的详细说明
+      - 错误原因分析
+      - 解决方案和修复步骤
+      - 相关日志位置
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-DOC-004~criterion-3"
+    name: "诊断工具文档"
+    description: |
+      编写诊断工具使用指南：
+      - 系统状态检查命令
+      - 配置验证工具
+      - 数据库诊断工具
+      - 性能分析工具
+      - 网络诊断工具
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-DOC-004~criterion-4"
+    name: "日志分析指南"
+    description: |
+      编写日志分析文档：
+      - 日志文件位置和格式
+      - 日志级别说明
+      - 常见日志模式
+      - 日志筛选和搜索技巧
+      - 日志导出和分享
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+
+  - id: "ISSUE-DOC-004~criterion-5"
+    name: "问题上报流程"
+    description: |
+      建立问题上报流程文档：
+      - 问题报告模板
+      - 所需信息清单（日志、配置、环境信息）
+      - 问题严重程度分级
+      - 支持渠道说明
+      - 响应时间承诺
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient

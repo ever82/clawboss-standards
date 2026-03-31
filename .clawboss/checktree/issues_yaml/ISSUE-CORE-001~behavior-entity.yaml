@@ -1,0 +1,140 @@
+id: "ISSUE-CORE-001"
+issue_number: 1
+title: "Behavior 实体和类型定义"
+slug: "behavior-entity"
+status: "pending"
+completion: 0
+description: |
+  定义 Behavior 核心实体和类型系统，包括行为的基本属性、状态、优先级、标签等。
+  建立 Behavior 实体的 TypeScript 类型定义、数据库 Schema 和领域模型。
+category: "component"
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-003B"
+  - "ISSUE-INFRA-013"
+related_specs:
+  - "SPEC-CORE-001"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-CORE-001~criterion-1"
+    name: "功能实现完成"
+    description: |
+      完成 Behavior 实体和类型定义的核心功能：
+      - Behavior 基础类型定义（id, title, description, status, priority, createdAt, updatedAt）
+      - BehaviorStatus 枚举类型（pending, in_progress, completed, archived）
+      - BehaviorPriority 枚举类型（low, medium, high, urgent）
+      - Behavior 领域模型类实现
+      - 类型守卫函数和验证逻辑
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-001~criterion-2"
+    name: "单元测试通过 (覆盖率 ≥ 80%)"
+    description: |
+      单元测试覆盖：
+      - Behavior 类型创建和验证测试
+      - 所有枚举值的有效性测试
+      - 类型守卫函数的边界条件测试
+      - 领域模型的方法测试
+      - 验证逻辑的异常处理测试
+      - 代码覆盖率 ≥ 80%
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-001~criterion-3"
+    name: "集成测试通过 (与依赖模块)"
+    description: |
+      集成测试验证：
+      - 与 INFRA-003B (数据库Schema) 的类型兼容性
+      - 与 INFRA-013 (验证层) 的验证规则集成
+      - 类型定义在数据库操作中的正确映射
+      - 序列化和反序列化的正确性
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-001~criterion-4"
+    name: "E2E 测试通过 (Feature 类必须)"
+    description: |
+      E2E 测试场景：
+      - 完整的 Behavior 实体创建流程
+      - 类型验证在实际使用中的行为
+      - 与其他系统组件的端到端类型传递
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-001~criterion-5"
+    name: "AI 测试通过 (Component 类必须)"
+    description: |
+      AI 辅助测试：
+      - 使用 LLM 生成边界测试用例
+      - 类型定义的语义正确性验证
+      - 模糊测试：随机生成 Behavior 数据进行验证
+      - 类型兼容性的自动检查
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+
+  - id: "ISSUE-CORE-001~criterion-6"
+    name: "代码审查通过"
+    description: |
+      代码审查检查项：
+      - 类型定义符合 TypeScript 最佳实践
+      - 命名规范一致性
+      - 文档注释完整性
+      - 类型安全性检查
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-001~criterion-7"
+    name: "文档更新完成"
+    description: |
+      文档要求：
+      - 类型定义的 JSDoc/TSDoc 注释
+      - API 文档自动生成配置
+      - 类型使用示例
+      - 与领域模型的关系说明
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed

@@ -1,0 +1,80 @@
+id: "ISSUE-UI-004D"
+issue_number: 4
+letter: "D"
+title: "推荐UI组件"
+slug: "recommendation-ui"
+status: "pending"
+completion: 0
+description: |
+  实现行为推荐系统的用户界面组件。
+  展示智能推荐的行为列表，支持交互操作。
+  包括推荐卡片、智能提示、快捷操作等功能。
+category: "component"
+is_parent: false
+prerequisites:
+  - "ISSUE-UI-004B"
+related_specs:
+  - "SPEC-UI-004D"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-UI-004D~criterion-1"
+    name: "推荐列表组件"
+    description: "实现推荐行为列表组件，展示推荐原因、优先级、预计时间等信息"
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-UI-004D~criterion-2"
+    name: "智能提示组件"
+    description: "实现智能提示组件，以非侵入方式展示当前最佳行为建议"
+    category: "component"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-UI-004D~criterion-3"
+    name: "快捷操作支持"
+    description: "为推荐项提供快捷操作：立即开始、延后、标记完成、调整优先级"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-UI-004D~criterion-4"
+    name: "推荐反馈机制"
+    description: "实现用户对推荐的反馈功能：有用/无用、忽略、自定义偏好"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-UI-004D~criterion-5"
+    name: "推荐历史查看"
+    description: "提供推荐历史查看界面，展示过去推荐及用户采纳情况"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: not_needed
+      manual: not_needed

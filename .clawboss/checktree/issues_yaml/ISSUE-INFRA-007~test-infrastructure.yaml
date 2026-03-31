@@ -1,0 +1,92 @@
+id: "ISSUE-INFRA-007"
+issue_number: 7
+title: "测试基础设施"
+slug: "test-infrastructure"
+status: "pending"
+completion: 0
+description: |
+  搭建完整的测试基础设施，为项目提供自动化测试能力。
+  包括测试框架配置、测试数据库、Mock工具、测试数据Fixtures等。
+  作为唯一独立的测试相关Issue，为其他所有模块提供测试支持。
+category: "infrastructure"
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-003B"
+related_specs:
+  - "SPEC-INFRA-007"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-INFRA-007~criterion-1"
+    name: "测试框架搭建"
+    description: "集成Vitest/Jest测试框架，配置测试环境和运行脚本"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-INFRA-007~criterion-2"
+    name: "测试数据库配置"
+    description: "配置SQLite内存数据库用于测试，支持测试数据隔离"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-INFRA-007~criterion-3"
+    name: "Mock/Fake工具集"
+    description: "集成Vitest Mock/Vitest Fake Timer等Mock工具，创建常用Mock"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-INFRA-007~criterion-4"
+    name: "测试数据Fixtures"
+    description: "创建测试数据Fixtures，提供标准化的测试数据"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-INFRA-007~criterion-5"
+    name: "测试覆盖率配置"
+    description: "配置代码覆盖率收集，设置覆盖率阈值和报告生成"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+    note: "核心逻辑覆盖率≥80%"
+
+  - id: "ISSUE-INFRA-007~criterion-6"
+    name: "CI测试流水线"
+    description: "配置CI/CD流水线中的自动化测试步骤"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: sufficient
+      ai: not_needed
+      manual: sufficient

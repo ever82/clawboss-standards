@@ -1,0 +1,145 @@
+id: "ISSUE-CORE-003B"
+issue_number: "3B"
+title: "树遍历与查询"
+slug: "tree-traverse"
+status: "pending"
+completion: 0
+description: |
+  实现 Behavior 树的遍历算法和查询功能，包括前序、后序、层级遍历等。
+category: "feature"
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-003A"
+related_specs:
+  - "SPEC-CORE-003"
+created_at: "2026-03-31"
+completed_at: null
+
+criteria:
+  - id: "ISSUE-CORE-003B~criterion-1"
+    name: "功能实现完成"
+    description: |
+      完成树遍历与查询的核心功能：
+      - 前序遍历（根-左-右）
+      - 后序遍历（左-右-根）
+      - 层级遍历（按深度）
+      - 获取子树方法
+      - 获取祖先链方法
+      - 获取兄弟节点方法
+      - 树的深度/高度计算
+      - 树的节点计数
+      - 基于条件的树搜索
+      - 遍历结果缓存
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-003B~criterion-2"
+    name: "单元测试通过 (覆盖率 ≥ 80%)"
+    description: |
+      单元测试覆盖：
+      - 各种遍历算法的正确性测试
+      - 不同树结构（平衡、倾斜）的遍历测试
+      - 边界条件测试（单节点、空树）
+      - 大树的遍历性能测试
+      - 并发遍历的安全性测试
+      - 缓存命中率测试
+      - 代码覆盖率 ≥ 80%
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-003B~criterion-3"
+    name: "集成测试通过 (与依赖模块)"
+    description: |
+      集成测试验证：
+      - 与 CORE-003A (树构建) 的结构集成
+      - 与 CORE-002B1 (基础查询) 的数据查询集成
+      - 与 CORE-007A (基础搜索) 的条件搜索集成
+      - 与 INFRA-009 (缓存层) 的缓存集成
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-003B~criterion-4"
+    name: "E2E 测试通过 (Feature 类必须)"
+    description: |
+      E2E 测试场景：
+      - 完整树的遍历展示
+      - 子树提取的端到端流程
+      - 祖先链追踪的验证
+      - 大规模树的遍历性能
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: sufficient
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-003B~criterion-5"
+    name: "AI 测试通过 (Component 类必须)"
+    description: |
+      AI 辅助测试：
+      - 使用 LLM 生成复杂树结构进行遍历测试
+      - 模糊测试：随机树结构的遍历验证
+      - 遍历结果的正确性智能验证
+      - 边界条件的自动发现
+    category: "testing"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+
+  - id: "ISSUE-CORE-003B~criterion-6"
+    name: "代码审查通过"
+    description: |
+      代码审查检查项：
+      - 遍历算法的实现正确性
+      - 递归vs迭代的合理性选择
+      - 内存使用优化（大树的栈溢出防护）
+      - 代码复用性
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
+
+  - id: "ISSUE-CORE-003B~criterion-7"
+    name: "文档更新完成"
+    description: |
+      文档要求：
+      - 遍历算法API文档
+      - 各种遍历方式的使用场景
+      - 性能特征说明
+      - 使用示例代码
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: not_needed
+      manual: not_needed
