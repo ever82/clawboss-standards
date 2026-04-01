@@ -1,0 +1,275 @@
+id: "ISSUE-CLI-013"
+issue_number: 13
+slug: "shortcut-aliases"
+title: "快捷命令与别名系统"
+description: |
+  实现AI-Me CLI的快捷命令和别名系统，支持用户自定义命令缩写、别名链、宏命令等，提高使用效率。
+  依赖CLI-001B命令路由系统。
+status: "pending"
+is_parent: false
+sub_issues: []
+prerequisites:
+  - "ISSUE-CLI-001B"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CLI-013~criterion-1"
+    name: "命令别名管理"
+    description: |
+      实现命令别名功能，支持创建、查看、删除命令别名。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/alias/*.test.ts"
+        test_files:
+          - "src/cli/commands/alias/create.test.ts"
+          - "src/cli/commands/alias/list.test.ts"
+          - "src/cli/commands/alias/delete.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/alias/integration.test.ts"
+        test_files:
+          - "src/cli/commands/alias/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/alias"
+        test_files:
+          - "e2e/cli/alias/create.spec.ts"
+          - "e2e/cli/alias/list.spec.ts"
+      ai:
+        prompt: |
+          请验证命令别名管理功能的实现:
+          1. 创建别名: `ai-me alias create b "behavior"` b指向behavior
+          2. 带参数别名: `ai-me alias create bl "behavior list --status doing"`
+          3. 列出别名: `ai-me alias list` 显示所有别名
+          4. 显示详情: `ai-me alias show b` 显示别名定义
+          5. 删除别名: `ai-me alias delete b` 删除别名
+          6. 别名执行: 输入 `ai-me b` 执行对应命令
+          7. 别名覆盖: 别名可覆盖但原命令仍可用 `--`
+          8. 冲突检测: 创建别名时检测与现有命令冲突
+
+          检查点:
+          - 别名在命令路由前解析
+          - 别名支持递归(别名指向别名)
+          - 循环别名被检测和阻止
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/alias/index.ts"
+          - "src/cli/router/alias.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CLI-013~criterion-2"
+    name: "快捷命令"
+    description: |
+      实现内置快捷命令，提供常用操作的一键执行。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/shortcut/*.test.ts"
+        test_files:
+          - "src/cli/commands/shortcut/builtin.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/shortcut/integration.test.ts"
+        test_files:
+          - "src/cli/commands/shortcut/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/shortcut"
+        test_files:
+          - "e2e/cli/shortcut/builtin.spec.ts"
+      ai:
+        prompt: |
+          请验证快捷命令功能的实现:
+          1. 今日任务: `ai-me today` = `ai-me behavior list --due today`
+          2. 进行中: `ai-me doing` = `ai-me behavior list --status doing`
+          3. 快速添加: `ai-me add "任务名"` = `ai-me behavior create --name "任务名"`
+          4. 快速完成: `ai-me done <id>` = `ai-me behavior status <id> --to done`
+          5. 快速搜索: `ai-me find "关键词"` = `ai-me search "关键词"`
+          6. 工作目录: `ai-me here` = `ai-me behavior list --path .`
+          7. 我的任务: `ai-me mine` = `ai-me behavior list --assignee @me`
+          8. 紧急任务: `ai-me urgent` = `ai-me behavior list --priority critical,high`
+
+          检查点:
+          - 快捷命令响应迅速
+          - 快捷命令支持额外参数
+          - 快捷命令文档清晰
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/shortcut/builtin.ts"
+          - "src/cli/router/shortcuts.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<3 seconds"
+    prerequisites:
+      - "ISSUE-CLI-013~criterion-1"
+
+  - id: "ISSUE-CLI-013~criterion-3"
+    name: "宏命令"
+    description: |
+      实现宏命令功能，支持将多个命令组合为一个命令执行。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/macro/*.test.ts"
+        test_files:
+          - "src/cli/commands/macro/create.test.ts"
+          - "src/cli/commands/macro/run.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/macro/integration.test.ts"
+        test_files:
+          - "src/cli/commands/macro/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/macro"
+        test_files:
+          - "e2e/cli/macro/create.spec.ts"
+          - "e2e/cli/macro/run.spec.ts"
+      ai:
+        prompt: |
+          请验证宏命令功能的实现:
+          1. 创建宏: `ai-me macro create daily "behavior list --status doing; behavior create --name '每日站会'"`
+          2. 宏列表: `ai-me macro list` 显示所有宏
+          3. 执行宏: `ai-me macro run daily` 或 `ai-me daily` 执行宏
+          4. 宏参数: `ai-me macro create greet "echo Hello {{name}}"` 支持参数
+          5. 条件执行: 支持条件判断和循环
+          6. 宏编辑: `ai-me macro edit daily` 编辑宏定义
+          7. 宏删除: `ai-me macro delete daily` 删除宏
+          8. 宏导出: `ai-me macro export daily --output daily.sh`
+          9. 共享宏: 支持导入他人分享的宏
+
+          检查点:
+          - 宏命令按顺序执行
+          - 错误时停止或继续可配置
+          - 参数替换正确
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/macro/index.ts"
+          - "src/cli/macro/engine.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-013~criterion-2"
+
+  - id: "ISSUE-CLI-013~criterion-4"
+    name: "命令历史与重复"
+    description: |
+      实现命令历史记录和快速重复功能，提高命令行使用效率。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/history/*.test.ts"
+        test_files:
+          - "src/cli/commands/history/list.test.ts"
+          - "src/cli/commands/history/run.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/history/integration.test.ts"
+        test_files:
+          - "src/cli/commands/history/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/history"
+        test_files:
+          - "e2e/cli/history/list.spec.ts"
+          - "e2e/cli/history/run.spec.ts"
+      ai:
+        prompt: |
+          请验证命令历史与重复功能的实现:
+          1. 历史列表: `ai-me history` 或 `ai-me hist` 显示命令历史
+          2. 过滤历史: `ai-me history --search "behavior"` 搜索历史
+          3. 执行历史: `ai-me history run 5` 执行历史第5条
+          4. 上次命令: `ai-me !!` 或 `ai-me repeat` 执行上条命令
+          5. 历史编辑: `ai-me history edit 5` 编辑后执行
+          6. 历史删除: `ai-me history delete 5` 删除历史条目
+          7. 历史清除: `ai-me history clear` 清除所有历史
+          8. 历史导出: `ai-me history export --output history.txt`
+          9. 统计: `ai-me history stats` 显示使用统计
+
+          检查点:
+          - 历史记录持久化
+          - 敏感命令(含密码)被过滤
+          - 历史数量可配置
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/history/index.ts"
+          - "src/cli/history/manager.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-013~criterion-1"
+
+  - id: "ISSUE-CLI-013~criterion-5"
+    name: "命令推荐与学习"
+    description: |
+      实现命令推荐功能，根据用户习惯推荐常用命令，支持命令学习。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/recommend/*.test.ts"
+        test_files:
+          - "src/cli/commands/recommend/suggest.test.ts"
+          - "src/cli/commands/recommend/learn.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/recommend/integration.test.ts"
+        test_files:
+          - "src/cli/commands/recommend/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/recommend"
+        test_files:
+          - "e2e/cli/recommend/suggest.spec.ts"
+      ai:
+        prompt: |
+          请验证命令推荐与学习功能的实现:
+          1. 智能推荐: `ai-me suggest` 根据时间/上下文推荐命令
+          2. 常用命令: 显示最常用的命令快捷入口
+          3. 命令学习: 自动学习用户习惯，优化推荐
+          4. 模糊推荐: 输入部分命令时推荐可能意图
+          5. 推荐列表: 列出相关命令和说明
+          6. 快捷创建: 推荐将常用命令创建为别名
+          7. 推荐排除: 可排除不感兴趣的推荐
+          8. 推荐统计: 显示命令使用频率统计
+          9. 个性化: 不同用户有不同推荐
+
+          检查点:
+          - 推荐相关性高
+          - 学习过程隐私保护
+          - 推荐不过度打扰
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/recommend/index.ts"
+          - "src/cli/learning/engine.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-013~criterion-4"

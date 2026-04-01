@@ -1,0 +1,227 @@
+id: "ISSUE-DEPLOY-004"
+issue_number: 4
+title: "发布管理"
+slug: "release-mgmt"
+module: "DEPLOY"
+status: "pending"
+description: |
+  实现完整的发布管理体系，包括发布计划、版本控制、发布审批、发布执行和发布后监控。
+  支持多种发布策略（蓝绿部署、金丝雀发布、滚动更新），确保发布过程可控、可回滚。
+  提供发布历史记录和审计日志。
+is_parent: false
+prerequisites:
+  - "ISSUE-DEPLOY-003"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-DEPLOY-004~criterion-1"
+    name: "发布策略管理"
+    description: "实现多种发布策略的支持，包括蓝绿部署、金丝雀发布、滚动更新和全量发布"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- tests/unit/deploy/release-strategy.test.ts"
+        test_files:
+          - "tests/unit/deploy/release-strategy.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/deploy/strategy-execution.test.ts"
+        test_files:
+          - "tests/integration/deploy/strategy-execution.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/deploy/canary-release.test.ts"
+        test_files:
+          - "tests/e2e/deploy/canary-release.test.ts"
+      ai:
+        prompt: |
+          请验证发布策略管理实现是否符合以下要求：
+          1. 是否支持蓝绿部署（Blue-Green Deployment）
+          2. 是否支持金丝雀发布（Canary Release）和流量控制
+          3. 是否支持滚动更新（Rolling Update）
+          4. 是否支持全量发布（All-at-once）
+          5. 是否提供发布策略配置界面或CLI命令
+          6. 是否支持基于指标的自动流量切换
+          7. 是否支持回滚策略配置
+          返回格式: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/deploy/release-strategy.ts"
+          - "src/deploy/strategies/blue-green.ts"
+          - "src/deploy/strategies/canary.ts"
+          - "src/deploy/strategies/rolling.ts"
+          - "docs/deployment/release-strategies.md"
+        model: "claude-sonnet-4-6"
+    execution_time: "<3 minutes"
+
+  - id: "ISSUE-DEPLOY-004~criterion-2"
+    name: "发布审批工作流"
+    description: "实现发布审批工作流，支持多级审批、审批通知和审批记录追踪"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- tests/unit/deploy/approval-workflow.test.ts"
+        test_files:
+          - "tests/unit/deploy/approval-workflow.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/deploy/approval-flow.test.ts"
+        test_files:
+          - "tests/integration/deploy/approval-flow.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/deploy/release-approval.test.ts"
+        test_files:
+          - "tests/e2e/deploy/release-approval.test.ts"
+      ai:
+        prompt: |
+          请验证发布审批工作流实现是否符合以下要求：
+          1. 是否支持多级审批流程（开发→测试→运维→生产）
+          2. 是否支持审批人配置和替换
+          3. 是否提供审批通知（邮件/Slack/钉钉）
+          4. 是否记录审批历史和审计日志
+          5. 是否支持审批超时提醒和自动升级
+          6. 是否支持紧急发布绿色通道
+          7. 审批状态是否实时同步
+          返回格式: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/deploy/approval-workflow.ts"
+          - "src/deploy/approval-service.ts"
+          - "src/deploy/notifications.ts"
+          - "config/approval-rules.yml"
+        model: "claude-sonnet-4-6"
+    execution_time: "<2 minutes"
+
+  - id: "ISSUE-DEPLOY-004~criterion-3"
+    name: "发布执行与监控"
+    description: "实现发布执行引擎，支持发布进度监控、健康检查和自动回滚"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- tests/unit/deploy/release-executor.test.ts"
+        test_files:
+          - "tests/unit/deploy/release-executor.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/deploy/release-execution.test.ts"
+        test_files:
+          - "tests/integration/deploy/release-execution.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/deploy/release-monitoring.test.ts"
+        test_files:
+          - "tests/e2e/deploy/release-monitoring.test.ts"
+      ai:
+        prompt: |
+          请验证发布执行与监控实现是否符合以下要求：
+          1. 是否提供发布进度实时显示
+          2. 是否配置发布前健康检查
+          3. 是否配置发布后自动化验证（冒烟测试）
+          4. 是否监控关键指标（错误率、响应时间、吞吐量）
+          5. 是否配置自动回滚触发条件（指标异常）
+          6. 是否提供发布状态通知
+          7. 是否记录发布详细日志
+          返回格式: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/deploy/release-executor.ts"
+          - "src/deploy/health-check.ts"
+          - "src/deploy/monitoring.ts"
+          - "src/deploy/auto-rollback.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<3 minutes"
+
+  - id: "ISSUE-DEPLOY-004~criterion-4"
+    name: "发布历史与审计"
+    description: "实现发布历史记录和审计功能，支持发布查询、对比和报告生成"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- tests/unit/deploy/release-history.test.ts"
+        test_files:
+          - "tests/unit/deploy/release-history.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/deploy/audit-log.test.ts"
+        test_files:
+          - "tests/integration/deploy/audit-log.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/deploy/history-query.test.ts"
+        test_files:
+          - "tests/e2e/deploy/history-query.test.ts"
+      ai:
+        prompt: |
+          请验证发布历史与审计功能是否符合以下要求：
+          1. 是否记录所有发布操作（创建、审批、执行、回滚）
+          2. 是否支持按时间、版本、环境查询发布历史
+          3. 是否支持发布版本对比（变更内容、性能差异）
+          4. 是否生成发布报告（成功率、平均时间、问题统计）
+          5. 审计日志是否防篡改
+          6. 是否支持导出审计日志
+          7. 是否提供发布趋势分析
+          返回格式: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/deploy/release-history.ts"
+          - "src/deploy/audit-logger.ts"
+          - "src/deploy/report-generator.ts"
+          - "src/deploy/comparison.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<2 minutes"
+
+  - id: "ISSUE-DEPLOY-004~criterion-5"
+    name: "版本管理与标签"
+    description: "实现语义化版本管理和Git标签管理，支持版本规划、预发布版本和生命周期管理"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- tests/unit/deploy/version-management.test.ts"
+        test_files:
+          - "tests/unit/deploy/version-management.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/deploy/version-lifecycle.test.ts"
+        test_files:
+          - "tests/integration/deploy/version-lifecycle.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/deploy/semantic-version.test.ts"
+        test_files:
+          - "tests/e2e/deploy/semantic-version.test.ts"
+      ai:
+        prompt: |
+          请验证版本管理与标签功能是否符合以下要求：
+          1. 是否遵循语义化版本规范（SemVer）
+          2. 是否支持预发布版本（alpha、beta、rc）
+          3. 是否自动创建和管理Git标签
+          4. 是否支持版本路线图和里程碑规划
+          5. 是否支持版本弃用和生命周期管理
+          6. 是否提供版本兼容性检查
+          7. 是否生成版本发布说明（Release Notes）
+          返回格式: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/deploy/version-manager.ts"
+          - "src/deploy/tag-manager.ts"
+          - "src/deploy/roadmap.ts"
+          - "scripts/version/bump-version.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<2 minutes"

@@ -1,0 +1,267 @@
+id: "ISSUE-UI-002"
+issue_number: 2
+title: "行为树可视化组件"
+slug: "tree-visualization"
+module: "UI"
+status: "pending"
+description: |
+  开发交互式行为树可视化组件，支持树形结构渲染、节点拖拽编辑、折叠展开、缩放平移、节点详情展示等功能。
+  该组件是系统的核心交互界面，需要高性能渲染和流畅的用户体验。
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-003A"
+  - "ISSUE-CORE-003B"
+  - "ISSUE-UI-001"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-UI-002~criterion-1"
+    name: "树形结构渲染"
+    description: "能够正确渲染多级行为树结构，支持不同的节点类型（根节点、分支节点、叶子节点）和状态标识"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/components/tree/"
+        test_files:
+          - "ui/web-client/src/components/tree/TreeNode.test.tsx"
+          - "ui/web-client/src/components/tree/TreeRenderer.test.tsx"
+          - "ui/web-client/src/components/tree/TreeLayout.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/tree/rendering.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/tree/rendering.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/tree/rendering.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/tree/rendering.spec.ts"
+          - "ui/web-client/tests/e2e/tree/node-types.spec.ts"
+      ai:
+        prompt: |
+          请验证树形结构渲染功能是否完整：
+          1. 检查是否能正确渲染多级嵌套树结构（至少支持10级深度）
+          2. 检查不同节点类型是否有视觉区分（根节点、分支、叶子、完成/进行中/未开始状态）
+          3. 检查节点内容显示是否正确（标题、描述、进度、时间等）
+          4. 检查连接线是否清晰展示父子关系
+          5. 检查大数据量（1000+节点）下渲染性能是否流畅
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/components/tree/TreeRenderer.tsx"
+          - "ui/web-client/src/components/tree/TreeNode.tsx"
+          - "ui/web-client/src/components/tree/styles.css"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-002~criterion-2"
+    name: "节点拖拽与重排"
+    description: "支持节点拖拽移动、排序调整，拖拽时有视觉反馈，操作后自动同步到后端"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/components/tree/dnd/"
+        test_files:
+          - "ui/web-client/src/components/tree/dnd/DragDropProvider.test.tsx"
+          - "ui/web-client/src/components/tree/dnd/useDragNode.test.ts"
+          - "ui/web-client/src/components/tree/dnd/useDropTarget.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/tree/drag-drop.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/tree/drag-drop.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/tree/drag-drop.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/tree/drag-drop.spec.ts"
+      ai:
+        prompt: |
+          请验证节点拖拽和重排功能是否完整：
+          1. 检查拖拽时是否有清晰的视觉反馈（半透明、阴影、占位符）
+          2. 检查是否支持拖放到不同层级（同级排序、成为子节点）
+          3. 检查是否支持键盘快捷键操作（上下移动、缩进/取消缩进）
+          4. 检查拖拽完成后是否自动同步到后端API
+          5. 检查是否有撤销/重做支持（Ctrl+Z/Y）
+          6. 检查拖拽操作是否有适当的防误触机制（拖拽阈值）
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/components/tree/dnd/DragDropProvider.tsx"
+          - "ui/web-client/src/components/tree/dnd/useDragNode.ts"
+          - "ui/web-client/src/hooks/useTreeOperations.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<20 seconds"
+
+  - id: "ISSUE-UI-002~criterion-3"
+    name: "缩放与平移"
+    description: "支持画布缩放和平移导航，支持适应视图、重置视角等快捷操作"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/components/tree/canvas/"
+        test_files:
+          - "ui/web-client/src/components/tree/canvas/ZoomControl.test.tsx"
+          - "ui/web-client/src/components/tree/canvas/PanControl.test.tsx"
+          - "ui/web-client/src/components/tree/canvas/useTransform.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/tree/navigation.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/tree/navigation.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/tree/navigation.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/tree/navigation.spec.ts"
+      ai:
+        prompt: |
+          请验证缩放和平移功能是否完整：
+          1. 检查是否支持鼠标滚轮缩放和拖拽平移
+          2. 检查是否支持触摸设备的手势操作（双指缩放、单指拖动）
+          3. 检查缩放范围是否有限制（最小10%，最大500%）
+          4. 检查是否提供快捷按钮（适应视图、重置、放大/缩小）
+          5. 检查缩放和平移状态是否流畅（60fps）
+          6. 检查是否有迷你导航图（minimap）辅助定位
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/components/tree/canvas/TreeCanvas.tsx"
+          - "ui/web-client/src/components/tree/canvas/useTransform.ts"
+          - "ui/web-client/src/components/tree/canvas/Minimap.tsx"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-002~criterion-4"
+    name: "折叠与展开"
+    description: "支持节点折叠展开，支持全部折叠/展开、折叠到指定层级等批量操作"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/components/tree/collapse/"
+        test_files:
+          - "ui/web-client/src/components/tree/collapse/useCollapse.test.ts"
+          - "ui/web-client/src/components/tree/collapse/CollapseButton.test.tsx"
+      integration:
+        command: "npm run test:integration -- tests/integration/tree/collapse.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/tree/collapse.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/tree/collapse.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/tree/collapse.spec.ts"
+      ai:
+        prompt: |
+          请验证折叠和展开功能是否完整：
+          1. 检查每个可折叠节点是否有展开/折叠指示器（+/-图标）
+          2. 检查折叠状态是否持久化（刷新后保持）
+          3. 检查是否支持快捷键（左右箭头、空格键）
+          4. 检查是否提供批量操作按钮（全部展开、全部折叠、折叠到第N层）
+          5. 检查折叠动画是否流畅（有transition动画）
+          6. 检查折叠后是否显示子节点数量徽章
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/components/tree/collapse/useCollapse.ts"
+          - "ui/web-client/src/components/tree/collapse/CollapseButton.tsx"
+          - "ui/web-client/src/components/tree/TreeNode.tsx"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-UI-002~criterion-5"
+    name: "节点详情与编辑"
+    description: "点击节点可展开详情面板，支持查看和编辑行为属性、验收标准、时间记录等"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/components/tree/detail/"
+        test_files:
+          - "ui/web-client/src/components/tree/detail/NodeDetail.test.tsx"
+          - "ui/web-client/src/components/tree/detail/NodeEditor.test.tsx"
+      integration:
+        command: "npm run test:integration -- tests/integration/tree/detail.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/tree/detail.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/tree/detail.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/tree/detail.spec.ts"
+          - "ui/web-client/tests/e2e/tree/editing.spec.ts"
+      ai:
+        prompt: |
+          请验证节点详情和编辑功能是否完整：
+          1. 检查点击节点是否能正确展开详情面板（侧边栏或弹窗）
+          2. 检查详情面板是否展示完整信息（标题、描述、状态、进度、时间、验收标准）
+          3. 检查是否支持内联编辑（直接点击编辑）
+          4. 检查编辑后是否有自动保存或显式保存按钮
+          5. 检查是否有表单验证和错误提示
+          6. 检查是否支持富文本编辑（Markdown支持）
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/components/tree/detail/NodeDetail.tsx"
+          - "ui/web-client/src/components/tree/detail/NodeEditor.tsx"
+          - "ui/web-client/src/components/tree/detail/useNodeEdit.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<20 seconds"
+
+  - id: "ISSUE-UI-002~criterion-6"
+    name: "性能优化"
+    description: "虚拟滚动、懒加载、渲染优化等技术确保大数据量下依然流畅"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/components/tree/performance/"
+        test_files:
+          - "ui/web-client/src/components/tree/performance/useVirtualList.test.ts"
+          - "ui/web-client/src/components/tree/performance/useTreeOptimization.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/tree/performance.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/tree/performance.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/performance/tree-large.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/performance/tree-large.spec.ts"
+      ai:
+        prompt: |
+          请验证性能优化是否到位：
+          1. 检查是否实现虚拟滚动（只渲染可见区域节点）
+          2. 检查是否有懒加载机制（展开时加载子节点数据）
+          3. 检查是否使用React.memo/useMemo/useCallback优化重渲染
+          4. 检查大数据量（5000+节点）下帧率是否保持60fps
+          5. 检查是否有性能监控和降级策略
+          6. 检查首屏渲染时间是否小于2秒
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/components/tree/performance/useVirtualList.ts"
+          - "ui/web-client/src/components/tree/TreeRenderer.tsx"
+          - "ui/web-client/src/utils/performance.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<30 seconds"

@@ -1,0 +1,257 @@
+id: "ISSUE-PLUGIN-001A"
+issue_number: "1A"
+module: "PLUGIN"
+title: "插件架构设计"
+slug: "plugin-arch"
+status: "pending"
+completion: 0
+description: "设计插件系统的整体架构，包括插件类型定义、扩展点规范、事件系统、插件通信机制等。为后续插件加载器、API定义、生命周期管理和安全沙箱提供基础架构支撑。"
+category: "infrastructure"
+is_parent: false
+prerequisites:
+  - "ISSUE-CLI-006B1"
+  - "ISSUE-CLI-006B2"
+  - "ISSUE-INFRA-005"
+related_specs:
+  - "PLUGIN"
+  - "ARCHITECTURE"
+created_at: "2026-04-01"
+completed_at: null
+logic: "sufficient_necessary"
+
+criteria:
+  - id: "ISSUE-PLUGIN-001A~criterion-1"
+    name: "插件类型定义完成"
+    description: "定义插件的类型分类，包括核心插件、CLI插件、UI插件、集成插件等，并建立类型层次结构和权限映射"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "不同类型插件有不同的权限和生命周期，需支持类型扩展"
+    execution_time: "<1 second"
+    prerequisites: []
+    implementations:
+      - type: "schema"
+        path: "src/plugin/schemas/plugin-types.schema.ts"
+      - type: "types"
+        path: "src/plugin/types/plugin-types.ts"
+    verification:
+      unit:
+        command: "npm test -- src/plugin/schemas/plugin-types.schema.test.ts"
+        test_files:
+          - "src/plugin/schemas/plugin-types.schema.test.ts"
+          - "src/plugin/types/plugin-types.test.ts"
+      integration:
+        command: "npm run test:integration -- plugin-types"
+        test_files:
+          - "tests/integration/plugin/types.integration.test.ts"
+      ai:
+        prompt: |
+          请验证插件类型定义是否符合以下要求:
+          1. 是否定义了至少4种基础插件类型(Core/CLI/UI/Integration)
+          2. 类型层次结构是否清晰，是否有继承关系或接口实现关系
+          3. 每种类型是否定义了对应的权限级别(permission level)
+          4. 是否提供了类型验证函数(type guard)用于运行时检查
+          5. 类型定义是否支持TypeScript严格模式(strict: true)
+          6. 是否有文档注释说明每种类型的使用场景
+          返回格式: {"passed": true/false, "reason": "详细说明", "details": [{"check": "检查项", "passed": true/false}]}
+        context_files:
+          - "src/plugin/schemas/plugin-types.schema.ts"
+          - "src/plugin/types/plugin-types.ts"
+        model: "claude-sonnet-4-6"
+
+  - id: "ISSUE-PLUGIN-001A~criterion-2"
+    name: "扩展点(Extension Points)规范"
+    description: "定义系统的扩展点，规范插件可以扩展的功能位置和方式，实现声明式扩展机制"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "扩展点需要文档化和版本化，支持向后兼容"
+    execution_time: "<500 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/core/extension-points.ts"
+      - type: "schema"
+        path: "src/plugin/schemas/extension-point.schema.ts"
+    verification:
+      unit:
+        command: "npm test -- src/plugin/core/extension-points.test.ts"
+        test_files:
+          - "src/plugin/core/extension-points.test.ts"
+          - "src/plugin/schemas/extension-point.schema.test.ts"
+      integration:
+        command: "npm run test:integration -- extension-points"
+        test_files:
+          - "tests/integration/plugin/extension-points.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- extension-point-registration"
+        test_files:
+          - "tests/e2e/plugin/extension-point.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证扩展点规范是否满足以下要求:
+          1. 是否定义了ExtensionPoint基类或接口，包含id、version、description等元数据
+          2. 是否实现了扩展点注册表(ExtensionPointRegistry)用于管理所有扩展点
+          3. 扩展点是否支持版本控制(semantic versioning)，能否处理版本兼容性
+          4. 是否提供了扩展点冲突检测机制(多个插件扩展同一点时的处理策略)
+          5. 扩展点定义是否包含输入/输出类型的Schema验证
+          6. 是否有机制防止扩展点的循环依赖
+          返回格式: {"passed": true/false, "reason": "详细说明", "details": [{"check": "检查项", "passed": true/false}]}
+        context_files:
+          - "src/plugin/core/extension-points.ts"
+          - "src/plugin/schemas/extension-point.schema.ts"
+        model: "claude-sonnet-4-6"
+
+  - id: "ISSUE-PLUGIN-001A~criterion-3"
+    name: "插件事件系统实现"
+    description: "设计插件间通信的事件系统，支持发布订阅和请求响应模式，实现事件命名空间隔离"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "事件需要类型安全和命名空间隔离，防止事件名冲突"
+    execution_time: "<100 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/core/plugin-events.ts"
+      - type: "component"
+        path: "src/plugin/core/event-bus.ts"
+    verification:
+      unit:
+        command: "npm test -- src/plugin/core/"
+        test_files:
+          - "src/plugin/core/plugin-events.test.ts"
+          - "src/plugin/core/event-bus.test.ts"
+      integration:
+        command: "npm run test:integration -- plugin-events"
+        test_files:
+          - "tests/integration/plugin/events.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- plugin-event-communication"
+        test_files:
+          - "tests/e2e/plugin/event-communication.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证插件事件系统是否满足以下要求:
+          1. 是否实现了EventBus类，支持on/off/emit/once等方法
+          2. 事件命名空间(namespacing)是否正确实现，格式如"plugin-name:event-name"
+          3. 是否支持强类型事件定义(TypeScript泛型)，事件payload有类型检查
+          4. 是否实现了请求-响应模式(request-response pattern)用于同步通信
+          5. 事件监听器是否有错误隔离机制(一个监听器失败不影响其他监听器)
+          6. 是否提供了事件调试工具(如事件历史记录、监听器列表查询)
+          7. 内存管理是否完善，插件卸载时能否正确清理事件监听器
+          返回格式: {"passed": true/false, "reason": "详细说明", "details": [{"check": "检查项", "passed": true/false}]}
+        context_files:
+          - "src/plugin/core/plugin-events.ts"
+          - "src/plugin/core/event-bus.ts"
+        model: "claude-sonnet-4-6"
+
+  - id: "ISSUE-PLUGIN-001A~criterion-4"
+    name: "插件清单格式定义"
+    description: "定义插件清单(manifest)的标准格式，包括元数据、依赖、权限声明、扩展点声明等"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "清单格式需要向前兼容，使用JSON Schema验证"
+    execution_time: "<500 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "schema"
+        path: "src/plugin/schemas/plugin-manifest.schema.ts"
+      - type: "types"
+        path: "src/plugin/types/manifest.types.ts"
+      - type: "utility"
+        path: "src/plugin/utils/manifest-validator.ts"
+    verification:
+      unit:
+        command: "npm test -- src/plugin/schemas/plugin-manifest.schema.test.ts"
+        test_files:
+          - "src/plugin/schemas/plugin-manifest.schema.test.ts"
+          - "src/plugin/utils/manifest-validator.test.ts"
+      integration:
+        command: "npm run test:integration -- manifest-validation"
+        test_files:
+          - "tests/integration/plugin/manifest.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- plugin-manifest"
+        test_files:
+          - "tests/e2e/plugin/manifest-validation.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证插件清单格式定义是否满足以下要求:
+          1. 清单是否包含必需字段: name, version, description, main, author
+          2. 是否支持语义化版本(semver)格式验证
+          3. 依赖声明格式是否兼容npm dependencies/peerDependencies/devDependencies
+          4. 权限声明(permissions)是否使用白名单模式，明确声明所需权限
+          5. 扩展点声明(extensions)是否支持声明式配置扩展点
+          6. 是否有清单版本(manifestVersion)字段用于格式升级
+          7. 验证器是否能处理额外属性(additionalProperties)并给出警告
+          8. 是否提供清单生成工具或模板
+          返回格式: {"passed": true/false, "reason": "详细说明", "details": [{"check": "检查项", "passed": true/false}]}
+        context_files:
+          - "src/plugin/schemas/plugin-manifest.schema.ts"
+          - "src/plugin/types/manifest.types.ts"
+          - "src/plugin/utils/manifest-validator.ts"
+        model: "claude-sonnet-4-6"
+
+  - id: "ISSUE-PLUGIN-001A~criterion-5"
+    name: "插件架构文档编写"
+    description: "编写完整的插件架构文档，包括概念说明、开发指南、最佳实践、API参考等"
+    category: "infrastructure"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    note: "文档包含示例代码和API参考，面向插件开发者"
+    execution_time: "N/A"
+    prerequisites:
+      - "ISSUE-PLUGIN-001A~criterion-1"
+      - "ISSUE-PLUGIN-001A~criterion-2"
+    implementations:
+      - type: "config"
+        path: "docs/plugin/architecture.md"
+      - type: "config"
+        path: "docs/plugin/development-guide.md"
+      - type: "config"
+        path: "docs/plugin/api-reference.md"
+    verification:
+      ai:
+        prompt: |
+          请验证插件架构文档是否满足以下要求:
+          1. 架构文档是否清晰说明了插件系统的整体设计理念和组件关系
+          2. 开发指南是否包含完整的插件开发步骤，从初始化到发布
+          3. 是否有Hello World级别的最小示例插件代码
+          4. API参考文档是否覆盖所有公共API，包含参数说明和返回值
+          5. 文档中是否说明了插件类型选择指南(什么场景用什么类型)
+          6. 是否有扩展点开发指南(如何为系统添加新的扩展点)
+          7. 文档是否包含常见问题(FAQ)和调试技巧
+          8. 代码示例是否能直接运行或复制粘贴使用
+          返回格式: {"passed": true/false, "reason": "详细说明", "details": [{"check": "检查项", "passed": true/false}]}
+        context_files:
+          - "docs/plugin/architecture.md"
+          - "docs/plugin/development-guide.md"
+          - "docs/plugin/api-reference.md"
+        model: "claude-sonnet-4-6"

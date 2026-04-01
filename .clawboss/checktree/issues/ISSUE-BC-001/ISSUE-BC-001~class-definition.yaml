@@ -1,0 +1,228 @@
+id: "ISSUE-BC-001"
+issue_number: 1
+title: "行为类定义格式"
+slug: "class-definition"
+status: "pending"
+description: |
+  定义行为类的标准格式规范，包括类元数据、属性定义、方法签名、验证规则等。
+  建立一套完整的行为类Schema，支持类型系统、默认值、约束条件等特性。
+  为后续的行为类加载、实例化和继承提供基础规范。
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-002"
+  - "ISSUE-INFRA-005"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-BC-001~criterion-1"
+    name: "类元数据Schema定义"
+    description: |
+      定义行为类元数据的标准结构，包括类名、版本、描述、作者、创建时间等字段。
+      支持语义化版本控制，提供完整的元数据验证机制。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/definition/schema.test.ts"
+        test_files:
+          - "src/behavior-class/definition/schema.test.ts"
+          - "src/behavior-class/definition/validator.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/definition/integration.test.ts"
+        test_files:
+          - "src/behavior-class/definition/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/definition"
+        test_files:
+          - "tests/e2e/behavior-class/definition.spec.ts"
+      ai:
+        prompt: |
+          请验证以下行为类元数据Schema定义是否满足要求：
+          1. Schema包含所有必需字段：className, version, description, author, createdAt
+          2. 版本字段遵循语义化版本规范 (semver)
+          3. 提供完整的JSON Schema验证
+          4. 支持自定义扩展字段
+          5. 错误提示信息清晰且本地化
+          请检查代码实现和测试用例，返回验证结果。
+        context_files:
+          - "src/behavior-class/definition/schema.ts"
+          - "src/behavior-class/definition/types.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-001~criterion-2"
+    name: "属性定义规范"
+    description: |
+      定义行为类属性的标准格式，支持基本类型（string, number, boolean, date等）、
+      复杂类型（array, object, enum）和自定义类型。支持默认值、可选/必填、约束条件等。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/definition/property.test.ts"
+        test_files:
+          - "src/behavior-class/definition/property.test.ts"
+          - "src/behavior-class/definition/type-system.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/definition/property-integration.test.ts"
+        test_files:
+          - "src/behavior-class/definition/property-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/property"
+        test_files:
+          - "tests/e2e/behavior-class/property.spec.ts"
+      ai:
+        prompt: |
+          请验证行为类属性定义规范实现是否完整：
+          1. 支持基本类型：string, number, boolean, date, datetime
+          2. 支持复杂类型：array, object, enum, union
+          3. 支持属性约束：min/max length, range, pattern regex
+          4. 支持默认值和可选/必填标记
+          5. 类型推断和校验机制完善
+          6. 属性文档注释支持
+          请检查类型系统实现和测试覆盖率。
+        context_files:
+          - "src/behavior-class/definition/property.ts"
+          - "src/behavior-class/definition/type-system.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-001~criterion-3"
+    name: "方法签名定义"
+    description: |
+      定义行为类方法的标准签名格式，包括方法名、参数列表、返回值类型、
+      异常声明等。支持同步/异步方法，提供方法级别的元数据注解。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/definition/method.test.ts"
+        test_files:
+          - "src/behavior-class/definition/method.test.ts"
+          - "src/behavior-class/definition/signature.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/definition/method-integration.test.ts"
+        test_files:
+          - "src/behavior-class/definition/method-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/method"
+        test_files:
+          - "tests/e2e/behavior-class/method.spec.ts"
+      ai:
+        prompt: |
+          请验证行为类方法签名定义实现：
+          1. 支持方法名、参数列表、返回值类型的完整定义
+          2. 参数支持命名、类型、默认值、可选标记
+          3. 支持同步和异步方法声明
+          4. 支持方法级别的元数据注解（deprecated, author等）
+          5. 方法重载和泛型支持（如适用）
+          6. 方法文档和示例代码支持
+          请检查方法定义模块的完整性和一致性。
+        context_files:
+          - "src/behavior-class/definition/method.ts"
+          - "src/behavior-class/definition/signature.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-001~criterion-4"
+    name: "验证规则系统"
+    description: |
+      实现行为类定义的内置验证规则系统，支持字段级别的校验、
+      跨字段验证、自定义验证器等功能，确保类定义本身的合法性。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/definition/validation.test.ts"
+        test_files:
+          - "src/behavior-class/definition/validation.test.ts"
+          - "src/behavior-class/definition/validators.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/definition/validation-integration.test.ts"
+        test_files:
+          - "src/behavior-class/definition/validation-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/validation"
+        test_files:
+          - "tests/e2e/behavior-class/validation.spec.ts"
+      ai:
+        prompt: |
+          请验证行为类验证规则系统实现：
+          1. 内置验证器完整：required, type, format, range, pattern等
+          2. 支持自定义验证器注册和使用
+          3. 支持跨字段验证和条件验证
+          4. 验证错误信息清晰，包含字段路径和错误类型
+          5. 验证性能满足要求（大批量定义验证）
+          6. 验证结果可序列化和国际化
+          请检查验证系统的健壮性和扩展性。
+        context_files:
+          - "src/behavior-class/definition/validation.ts"
+          - "src/behavior-class/definition/validators.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-001~criterion-5"
+    name: "类定义序列化与反序列化"
+    description: |
+      实现行为类定义的标准序列化格式（JSON/YAML），支持从文件、
+      字符串、对象等多种来源解析类定义，提供统一的解析接口。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/definition/serialization.test.ts"
+        test_files:
+          - "src/behavior-class/definition/serialization.test.ts"
+          - "src/behavior-class/definition/parser.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/definition/serialization-integration.test.ts"
+        test_files:
+          - "src/behavior-class/definition/serialization-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/serialization"
+        test_files:
+          - "tests/e2e/behavior-class/serialization.spec.ts"
+      ai:
+        prompt: |
+          请验证行为类定义的序列化与反序列化实现：
+          1. 支持JSON格式序列化和反序列化
+          2. 支持YAML格式解析（如配置需要）
+          3. 从文件、字符串、对象解析的接口统一
+          4. 解析错误处理完善，提供详细的错误位置信息
+          5. 循环引用检测和处理
+          6. 序列化输出格式统一且可读
+          请检查解析器和序列化器的实现质量。
+        context_files:
+          - "src/behavior-class/definition/serialization.ts"
+          - "src/behavior-class/definition/parser.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+    prerequisites:
+      - "ISSUE-BC-001~criterion-1"
+      - "ISSUE-BC-001~criterion-2"

@@ -1,0 +1,220 @@
+id: "ISSUE-MON-001"
+issue_number: 1
+title: "系统指标收集框架"
+slug: "metrics-collection"
+status: "pending"
+description: "构建系统指标收集框架，支持运行时性能指标（CPU、内存、响应时间）、业务指标（行为创建/更新频率、操作成功率）、自定义指标注册机制，以及与日志系统和事件系统的集成。为系统监控、性能分析和容量规划提供数据基础。"
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-006A"
+  - "ISSUE-INFRA-006B"
+  - "ISSUE-CORE-011"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-MON-001~criterion-1"
+    name: "指标收集器核心架构实现"
+    description: "实现指标收集器核心架构，包括MetricsCollector接口、指标存储抽象、收集周期管理、采样率控制，支持同步和异步收集模式"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/monitoring/metrics/collector.test.ts"
+        test_files: ["src/monitoring/metrics/collector.test.ts"]
+      integration:
+        command: "npm test -- src/monitoring/metrics/collector.integration.test.ts"
+        test_files: ["src/monitoring/metrics/collector.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- metrics-collection"
+        test_files: ["e2e/metrics-collection.spec.ts"]
+      ai:
+        prompt: "请验证指标收集器核心架构:
+1. 检查 MetricsCollector 接口定义是否完整（collect, record, flush, getMetrics方法）
+2. 验证指标存储抽象层是否支持多种后端（内存、文件、数据库）
+3. 检查收集周期管理是否可配置（interval参数）
+4. 验证采样率控制实现（sampleRate参数，0-1范围）
+5. 检查同步/异步收集模式切换机制
+6. 验证资源清理和优雅关闭逻辑
+返回: {"passed": true/false, "reason": "详细说明"}"
+        context_files: ["src/monitoring/metrics/collector.ts", "src/monitoring/metrics/types.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-MON-001~criterion-2"
+    name: "系统性能指标收集实现"
+    description: "实现系统性能指标自动收集，包括CPU使用率、内存占用、堆内存统计、事件循环延迟、GC统计、句柄数等Node.js运行时指标"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/monitoring/metrics/system-metrics.test.ts"
+        test_files: ["src/monitoring/metrics/system-metrics.test.ts"]
+      integration:
+        command: "npm test -- src/monitoring/metrics/system-metrics.integration.test.ts"
+        test_files: ["src/monitoring/metrics/system-metrics.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- system-metrics"
+        test_files: ["e2e/system-metrics.spec.ts"]
+      ai:
+        prompt: "请验证系统性能指标收集实现:
+1. 检查CPU使用率指标是否使用process.cpuUsage()实现
+2. 验证内存指标是否包含rss、heapUsed、heapTotal、external
+3. 检查事件循环延迟测量是否使用histogram或定期采样
+4. 验证GC统计是否使用--expose-gc或性能钩子
+5. 检查句柄数指标是否通过process._getActiveHandles/Requests获取
+6. 验证指标数据格式是否统一（含timestamp, value, unit字段）
+返回: {"passed": true/false, "reason": "详细说明"}"
+        context_files: ["src/monitoring/metrics/system-metrics.ts", "src/monitoring/metrics/types.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-MON-001~criterion-3"
+    name: "业务指标收集实现"
+    description: "实现业务指标收集，包括行为CRUD操作频率、树操作统计、操作成功率/失败率、平均响应时间、并发请求数等业务层面的监控指标"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/monitoring/metrics/business-metrics.test.ts"
+        test_files: ["src/monitoring/metrics/business-metrics.test.ts"]
+      integration:
+        command: "npm test -- src/monitoring/metrics/business-metrics.integration.test.ts"
+        test_files: ["src/monitoring/metrics/business-metrics.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- business-metrics"
+        test_files: ["e2e/business-metrics.spec.ts"]
+      ai:
+        prompt: "请验证业务指标收集实现:
+1. 检查是否自动收集行为创建/更新/删除操作计数
+2. 验证树操作统计（节点移动、重建次数）是否正确实现
+3. 检查操作成功率/失败率计算逻辑（成功数/总数）
+4. 验证平均响应时间计算（是否使用histogram或移动平均）
+5. 检查并发请求数追踪机制
+6. 验证业务指标与核心模块的集成点（拦截器/装饰器/AOP）
+返回: {"passed": true/false, "reason": "详细说明"}"
+        context_files: ["src/monitoring/metrics/business-metrics.ts", "src/core/behavior/behavior.service.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-MON-001~criterion-4"
+    name: "自定义指标注册机制"
+    description: "实现自定义指标注册机制，允许开发者通过简单API注册自己的指标（Counter、Gauge、Histogram、Summary），支持标签（labels）多维度区分"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/monitoring/metrics/custom-metrics.test.ts"
+        test_files: ["src/monitoring/metrics/custom-metrics.test.ts"]
+      integration:
+        command: "npm test -- src/monitoring/metrics/custom-metrics.integration.test.ts"
+        test_files: ["src/monitoring/metrics/custom-metrics.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- custom-metrics"
+        test_files: ["e2e/custom-metrics.spec.ts"]
+      ai:
+        prompt: "请验证自定义指标注册机制:
+1. 检查是否支持Counter类型（单调递增计数器）
+2. 验证Gauge类型支持（可增可减的瞬时值）
+3. 检查Histogram类型（分桶统计，支持自定义分桶边界）
+4. 验证Summary类型（滑动时间窗口统计）
+5. 检查标签（labels）多维度支持（如{method: 'GET', status: '200'}）
+6. 验证API设计是否简洁（如metrics.counter('name').inc()）
+7. 检查重复注册处理（是否返回已有实例或报错）
+返回: {"passed": true/false, "reason": "详细说明"}"
+        context_files: ["src/monitoring/metrics/registry.ts", "src/monitoring/metrics/types.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-MON-001~criterion-5"
+    name: "指标与日志/事件系统集成"
+    description: "实现指标收集与日志系统（INFRA-006B）和事件系统（CORE-011）的集成，支持基于指标阈值触发事件，以及将指标数据输出到日志"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/monitoring/metrics/integration.test.ts"
+        test_files: ["src/monitoring/metrics/integration.test.ts"]
+      integration:
+        command: "npm test -- src/monitoring/metrics/integration.integration.test.ts"
+        test_files: ["src/monitoring/metrics/integration.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- metrics-integration"
+        test_files: ["e2e/metrics-integration.spec.ts"]
+      ai:
+        prompt: "请验证指标与日志/事件系统集成:
+1. 检查指标数据是否可以通过日志系统输出（结构化日志格式）
+2. 验证基于指标阈值的事件触发机制（如CPU>80%触发告警事件）
+3. 检查事件系统是否发布指标相关事件（MetricsCollected, ThresholdExceeded等）
+4. 验证日志级别控制（指标日志是否可独立控制级别）
+5. 检查集成配置选项（是否可启用/禁用特定集成）
+6. 验证循环依赖避免（指标系统不直接依赖业务模块）
+返回: {"passed": true/false, "reason": "详细说明"}"
+        context_files: ["src/monitoring/metrics/integration.ts", "src/infrastructure/logging/logger.ts", "src/core/event/event-bus.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-MON-001~criterion-6"
+    name: "指标数据持久化与查询接口"
+    description: "实现指标数据持久化存储（支持内存、SQLite、InfluxDB等后端）和历史数据查询接口，支持时间范围过滤、聚合查询"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/monitoring/metrics/storage.test.ts"
+        test_files: ["src/monitoring/metrics/storage.test.ts"]
+      integration:
+        command: "npm test -- src/monitoring/metrics/storage.integration.test.ts"
+        test_files: ["src/monitoring/metrics/storage.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- metrics-storage"
+        test_files: ["e2e/metrics-storage.spec.ts"]
+      ai:
+        prompt: "请验证指标数据持久化与查询接口:
+1. 检查存储后端抽象接口是否支持多种实现（内存、SQLite、InfluxDB）
+2. 验证时间范围过滤查询（startTime, endTime参数）
+3. 检查聚合查询支持（avg, sum, max, min, count）
+4. 验证数据保留策略配置（TTL, 自动清理）
+5. 检查批量写入优化（缓冲、定时flush）
+6. 验证查询性能（是否支持索引、分页）
+7. 检查存储后端切换配置（通过配置文件或环境变量）
+返回: {"passed": true/false, "reason": "详细说明"}"
+        context_files: ["src/monitoring/metrics/storage.ts", "src/monitoring/metrics/query.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []

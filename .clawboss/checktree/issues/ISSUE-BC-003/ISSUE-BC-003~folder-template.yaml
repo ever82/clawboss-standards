@@ -1,0 +1,227 @@
+id: "ISSUE-BC-003"
+issue_number: 3
+title: "类文件夹模板系统"
+slug: "folder-template"
+status: "pending"
+description: |
+  实现类文件夹模板系统，支持从模板快速创建标准化的行为类文件夹结构。
+  提供预置模板库，支持自定义模板，模板变量替换，以及模板验证机制。
+  与Workspace模块集成，实现工作空间级别的模板管理。
+is_parent: false
+prerequisites:
+  - "ISSUE-BC-002"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-BC-003~criterion-1"
+    name: "模板结构定义"
+    description: |
+      定义类文件夹模板的结构规范，包括模板元数据、文件夹结构、
+      文件模板、变量定义等。支持多级文件夹嵌套和条件文件生成。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/template/structure.test.ts"
+        test_files:
+          - "src/behavior-class/template/structure.test.ts"
+          - "src/behavior-class/template/schema.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/template/structure-integration.test.ts"
+        test_files:
+          - "src/behavior-class/template/structure-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/template-structure"
+        test_files:
+          - "tests/e2e/behavior-class/template-structure.spec.ts"
+      ai:
+        prompt: |
+          请验证类文件夹模板结构定义实现：
+          1. 模板元数据包含：name, version, description, author
+          2. 支持多级文件夹嵌套结构定义
+          3. 文件模板支持内容模板和变量占位符
+          4. 支持条件文件生成（基于变量值）
+          5. 支持文件/文件夹权限和属性设置
+          6. 模板结构验证机制完善
+          请检查模板Schema定义的完整性。
+        context_files:
+          - "src/behavior-class/template/structure.ts"
+          - "src/behavior-class/template/schema.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-003~criterion-2"
+    name: "模板变量系统"
+    description: |
+      实现模板变量替换系统，支持预定义变量（如{className}, {date}等）、
+      自定义变量、变量默认值、变量验证规则等。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/template/variables.test.ts"
+        test_files:
+          - "src/behavior-class/template/variables.test.ts"
+          - "src/behavior-class/template/variable-resolver.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/template/variables-integration.test.ts"
+        test_files:
+          - "src/behavior-class/template/variables-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/template-variables"
+        test_files:
+          - "tests/e2e/behavior-class/template-variables.spec.ts"
+      ai:
+        prompt: |
+          请验证模板变量系统实现：
+          1. 支持预定义变量：{className}, {date}, {time}, {author}等
+          2. 支持自定义变量定义和默认值
+          3. 变量支持转换函数（如{date|format('YYYY-MM-DD')}）
+          4. 变量值验证规则配置
+          5. 支持条件变量（if/else）
+          6. 变量循环（foreach）支持
+          请检查变量系统的灵活性和安全性。
+        context_files:
+          - "src/behavior-class/template/variables.ts"
+          - "src/behavior-class/template/variable-resolver.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-003~criterion-3"
+    name: "预置模板库"
+    description: |
+      提供常用的预置类文件夹模板，如基础行为类、标准CRUD行为类、
+      树形行为类等。模板库支持版本管理和更新。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/template/builtin-templates.test.ts"
+        test_files:
+          - "src/behavior-class/template/builtin-templates.test.ts"
+          - "src/behavior-class/template/template-registry.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/template/builtin-integration.test.ts"
+        test_files:
+          - "src/behavior-class/template/builtin-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/builtin-templates"
+        test_files:
+          - "tests/e2e/behavior-class/builtin-templates.spec.ts"
+      ai:
+        prompt: |
+          请验证预置模板库实现：
+          1. 至少包含3种预置模板：basic, crud, tree
+          2. 每种模板包含完整的文件夹结构和示例文件
+          3. 模板版本管理与更新机制
+          4. 模板元数据完整（描述、适用场景）
+          5. 模板质量检查（语法、完整性）
+          6. 用户可扩展自定义预置模板
+          请检查预置模板的实用性和完整性。
+        context_files:
+          - "src/behavior-class/template/builtin-templates.ts"
+          - "src/behavior-class/template/template-registry.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-003~criterion-4"
+    name: "模板实例化引擎"
+    description: |
+      实现模板实例化引擎，根据模板和用户输入变量生成实际的文件夹和文件。
+      支持 dry-run 预览模式，实例化前验证，冲突检测和处理。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/template/instantiator.test.ts"
+        test_files:
+          - "src/behavior-class/template/instantiator.test.ts"
+          - "src/behavior-class/template/dry-run.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/template/instantiator-integration.test.ts"
+        test_files:
+          - "src/behavior-class/template/instantiator-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/template-instantiation"
+        test_files:
+          - "tests/e2e/behavior-class/template-instantiation.spec.ts"
+      ai:
+        prompt: |
+          请验证模板实例化引擎实现：
+          1. 支持dry-run模式预览生成结果
+          2. 实例化前验证所有必需变量
+          3. 目标路径冲突检测（文件已存在）
+          4. 冲突处理策略：覆盖、跳过、重命名、报错
+          5. 实例化进度和结果报告
+          6. 实例化回滚支持（失败时清理）
+          请检查实例化引擎的可靠性和用户体验。
+        context_files:
+          - "src/behavior-class/template/instantiator.ts"
+          - "src/behavior-class/template/dry-run.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-003~criterion-5"
+    name: "Workspace集成"
+    description: |
+      与Workspace模块集成，支持工作空间级别的模板管理。
+      工作空间可定义私有模板，继承和覆盖系统模板。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/template/workspace-integration.test.ts"
+        test_files:
+          - "src/behavior-class/template/workspace-integration.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/template/workspace-template.test.ts"
+        test_files:
+          - "src/behavior-class/template/workspace-template.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/workspace-templates"
+        test_files:
+          - "tests/e2e/behavior-class/workspace-templates.spec.ts"
+      ai:
+        prompt: |
+          请验证模板系统与Workspace的集成：
+          1. 工作空间可定义私有模板目录
+          2. 工作空间模板继承系统模板能力
+          3. 工作空间模板优先级高于系统模板
+          4. 模板在工作空间间的隔离性
+          5. 工作空间模板同步和备份
+          6. 与WS-002A（文件夹管理）的协作
+          请检查集成的正确性和边界处理。
+        context_files:
+          - "src/behavior-class/template/workspace-integration.ts"
+          - "src/behavior-class/template/workspace-template.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+    prerequisites:
+      - "ISSUE-BC-003~criterion-1"
+      - "ISSUE-BC-003~criterion-2"

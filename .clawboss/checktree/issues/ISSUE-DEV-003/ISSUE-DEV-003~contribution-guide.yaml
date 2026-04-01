@@ -1,0 +1,202 @@
+id: "ISSUE-DEV-003"
+issue_number: 3
+title: "贡献者指南"
+slug: "contribution-guide"
+status: "pending"
+description: |
+  编写全面的贡献者指南文档，包括开发环境搭建、代码提交规范、
+  Issue和PR流程、本地测试方法、社区行为准则等。
+  降低新贡献者的参与门槛，建立健康可持续的开源社区。
+is_parent: false
+prerequisites:
+  - "ISSUE-DOC-001"
+  - "ISSUE-DOC-003"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-DEV-003~criterion-1"
+    name: "开发环境搭建指南"
+    description: |
+      编写详细的开发环境搭建文档，包括系统要求、依赖安装、
+      项目初始化步骤、IDE配置、常见问题排查等内容。
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/dev-process/guide/setup-validator.test.ts"
+        test_files:
+          - "src/dev-process/guide/setup-validator.test.ts"
+      integration:
+        command: "npm test -- src/dev-process/guide/integration.test.ts"
+        test_files:
+          - "src/dev-process/guide/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- dev-process/setup-guide"
+        test_files:
+          - "tests/e2e/dev-process/setup-guide.spec.ts"
+      ai:
+        prompt: |
+          请验证开发环境搭建指南的完整性和准确性：
+          1. 明确列出系统要求：Node.js版本（>=18）、操作系统支持（Windows/macOS/Linux）
+          2. 提供详细的依赖安装步骤，包括Git、Node.js、包管理器（npm/pnpm）
+          3. 项目克隆和初始化命令完整且可执行
+          4. 环境变量配置说明（.env.example文件和说明）
+          5. IDE配置指导（VS Code推荐插件、settings.json）
+          6. 数据库初始化步骤（如适用）
+          7. 验证安装成功的检查清单和测试命令
+          8. 常见问题FAQ（Windows路径问题、权限问题、网络问题等）
+          9. 提供一键设置脚本（scripts/setup.sh 和 scripts/setup.bat）
+          请检查CONTRIBUTING.md中的环境搭建章节和相关脚本。
+        context_files:
+          - "CONTRIBUTING.md"
+          - "scripts/setup.sh"
+          - "scripts/setup.bat"
+          - ".env.example"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-DEV-003~criterion-2"
+    name: "代码提交流程指南"
+    description: |
+      编写代码提交流程文档，说明如何创建Issue、创建分支、
+      提交代码、发起PR、处理审查意见等完整流程。
+      包括Git工作流说明和CheckTree同步机制。
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/dev-process/guide/workflow-validator.test.ts"
+        test_files:
+          - "src/dev-process/guide/workflow-validator.test.ts"
+      integration:
+        command: "npm test -- src/dev-process/guide/workflow-integration.test.ts"
+        test_files:
+          - "src/dev-process/guide/workflow-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- dev-process/workflow-guide"
+        test_files:
+          - "tests/e2e/dev-process/workflow-guide.spec.ts"
+      ai:
+        prompt: |
+          请验证代码提交流程指南的完整性：
+          1. Issue创建流程：先查重复、使用模板、清晰描述、标签分类
+          2. 分支命名规范：type/issue-number-short-description（如：feat/123-add-search）
+          3. Git工作流说明：Fork流程或分支流程，rebase vs merge策略
+          4. 提交前检查清单：测试通过、lint通过、类型检查通过
+          5. PR创建要求：关联Issue、填写模板、添加标签、请求审查
+          6. 处理审查意见：如何响应、如何修改、如何重新请求审查
+          7. 合并策略：Squash合并、保留提交历史的选择标准
+          8. CheckTree同步：提交信息如何自动更新Issue状态
+          9. 提供流程图或时序图说明完整流程
+          请检查CONTRIBUTING.md中的流程章节和相关示例。
+        context_files:
+          - "CONTRIBUTING.md"
+          - "docs/workflow-diagram.md"
+          - ".clawboss/checktree/README.md"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-DEV-003~criterion-3"
+    name: "代码规范与测试指南"
+    description: |
+      编写代码规范文档，说明编码风格、架构原则、测试要求等。
+      提供示例代码和最佳实践，帮助贡献者写出符合项目质量标准的代码。
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/dev-process/guide/standards-validator.test.ts"
+        test_files:
+          - "src/dev-process/guide/standards-validator.test.ts"
+      integration:
+        command: "npm test -- src/dev-process/guide/standards-integration.test.ts"
+        test_files:
+          - "src/dev-process/guide/standards-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- dev-process/standards-guide"
+        test_files:
+          - "tests/e2e/dev-process/standards-guide.spec.ts"
+      ai:
+        prompt: |
+          请验证代码规范与测试指南的完整性和实用性：
+          1. 编码风格规范：命名约定（camelCase/PascalCase）、文件组织、导入排序
+          2. TypeScript最佳实践：类型定义优先、避免any、合理使用泛型
+          3. 架构原则：SOLID原则、依赖注入、分层架构说明
+          4. 测试要求：单元测试覆盖率>=80%、测试命名规范、Mock使用指南
+          5. 错误处理：统一错误类型、错误码规范、用户友好的错误消息
+          6. 日志规范：日志级别使用、敏感信息过滤、结构化日志
+          7. 文档要求：公共API必须有JSDoc、复杂逻辑必须有注释
+          8. 提供代码示例：好vs坏的对比示例、重构示例
+          9. 包含性能考虑：大数据处理、内存管理、异步操作最佳实践
+          请检查CONTRIBUTING.md中的规范章节和docs/coding-standards.md。
+        context_files:
+          - "CONTRIBUTING.md"
+          - "docs/coding-standards.md"
+          - "docs/architecture-principles.md"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-DEV-003~criterion-4"
+    name: "社区行为准则与支持"
+    description: |
+      建立社区行为准则（Code of Conduct），创建Issue和讨论模板，
+      提供贡献者支持渠道，建立健康的开源社区文化。
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/dev-process/community/conduct.test.ts"
+        test_files:
+          - "src/dev-process/community/conduct.test.ts"
+      integration:
+        command: "npm test -- src/dev-process/community/integration.test.ts"
+        test_files:
+          - "src/dev-process/community/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- dev-process/community"
+        test_files:
+          - "tests/e2e/dev-process/community.spec.ts"
+      ai:
+        prompt: |
+          请验证社区行为准则与支持机制是否完善：
+          1. CODE_OF_CONDUCT.md完整，包含：承诺、标准、责任、执行、联系
+          2. 行为准则覆盖：尊重、包容、建设性反馈、专业态度
+          3. Issue模板完善：Bug报告、功能请求、问题咨询模板
+          4. Discussion分类：Q&A、Ideas、Show and Tell等
+          5. 支持渠道明确：GitHub Issues、Discussions、邮件联系方式
+          6. 安全报告流程：漏洞报告专用渠道（SECURITY.md）
+          7. 贡献者认可机制：Contributors.md或自动生成的贡献者列表
+          8. 新贡献者友好：good-first-issue标签、帮助标签使用说明
+          9. 维护者响应时间承诺：Issue分类时间、初次响应时间
+          请检查CODE_OF_CONDUCT.md、SECURITY.md和GitHub模板配置。
+        context_files:
+          - "CODE_OF_CONDUCT.md"
+          - "SECURITY.md"
+          - ".github/ISSUE_TEMPLATE/bug_report.md"
+          - ".github/ISSUE_TEMPLATE/feature_request.md"
+          - "CONTRIBUTORS.md"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+    prerequisites:
+      - "ISSUE-DEV-003~criterion-1"

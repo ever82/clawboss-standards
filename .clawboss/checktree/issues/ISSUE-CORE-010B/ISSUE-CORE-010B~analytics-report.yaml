@@ -1,0 +1,174 @@
+id: "ISSUE-CORE-010B"
+issue_number: 18
+title: "报告生成引擎"
+slug: "analytics-report"
+status: "pending"
+description: "实现报告生成引擎，支持多种报告类型、报告模板、报告调度生成。提供可视化的数据分析报告。"
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-010A"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CORE-010B~criterion-1"
+    name: "报告类型定义"
+    description: "定义报告类型系统，包括周报、月报、自定义报告等类型"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/report/types.test.ts"
+        test_files: ["src/core/report/types.test.ts"]
+      integration:
+        command: "npm test -- src/core/report/types.integration.test.ts"
+        test_files: ["src/core/report/types.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- report-types"
+        test_files: ["e2e/report-types.spec.ts"]
+      ai:
+        prompt: "请验证报告类型定义:\n1. 检查 ReportType 枚举定义\n2. 验证支持周报类型\n3. 检查支持月报类型\n4. 验证支持自定义报告\n5. 检查报告配置类型定义\n6. 验证类型严格性\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/report/types.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<30 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-010B~criterion-2"
+    name: "报告模板引擎"
+    description: "实现报告模板引擎，支持模板定义、变量替换、条件渲染"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/report/template-engine.test.ts"
+        test_files: ["src/core/report/template-engine.test.ts"]
+      integration:
+        command: "npm test -- src/core/report/template-engine.integration.test.ts"
+        test_files: ["src/core/report/template-engine.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- report-template"
+        test_files: ["e2e/report-template.spec.ts"]
+      ai:
+        prompt: "请验证报告模板引擎功能:\n1. 检查支持模板定义\n2. 验证支持变量替换\n3. 检查支持条件渲染\n4. 验证支持循环渲染\n5. 检查支持模板继承\n6. 验证模板渲染性能\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/report/template-engine.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-010B~criterion-3"
+    name: "报告生成器"
+    description: "实现报告生成器，支持根据配置生成完整报告，包括数据查询、图表生成"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/report/generator.test.ts"
+        test_files: ["src/core/report/generator.test.ts"]
+      integration:
+        command: "npm test -- src/core/report/generator.integration.test.ts"
+        test_files: ["src/core/report/generator.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- report-generator"
+        test_files: ["e2e/report-generator.spec.ts"]
+      ai:
+        prompt: "请验证报告生成器功能:\n1. 检查支持报告配置解析\n2. 验证支持数据查询\n3. 检查支持图表生成\n4. 验证支持报告组装\n5. 检查支持报告预览\n6. 验证生成性能\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/report/generator.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-010B~criterion-4"
+    name: "图表生成器"
+    description: "实现图表生成器，支持柱状图、折线图、饼图、雷达图等多种图表"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/report/charts.test.ts"
+        test_files: ["src/core/report/charts.test.ts"]
+      integration:
+        command: "npm test -- src/core/report/charts.integration.test.ts"
+        test_files: ["src/core/report/charts.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- report-charts"
+        test_files: ["e2e/report-charts.spec.ts"]
+      ai:
+        prompt: "请验证图表生成器功能:\n1. 检查支持柱状图\n2. 验证支持折线图\n3. 检查支持饼图\n4. 验证支持雷达图\n5. 检查支持图表配置\n6. 验证图表导出图片\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/report/charts.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-010B~criterion-5"
+    name: "报告调度生成"
+    description: "实现报告调度生成，支持定时生成报告、报告订阅、自动发送"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/report/scheduler.test.ts"
+        test_files: ["src/core/report/scheduler.test.ts"]
+      integration:
+        command: "npm test -- src/core/report/scheduler.integration.test.ts"
+        test_files: ["src/core/report/scheduler.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- report-scheduler"
+        test_files: ["e2e/report-scheduler.spec.ts"]
+      ai:
+        prompt: "请验证报告调度生成功能:\n1. 检查支持定时任务配置\n2. 验证支持报告订阅\n3. 检查支持自动邮件发送\n4. 验证支持调度管理\n5. 检查支持失败重试\n6. 验证调度可靠性\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/report/scheduler.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-010B~criterion-6"
+    name: "报告历史管理"
+    description: "实现报告历史管理，支持报告存档、版本管理、历史查询"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/report/history.test.ts"
+        test_files: ["src/core/report/history.test.ts"]
+      integration:
+        command: "npm test -- src/core/report/history.integration.test.ts"
+        test_files: ["src/core/report/history.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- report-history"
+        test_files: ["e2e/report-history.spec.ts"]
+      ai:
+        prompt: "请验证报告历史管理功能:\n1. 检查报告自动存档\n2. 验证支持版本管理\n3. 检查支持历史查询\n4. 验证支持历史对比\n5. 检查支持历史清理\n6. 验证支持历史导出\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/report/history.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []

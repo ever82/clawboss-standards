@@ -1,0 +1,262 @@
+id: "ISSUE-UI-001"
+issue_number: 1
+title: "Web 客户端基础框架"
+slug: "web-client"
+module: "UI"
+status: "pending"
+description: |
+  构建 Web 客户端基础框架，包括项目结构搭建、路由系统、状态管理、UI组件库集成、主题系统、响应式布局等基础设施。
+  该框架将作为所有 UI 功能的基础，支持现代化的前端开发实践。
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-004"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-UI-001~criterion-1"
+    name: "项目结构初始化"
+    description: "Web客户端项目目录结构已建立，包含src、public、tests等标准目录，配置文件齐全"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/config/"
+        test_files:
+          - "ui/web-client/src/config/index.test.ts"
+          - "ui/web-client/src/utils/path.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/build/"
+        test_files:
+          - "ui/web-client/tests/integration/build/structure.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/smoke/startup.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/smoke/startup.spec.ts"
+      ai:
+        prompt: |
+          请验证 Web 客户端项目结构是否符合现代前端最佳实践：
+          1. 检查目录结构是否包含 src、public、tests、docs 等标准目录
+          2. 检查配置文件是否完整（tsconfig.json、vite.config.ts、package.json 等）
+          3. 检查是否遵循模块化组织原则（components、pages、hooks、utils 等）
+          4. 检查是否有清晰的文件命名约定和目录层级
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/package.json"
+          - "ui/web-client/tsconfig.json"
+          - "ui/web-client/vite.config.ts"
+          - "ui/web-client/README.md"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-UI-001~criterion-2"
+    name: "路由系统实现"
+    description: "客户端路由系统已集成，支持动态路由、嵌套路由、路由守卫和懒加载"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/router/"
+        test_files:
+          - "ui/web-client/src/router/index.test.ts"
+          - "ui/web-client/src/router/guards.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/router/"
+        test_files:
+          - "ui/web-client/tests/integration/router/navigation.test.ts"
+          - "ui/web-client/tests/integration/router/guards.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/router/"
+        test_files:
+          - "ui/web-client/tests/e2e/router/navigation.spec.ts"
+          - "ui/web-client/tests/e2e/router/deep-links.spec.ts"
+      ai:
+        prompt: |
+          请验证路由系统实现是否完整：
+          1. 检查路由配置是否支持嵌套路由和动态路由参数
+          2. 检查是否实现了路由守卫（beforeEach、afterEach）
+          3. 检查是否支持路由懒加载以优化性能
+          4. 检查404页面和错误处理路由是否配置
+          5. 检查路由状态与浏览器历史是否正确同步
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/router/index.ts"
+          - "ui/web-client/src/router/routes.ts"
+          - "ui/web-client/src/router/guards.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-001~criterion-3"
+    name: "状态管理系统"
+    description: "全局状态管理系统已集成，支持行为树数据、用户偏好、UI状态的集中管理"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/store/"
+        test_files:
+          - "ui/web-client/src/store/index.test.ts"
+          - "ui/web-client/src/store/behavior.store.test.ts"
+          - "ui/web-client/src/store/ui.store.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/store/"
+        test_files:
+          - "ui/web-client/tests/integration/store/persistence.test.ts"
+          - "ui/web-client/tests/integration/store/sync.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/state/"
+        test_files:
+          - "ui/web-client/tests/e2e/state/persistence.spec.ts"
+          - "ui/web-client/tests/e2e/state/reactivity.spec.ts"
+      ai:
+        prompt: |
+          请验证状态管理系统实现是否完整：
+          1. 检查是否使用现代化状态管理方案（Pinia/Zustand/Redux Toolkit）
+          2. 检查store模块是否按功能领域拆分（behavior、ui、user等）
+          3. 检查是否支持状态持久化（localStorage/indexedDB）
+          4. 检查是否有TypeScript类型定义和类型安全
+          5. 检查是否实现状态变更的订阅和响应机制
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/store/index.ts"
+          - "ui/web-client/src/store/behavior.store.ts"
+          - "ui/web-client/src/store/ui.store.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-001~criterion-4"
+    name: "UI组件库集成"
+    description: "现代化UI组件库已集成并配置完成，包含按钮、输入框、对话框、下拉菜单等基础组件"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/components/ui/"
+        test_files:
+          - "ui/web-client/src/components/ui/Button.test.tsx"
+          - "ui/web-client/src/components/ui/Input.test.tsx"
+          - "ui/web-client/src/components/ui/Dialog.test.tsx"
+      integration:
+        command: "npm run test:integration -- tests/integration/components/"
+        test_files:
+          - "ui/web-client/tests/integration/components/ui-library.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/visual/components.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/visual/components.spec.ts"
+      ai:
+        prompt: |
+          请验证 UI 组件库集成是否完整：
+          1. 检查是否使用成熟的组件库（如Radix UI、Headless UI、或自定义组件库）
+          2. 检查基础组件是否齐全（Button、Input、Dialog、Dropdown、Toast等）
+          3. 检查组件是否支持无障碍访问（ARIA属性、键盘导航）
+          4. 检查组件样式是否支持主题定制（CSS变量/Tailwind/unocss）
+          5. 检查组件API设计是否一致（props命名、事件处理）
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/components/ui/index.ts"
+          - "ui/web-client/src/components/ui/Button.tsx"
+          - "ui/web-client/tailwind.config.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<20 seconds"
+
+  - id: "ISSUE-UI-001~criterion-5"
+    name: "主题与响应式系统"
+    description: "支持明暗主题切换和响应式布局，适配桌面、平板、手机等多种设备"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/theme/"
+        test_files:
+          - "ui/web-client/src/theme/index.test.ts"
+          - "ui/web-client/src/theme/responsive.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/theme/"
+        test_files:
+          - "ui/web-client/tests/integration/theme/switching.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/visual/responsive.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/visual/responsive.spec.ts"
+          - "ui/web-client/tests/e2e/visual/theme.spec.ts"
+      ai:
+        prompt: |
+          请验证主题和响应式系统实现是否完整：
+          1. 检查是否支持明暗主题切换并持久化用户选择
+          2. 检查CSS变量是否正确定义和使用
+          3. 检查响应式断点是否覆盖常见设备（mobile、tablet、desktop）
+          4. 检查布局是否在不同屏幕尺寸下正确适配（sidebar、grid、flex）
+          5. 检查字体大小和触控目标是否符合无障碍标准
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/theme/index.ts"
+          - "ui/web-client/src/theme/ThemeProvider.tsx"
+          - "ui/web-client/tailwind.config.ts"
+          - "ui/web-client/src/styles/variables.css"
+        model: "claude-sonnet-4-6"
+    execution_time: "<20 seconds"
+
+  - id: "ISSUE-UI-001~criterion-6"
+    name: "构建与部署配置"
+    description: "构建系统配置完成，支持开发、测试、生产多环境，包含代码分割、资源优化、CI/CD集成"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/config/build.test.ts"
+        test_files:
+          - "ui/web-client/src/config/build.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/build/"
+        test_files:
+          - "ui/web-client/tests/integration/build/output.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/performance/bundle-size.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/performance/bundle-size.spec.ts"
+      ai:
+        prompt: |
+          请验证构建和部署配置是否完整：
+          1. 检查Vite/Webpack配置是否优化（代码分割、tree shaking、压缩）
+          2. 检查是否配置多环境变量（dev、test、prod）
+          3. 检查是否配置CI/CD流水线集成（GitHub Actions/GitLab CI）
+          4. 检查构建输出是否包含sourcemap和manifest
+          5. 检查静态资源（图片、字体）是否配置优化和缓存策略
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/vite.config.ts"
+          - "ui/web-client/.github/workflows/ci.yml"
+          - "ui/web-client/package.json"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"

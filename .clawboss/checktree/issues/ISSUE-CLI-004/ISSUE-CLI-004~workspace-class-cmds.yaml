@@ -1,0 +1,277 @@
+id: "ISSUE-CLI-004"
+issue_number: 4
+slug: "workspace-class-cmds"
+title: "工作空间和类命令"
+description: |
+  实现AI-Me CLI的工作空间管理和行为类相关命令，包括工作空间切换、文件夹操作、类加载和模板管理。
+  命令需要与WS系列和BC系列服务集成。
+status: "pending"
+is_parent: false
+sub_issues: []
+prerequisites:
+  - "ISSUE-WS-001"
+  - "ISSUE-BC-002"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CLI-004~criterion-1"
+    name: "工作空间管理命令"
+    description: |
+      实现 `ai-me workspace` 相关命令，支持工作空间的创建、切换、列表、删除等操作，与WS-001服务集成。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/workspace/*.test.ts"
+        test_files:
+          - "src/cli/commands/workspace/create.test.ts"
+          - "src/cli/commands/workspace/switch.test.ts"
+          - "src/cli/commands/workspace/list.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/workspace/integration.test.ts"
+        test_files:
+          - "src/cli/commands/workspace/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/workspace"
+        test_files:
+          - "e2e/cli/workspace/create.spec.ts"
+          - "e2e/cli/workspace/switch.spec.ts"
+          - "e2e/cli/workspace/list.spec.ts"
+      ai:
+        prompt: |
+          请验证工作空间管理命令的实现:
+          1. 创建工作空间: `ai-me workspace create <name> [--template default]`
+          2. 切换工作空间: `ai-me workspace switch <name>` 或 `ai-me use <name>`
+          3. 列出工作空间: `ai-me workspace list [--verbose]`
+          4. 显示当前工作空间: `ai-me workspace current` 或 `ai-me pwd`
+          5. 删除工作空间: `ai-me workspace delete <name> [--force]`
+          6. 克隆工作空间: `ai-me workspace clone <source> <target>`
+          7. 工作空间信息: `ai-me workspace info <name>` 显示详情
+          8. 设置默认: `ai-me workspace set-default <name>`
+
+          检查点:
+          - 与WS-001服务的正确集成
+          - 切换后环境变量/配置正确更新
+          - 不存在的工作空间操作给出友好错误
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/workspace/index.ts"
+          - "src/workspace/services/core.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CLI-004~criterion-2"
+    name: "文件夹管理命令"
+    description: |
+      实现 `ai-me folder` 相关命令，支持文件夹的创建、重命名、移动、删除等操作，与WS-002A服务集成。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/folder/*.test.ts"
+        test_files:
+          - "src/cli/commands/folder/create.test.ts"
+          - "src/cli/commands/folder/move.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/folder/integration.test.ts"
+        test_files:
+          - "src/cli/commands/folder/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/folder"
+        test_files:
+          - "e2e/cli/folder/create.spec.ts"
+          - "e2e/cli/folder/manage.spec.ts"
+      ai:
+        prompt: |
+          请验证文件夹管理命令的实现:
+          1. 创建文件夹: `ai-me folder create <path> [--template daily]`
+          2. 列出文件夹: `ai-me folder list [--tree]` 显示层级结构
+          3. 重命名: `ai-me folder rename <old> <new>`
+          4. 移动文件夹: `ai-me folder move <source> <target>`
+          5. 删除文件夹: `ai-me folder delete <path> [--recursive]`
+          6. 文件夹详情: `ai-me folder info <path>` 显示内容和统计
+          7. 复制文件夹: `ai-me folder copy <source> <target>`
+          8. 批量操作: 支持通配符如 `ai-me folder delete logs/*`
+
+          检查点:
+          - 与WS-002A服务的正确集成
+          - 文件夹操作触发相应行为类更新
+          - 递归删除前有确认提示
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/folder/index.ts"
+          - "src/workspace/services/folder.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-004~criterion-1"
+      - "ISSUE-WS-002A"
+
+  - id: "ISSUE-CLI-004~criterion-3"
+    name: "行为类管理命令"
+    description: |
+      实现 `ai-me class` 相关命令，支持行为类的定义、加载、验证和模板管理，与BC系列服务集成。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/class/*.test.ts"
+        test_files:
+          - "src/cli/commands/class/load.test.ts"
+          - "src/cli/commands/class/validate.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/class/integration.test.ts"
+        test_files:
+          - "src/cli/commands/class/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/class"
+        test_files:
+          - "e2e/cli/class/load.spec.ts"
+          - "e2e/cli/class/validate.spec.ts"
+      ai:
+        prompt: |
+          请验证行为类管理命令的实现:
+          1. 加载类: `ai-me class load <path>` 加载行为类定义
+          2. 列出已加载: `ai-me class list [--detailed]`
+          3. 验证类: `ai-me class validate <path>` 检查定义格式
+          4. 类信息: `ai-me class info <class-name>` 显示类详情
+          5. 重新加载: `ai-me class reload <class-name>`
+          6. 卸载类: `ai-me class unload <class-name>`
+          7. 创建类模板: `ai-me class template create <name>`
+          8. 导出类: `ai-me class export <class-name> --output ./exported.yaml`
+
+          检查点:
+          - 与BC-002类加载器的正确集成
+          - 验证错误提示清晰，指出具体问题位置
+          - 类加载失败时回滚机制
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/class/index.ts"
+          - "src/behavior-class/services/loader.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-004~criterion-1"
+      - "ISSUE-BC-002"
+
+  - id: "ISSUE-CLI-004~criterion-4"
+    name: "文件关联命令"
+    description: |
+      实现 `ai-me file` 相关命令，支持行为与文件的关联管理，与WS-002B服务集成。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/file/*.test.ts"
+        test_files:
+          - "src/cli/commands/file/assoc.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/file/integration.test.ts"
+        test_files:
+          - "src/cli/commands/file/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/file"
+        test_files:
+          - "e2e/cli/file/assoc.spec.ts"
+      ai:
+        prompt: |
+          请验证文件关联命令的实现:
+          1. 关联文件: `ai-me file assoc <behavior-id> <file-path> [--type reference|attachment]`
+          2. 列出关联: `ai-me file list <behavior-id>`
+          3. 解除关联: `ai-me file dissoc <behavior-id> <file-path>`
+          4. 打开文件: `ai-me file open <behavior-id> <file-name>`
+          5. 同步检查: `ai-me file check <behavior-id>` 检查关联文件是否存在
+          6. 批量关联: `ai-me file assoc <behavior-id> --files "*.md"`
+          7. 文件搜索: `ai-me file find <file-pattern>` 查找关联的行为
+          8. 预览文件: `ai-me file preview <file-path>` 在终端显示内容
+
+          检查点:
+          - 与WS-002B服务的正确集成
+          - 文件路径支持相对路径和绝对路径
+          - 文件不存在时给出友好提示
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/file/index.ts"
+          - "src/workspace/services/file-assoc.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-004~criterion-1"
+      - "ISSUE-WS-002B"
+
+  - id: "ISSUE-CLI-004~criterion-5"
+    name: "工作空间配置命令"
+    description: |
+      实现 `ai-me workspace config` 命令，支持工作空间级别的配置管理，与INFRA-005配置系统集成。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/workspace/config.test.ts"
+        test_files:
+          - "src/cli/commands/workspace/config.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/workspace/config.integration.test.ts"
+        test_files:
+          - "src/cli/commands/workspace/config.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/workspace/config"
+        test_files:
+          - "e2e/cli/workspace/config.spec.ts"
+      ai:
+        prompt: |
+          请验证工作空间配置命令的实现:
+          1. 获取配置: `ai-me workspace config get <key>`
+          2. 设置配置: `ai-me workspace config set <key> <value>`
+          3. 列出配置: `ai-me workspace config list [--json]`
+          4. 删除配置: `ai-me workspace config delete <key>`
+          5. 批量设置: `ai-me workspace config set --file config.json`
+          6. 配置验证: `ai-me workspace config validate` 检查配置合法性
+          7. 重置默认: `ai-me workspace config reset <key>`
+          8. 配置路径: `ai-me workspace config path` 显示配置文件位置
+
+          检查点:
+          - 与INFRA-005配置系统的正确集成
+          - 配置变更自动生效(无需重启)
+          - 敏感配置值(密码)在显示时脱敏
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/workspace/config.ts"
+          - "src/infra/config/manager.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-004~criterion-1"
+      - "ISSUE-INFRA-005"

@@ -1,0 +1,222 @@
+id: "ISSUE-MON-002"
+issue_number: 2
+title: "健康检查与状态监控"
+slug: "health-check"
+status: "pending"
+description: "实现系统健康检查框架，包括组件健康状态检查（数据库、缓存、文件系统）、依赖服务可用性探测、健康检查端点API、状态聚合与报告，以及故障自恢复机制集成。为系统可用性监控和运维提供基础设施。"
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-010"
+  - "ISSUE-MON-001"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-MON-002~criterion-1"
+    name: "健康检查框架核心实现"
+    description: "实现健康检查框架核心，包括HealthChecker接口、检查项注册机制、检查执行引擎、超时控制、并行/串行执行策略，以及健康状态枚举定义（HEALTHY/DEGRADED/UNHEALTHY）"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/monitoring/health/health-checker.test.ts"
+        test_files: ["src/monitoring/health/health-checker.test.ts"]
+      integration:
+        command: "npm test -- src/monitoring/health/health-checker.integration.test.ts"
+        test_files: ["src/monitoring/health/health-checker.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- health-checker"
+        test_files: ["e2e/health-checker.spec.ts"]
+      ai:
+        prompt: "请验证健康检查框架核心实现:
+1. 检查HealthChecker接口定义（check, register, unregister, getStatus方法）
+2. 验证检查项注册机制（支持名称、检查函数、超时、依赖项配置）
+3. 检查检查执行引擎（并行执行独立检查，串行执行依赖检查）
+4. 验证超时控制实现（默认超时、单个检查超时覆盖）
+5. 检查健康状态枚举（HEALTHY健康/DEGRADED降级/UNHEALTHY不健康）
+6. 验证检查结果数据结构（status, details, responseTime, timestamp）
+返回: {"passed": true/false, "reason": "详细说明"}"
+        context_files: ["src/monitoring/health/health-checker.ts", "src/monitoring/health/types.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-MON-002~criterion-2"
+    name: "基础设施组件健康检查实现"
+    description: "实现核心基础设施组件的健康检查，包括数据库连接检查、缓存服务检查、文件系统可写检查、磁盘空间检查、内存使用检查"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/monitoring/health/component-checks.test.ts"
+        test_files: ["src/monitoring/health/component-checks.test.ts"]
+      integration:
+        command: "npm test -- src/monitoring/health/component-checks.integration.test.ts"
+        test_files: ["src/monitoring/health/component-checks.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- component-health-checks"
+        test_files: ["e2e/component-health-checks.spec.ts"]
+      ai:
+        prompt: "请验证基础设施组件健康检查实现:
+1. 检查数据库连接检查（简单查询验证连接可用性）
+2. 验证缓存服务检查（ping/读写测试）
+3. 检查文件系统可写检查（临时文件创建/删除）
+4. 验证磁盘空间检查（阈值配置，低于阈值返回DEGRADED）
+5. 检查内存使用检查（堆内存使用率阈值）
+6. 验证各检查组件的错误处理和超时行为
+7. 检查组件检查是否可单独禁用/启用配置
+返回: {"passed": true/false, "reason": "详细说明"}"
+        context_files: ["src/monitoring/health/component-checks.ts", "src/infrastructure/database/connection.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-MON-002~criterion-3"
+    name: "业务组件健康检查实现"
+    description: "实现业务层组件健康检查，包括行为服务可用性、树操作服务检查、搜索服务检查、导入导出服务检查等业务功能的健康状态验证"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/monitoring/health/business-checks.test.ts"
+        test_files: ["src/monitoring/health/business-checks.test.ts"]
+      integration:
+        command: "npm test -- src/monitoring/health/business-checks.integration.test.ts"
+        test_files: ["src/monitoring/health/business-checks.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- business-health-checks"
+        test_files: ["e2e/business-health-checks.spec.ts"]
+      ai:
+        prompt: "请验证业务组件健康检查实现:
+1. 检查行为服务健康检查（简单查询验证服务响应）
+2. 验证树操作服务检查（树结构完整性验证）
+3. 检查搜索服务检查（索引可用性验证）
+4. 验证导入导出服务检查（临时文件操作测试）
+5. 检查业务检查与核心模块的集成（是否使用实际服务实例）
+6. 验证轻量级检查设计（避免对生产环境造成过大负载）
+7. 检查业务检查的依赖关系（数据库检查失败时跳过相关检查）
+返回: {"passed": true/false, "reason": "详细说明"}"
+        context_files: ["src/monitoring/health/business-checks.ts", "src/core/behavior/behavior.service.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-MON-002~criterion-4"
+    name: "健康检查端点与API实现"
+    description: "实现健康检查HTTP端点和CLI命令，支持存活探针（liveness）、就绪探针（readiness）、启动探针（startup），以及详细健康报告输出"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/monitoring/health/endpoints.test.ts"
+        test_files: ["src/monitoring/health/endpoints.test.ts"]
+      integration:
+        command: "npm test -- src/monitoring/health/endpoints.integration.test.ts"
+        test_files: ["src/monitoring/health/endpoints.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- health-endpoints"
+        test_files: ["e2e/health-endpoints.spec.ts"]
+      ai:
+        prompt: "请验证健康检查端点与API实现:
+1. 检查存活探针端点（/health/live）- 仅检查进程是否存活，返回200/503
+2. 验证就绪探针端点（/health/ready）- 检查是否可接受流量
+3. 检查启动探针端点（/health/startup）- 检查应用是否启动完成
+4. 验证详细健康报告端点（/health）- 返回所有检查项详情
+5. 检查CLI健康命令（如`ai-me health check`）
+6. 验证响应格式是否符合规范（JSON格式，含status、checks、timestamp）
+7. 检查HTTP状态码映射（HEALTHY=200, DEGRADED=200/503可配, UNHEALTHY=503）
+返回: {"passed": true/false, "reason": "详细说明"}"
+        context_files: ["src/monitoring/health/endpoints.ts", "src/cli/commands/health.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-MON-002~criterion-5"
+    name: "健康状态变化事件与通知"
+    description: "实现健康状态变化事件发布机制，当组件健康状态发生变化时触发相应事件，支持与通知服务（CORE-009）集成进行告警通知"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/monitoring/health/events.test.ts"
+        test_files: ["src/monitoring/health/events.test.ts"]
+      integration:
+        command: "npm test -- src/monitoring/health/events.integration.test.ts"
+        test_files: ["src/monitoring/health/events.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- health-events"
+        test_files: ["e2e/health-events.spec.ts"]
+      ai:
+        prompt: "请验证健康状态变化事件与通知:
+1. 检查健康状态变化事件定义（HealthStatusChangedEvent）
+2. 验证事件触发时机（状态从HEALTHY变为UNHEALTHY等）
+3. 检查事件数据内容（componentName, oldStatus, newStatus, details, timestamp）
+4. 验证与事件系统（EventBus）的集成
+5. 检查与通知服务（NotificationService）的集成点
+6. 验证防抖机制（避免频繁状态波动导致的事件风暴）
+7. 检查事件监听器的注册/注销机制
+返回: {"passed": true/false, "reason": "详细说明"}"
+        context_files: ["src/monitoring/health/events.ts", "src/core/event/event-bus.ts", "src/core/notification/notification.service.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-MON-002~criterion-6"
+    name: "健康检查调度与持续监控"
+    description: "实现健康检查的定时调度执行机制，支持配置检查间隔、失败重试策略、连续失败阈值，以及健康检查历史记录"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/monitoring/health/scheduler.test.ts"
+        test_files: ["src/monitoring/health/scheduler.test.ts"]
+      integration:
+        command: "npm test -- src/monitoring/health/scheduler.integration.test.ts"
+        test_files: ["src/monitoring/health/scheduler.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- health-scheduler"
+        test_files: ["e2e/health-scheduler.spec.ts"]
+      ai:
+        prompt: "请验证健康检查调度与持续监控:
+1. 检查定时调度执行机制（基于setInterval或node-cron）
+2. 验证检查间隔配置（全局默认、单个检查覆盖）
+3. 检查失败重试策略（立即重试、指数退避）
+4. 验证连续失败阈值（如连续3次失败才标记为UNHEALTHY）
+5. 检查健康检查历史记录（最近N次检查结果存储）
+6. 验证调度器的启动/停止控制
+7. 检查调度器与指标系统的集成（检查执行次数、耗时记录）
+返回: {"passed": true/false, "reason": "详细说明"}"
+        context_files: ["src/monitoring/health/scheduler.ts", "src/monitoring/health/history.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []

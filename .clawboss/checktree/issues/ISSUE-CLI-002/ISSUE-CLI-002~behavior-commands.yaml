@@ -1,0 +1,273 @@
+id: "ISSUE-CLI-002"
+issue_number: 2
+slug: "behavior-commands"
+title: "行为管理命令"
+description: |
+  实现AI-Me CLI的行为管理相关命令，包括行为的创建、查询、更新、删除、状态变更等操作。
+  命令需要与CORE-002系列服务集成，提供完整的CRUD操作。
+status: "pending"
+is_parent: false
+sub_issues: []
+prerequisites:
+  - "ISSUE-CLI-001B"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CLI-002~criterion-1"
+    name: "行为创建命令"
+    description: |
+      实现 `ai-me behavior create` 命令，支持通过命令行参数或交互式输入创建行为，与CORE-002A服务集成。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/behavior/create.test.ts"
+        test_files:
+          - "src/cli/commands/behavior/create.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/behavior/create.integration.test.ts"
+        test_files:
+          - "src/cli/commands/behavior/create.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/behavior/create"
+        test_files:
+          - "e2e/cli/behavior/create.spec.ts"
+          - "e2e/cli/behavior/create-interactive.spec.ts"
+      ai:
+        prompt: |
+          请验证行为创建命令的实现:
+          1. 基础创建: `ai-me behavior create --name "完成代码审查" --priority high`
+          2. 完整参数: `--description, --due-date, --tags, --parent-id, --criteria` 等选项支持
+          3. 交互模式: `ai-me behavior create -i` 或 `--interactive` 是否启动交互式输入
+          4. 从模板创建: `ai-me behavior create --template daily-standup`
+          5. 批量创建: 支持从JSON/YAML文件批量创建 `--file behaviors.json`
+          6. 验证错误: 缺少必需参数时是否给出清晰错误提示
+          7. 成功输出: 创建成功后是否显示行为ID和摘要信息
+
+          检查点:
+          - 与CORE-002A服务的调用是否正确
+          - 输入数据验证(使用INFRA-013验证层)
+          - 输出格式支持--json和--table选项
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/behavior/create.ts"
+          - "src/core/services/behavior/create.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CLI-002~criterion-2"
+    name: "行为查询命令"
+    description: |
+      实现 `ai-me behavior list` 和 `ai-me behavior show` 命令，支持过滤、排序、分页查询，与CORE-002B1/B2服务集成。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/behavior/query.test.ts"
+        test_files:
+          - "src/cli/commands/behavior/query.test.ts"
+          - "src/cli/commands/behavior/show.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/behavior/query.integration.test.ts"
+        test_files:
+          - "src/cli/commands/behavior/query.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/behavior/query"
+        test_files:
+          - "e2e/cli/behavior/list.spec.ts"
+          - "e2e/cli/behavior/show.spec.ts"
+      ai:
+        prompt: |
+          请验证行为查询命令的实现:
+          1. 列表查询: `ai-me behavior list` 显示所有行为(分页)
+          2. 过滤: `--status todo --priority high --tag work --due-before 2026-04-30`
+          3. 排序: `--sort due-date:asc --sort priority:desc`
+          4. 分页: `--page 2 --limit 20`
+          5. 显示详情: `ai-me behavior show <id>` 显示完整行为信息
+          6. 树形展示: `ai-me behavior list --tree` 以层级结构显示父子行为
+          7. 输出格式: `--json` 输出JSON，`--table` 输出表格(默认)
+          8. 字段选择: `--fields id,name,status` 只显示指定字段
+
+          检查点:
+          - 查询参数正确传递给CORE-002B服务
+          - 大数据量时分页性能良好
+          - 表格输出自动适应终端宽度
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/behavior/list.ts"
+          - "src/cli/commands/behavior/show.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites:
+      - "ISSUE-CLI-002~criterion-1"
+
+  - id: "ISSUE-CLI-002~criterion-3"
+    name: "行为更新与删除命令"
+    description: |
+      实现 `ai-me behavior update` 和 `ai-me behavior delete` 命令，支持批量更新和软删除，与CORE-002C/002D服务集成。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/behavior/update.test.ts"
+        test_files:
+          - "src/cli/commands/behavior/update.test.ts"
+          - "src/cli/commands/behavior/delete.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/behavior/update.integration.test.ts"
+        test_files:
+          - "src/cli/commands/behavior/update.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/behavior/modify"
+        test_files:
+          - "e2e/cli/behavior/update.spec.ts"
+          - "e2e/cli/behavior/delete.spec.ts"
+      ai:
+        prompt: |
+          请验证行为更新与删除命令的实现:
+          1. 更新命令: `ai-me behavior update <id> --status doing --progress 50`
+          2. 批量更新: `ai-me behavior update --ids id1,id2,id3 --priority low`
+          3. 删除命令: `ai-me behavior delete <id>` 执行软删除
+          4. 强制删除: `ai-me behavior delete <id> --force` 硬删除
+          5. 批量删除: `ai-me behavior delete --ids id1,id2`
+          6. 确认提示: 删除前是否显示确认提示(可跳过--yes)
+          7. 撤销支持: 删除后是否提示可使用 `ai-me undo`
+          8. 部分更新: 只更新指定字段，其他字段保持不变
+
+          检查点:
+          - 与CORE-002C/002D服务的调用正确
+          - 批量操作支持事务(使用CORE-017)
+          - 删除前验证依赖关系(使用CORE-014)
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/behavior/update.ts"
+          - "src/cli/commands/behavior/delete.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-002~criterion-2"
+
+  - id: "ISSUE-CLI-002~criterion-4"
+    name: "状态管理命令"
+    description: |
+      实现 `ai-me behavior status` 命令，支持状态变更、进度更新，与CORE-004状态管理服务集成。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/behavior/status.test.ts"
+        test_files:
+          - "src/cli/commands/behavior/status.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/behavior/status.integration.test.ts"
+        test_files:
+          - "src/cli/commands/behavior/status.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/behavior/status"
+        test_files:
+          - "e2e/cli/behavior/status.spec.ts"
+      ai:
+        prompt: |
+          请验证状态管理命令的实现:
+          1. 状态变更: `ai-me behavior status <id> --to doing` 开始执行
+          2. 完成行为: `ai-me behavior status <id> --to done` 标记完成
+          3. 进度更新: `ai-me behavior progress <id> 75` 或 `--progress 75`
+          4. 状态流转验证: 检查不允许的状态变更(如 done -> todo)
+          5. 批量状态变更: `ai-me behavior status --ids id1,id2 --to doing`
+          6. 自动时间追踪: 状态变更时是否自动记录时间(使用CORE-005)
+          7. 通知触发: 状态变更是否触发通知(使用CORE-009)
+          8. 状态历史: `ai-me behavior status <id> --history` 查看状态变更历史
+
+          检查点:
+          - 状态流转规则与CORE-004一致
+          - 时间追踪数据正确记录
+          - 事件正确触发供监听
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/behavior/status.ts"
+          - "src/core/services/status/manager.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-002~criterion-3"
+      - "ISSUE-CORE-004"
+
+  - id: "ISSUE-CLI-002~criterion-5"
+    name: "行为标签与验收标准命令"
+    description: |
+      实现 `ai-me behavior tag` 和 `ai-me behavior criteria` 命令，支持标签增删和验收标准管理，与CORE-015/CORE-016集成。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/behavior/tag.test.ts"
+        test_files:
+          - "src/cli/commands/behavior/tag.test.ts"
+          - "src/cli/commands/behavior/criteria.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/behavior/tag.integration.test.ts"
+        test_files:
+          - "src/cli/commands/behavior/tag.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/behavior/meta"
+        test_files:
+          - "e2e/cli/behavior/tag.spec.ts"
+          - "e2e/cli/behavior/criteria.spec.ts"
+      ai:
+        prompt: |
+          请验证行为标签与验收标准命令的实现:
+          1. 标签添加: `ai-me behavior tag add <id> work urgent`
+          2. 标签移除: `ai-me behavior tag remove <id> urgent`
+          3. 标签列表: `ai-me behavior tag list <id>`
+          4. 添加验收标准: `ai-me behavior criteria add <id> "代码覆盖率>80%"`
+          5. 验收标准检查: `ai-me behavior criteria check <id>` 验证是否满足
+          6. 批量检查: `ai-me behavior criteria check --all` 检查所有进行中行为
+          7. 验收标准删除: `ai-me behavior criteria remove <id> <criteria-id>`
+          8. 标签过滤: `ai-me behavior list --tag work` 正确过滤
+
+          检查点:
+          - 与CORE-015/CORE-016服务正确集成
+          - 标签和验收标准的CRUD操作完整
+          - 批量操作性能良好
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/behavior/tag.ts"
+          - "src/cli/commands/behavior/criteria.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-002~criterion-2"
+      - "ISSUE-CORE-015"
+      - "ISSUE-CORE-016"

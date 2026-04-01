@@ -1,0 +1,175 @@
+id: "ISSUE-CORE-008"
+issue_number: 15
+title: "批量操作服务"
+slug: "batch-operations"
+status: "pending"
+description: "实现批量操作服务，支持对多个行为实体的批量创建、更新、删除、状态变更等操作。提供事务支持、进度跟踪、错误处理等功能。"
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-002B1"
+  - "ISSUE-CORE-003A"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CORE-008~criterion-1"
+    name: "批量创建"
+    description: "实现批量创建功能，支持导入数据批量创建行为，支持事务和错误处理"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/batch/create.test.ts"
+        test_files: ["src/core/batch/create.test.ts"]
+      integration:
+        command: "npm test -- src/core/batch/create.integration.test.ts"
+        test_files: ["src/core/batch/create.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- batch-create"
+        test_files: ["e2e/batch-create.spec.ts"]
+      ai:
+        prompt: "请验证批量创建功能:\n1. 检查支持批量数据验证\n2. 验证支持事务模式（全部成功或回滚）\n3. 检查支持部分成功模式\n4. 验证返回成功/失败明细\n5. 检查支持批量生成ID\n6. 验证性能：1000条记录<5秒\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/batch/create.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-008~criterion-2"
+    name: "批量更新"
+    description: "实现批量更新功能，支持对多个行为同时更新相同字段或不同字段"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/batch/update.test.ts"
+        test_files: ["src/core/batch/update.test.ts"]
+      integration:
+        command: "npm test -- src/core/batch/update.integration.test.ts"
+        test_files: ["src/core/batch/update.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- batch-update"
+        test_files: ["e2e/batch-update.spec.ts"]
+      ai:
+        prompt: "请验证批量更新功能:\n1. 检查支持批量相同字段更新\n2. 验证支持批量不同字段更新\n3. 检查支持乐观锁\n4. 验证支持部分成功\n5. 检查更新前验证\n6. 验证批量更新事件发布\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/batch/update.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-008~criterion-3"
+    name: "批量删除"
+    description: "实现批量删除功能，支持软删除和硬删除，支持删除前检查和依赖处理"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/batch/delete.test.ts"
+        test_files: ["src/core/batch/delete.test.ts"]
+      integration:
+        command: "npm test -- src/core/batch/delete.integration.test.ts"
+        test_files: ["src/core/batch/delete.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- batch-delete"
+        test_files: ["e2e/batch-delete.spec.ts"]
+      ai:
+        prompt: "请验证批量删除功能:\n1. 检查支持批量软删除\n2. 验证支持批量硬删除\n3. 检查删除前依赖检查\n4. 验证支持级联删除选项\n5. 检查返回删除明细\n6. 验证删除事件发布\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/batch/delete.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-008~criterion-4"
+    name: "批量状态变更"
+    description: "实现批量状态变更功能，支持对多个行为同时进行状态转换"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/batch/status-change.test.ts"
+        test_files: ["src/core/batch/status-change.test.ts"]
+      integration:
+        command: "npm test -- src/core/batch/status-change.integration.test.ts"
+        test_files: ["src/core/batch/status-change.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- batch-status"
+        test_files: ["e2e/batch-status.spec.ts"]
+      ai:
+        prompt: "请验证批量状态变更功能:\n1. 检查支持批量状态转换\n2. 验证状态转换规则检查\n3. 检查支持不同初始状态到相同目标状态\n4. 验证部分失败处理\n5. 检查状态历史记录\n6. 验证状态变更事件发布\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/batch/status-change.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-008~criterion-5"
+    name: "批量操作进度跟踪"
+    description: "实现批量操作进度跟踪，支持实时进度报告、取消操作"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/batch/progress.test.ts"
+        test_files: ["src/core/batch/progress.test.ts"]
+      integration:
+        command: "npm test -- src/core/batch/progress.integration.test.ts"
+        test_files: ["src/core/batch/progress.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- batch-progress"
+        test_files: ["e2e/batch-progress.spec.ts"]
+      ai:
+        prompt: "请验证批量操作进度跟踪功能:\n1. 检查支持实时进度报告\n2. 验证支持进度百分比\n3. 检查支持当前处理项显示\n4. 验证支持取消操作\n5. 检查支持暂停/继续\n6. 验证进度事件发布\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/batch/progress.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-008~criterion-6"
+    name: "批量操作历史"
+    description: "实现批量操作历史记录，记录批量操作的详细信息和执行结果"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/batch/history.test.ts"
+        test_files: ["src/core/batch/history.test.ts"]
+      integration:
+        command: "npm test -- src/core/batch/history.integration.test.ts"
+        test_files: ["src/core/batch/history.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- batch-history"
+        test_files: ["e2e/batch-history.spec.ts"]
+      ai:
+        prompt: "请验证批量操作历史功能:\n1. 检查记录批量操作元数据\n2. 验证记录操作时间\n3. 检查记录操作人\n4. 验证记录成功/失败明细\n5. 检查支持历史查询\n6. 验证支持历史导出\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/batch/history.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []

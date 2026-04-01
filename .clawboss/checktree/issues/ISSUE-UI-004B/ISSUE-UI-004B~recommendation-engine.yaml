@@ -1,0 +1,267 @@
+id: "ISSUE-UI-004B"
+issue_number: 4
+title: "推荐规则引擎"
+slug: "recommendation-engine"
+module: "UI"
+status: "pending"
+description: |
+  构建基于规则的推荐引擎，实现多种推荐策略（基于时间、优先级、截止日期、历史模式等），
+  支持规则组合和权重配置，为智能推荐提供可解释的规则基础。
+is_parent: false
+prerequisites:
+  - "ISSUE-UI-004A"
+  - "ISSUE-CORE-007B"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-UI-004B~criterion-1"
+    name: "规则引擎核心"
+    description: "实现规则引擎核心，支持规则定义、条件匹配、规则链执行、结果聚合"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/recommendation/engine/"
+        test_files:
+          - "ui/web-client/src/recommendation/engine/RuleEngine.test.ts"
+          - "ui/web-client/src/recommendation/engine/RuleMatcher.test.ts"
+          - "ui/web-client/src/recommendation/engine/ResultAggregator.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/recommendation/engine.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/recommendation/engine.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/recommendation/rules.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/recommendation/rules.spec.ts"
+      ai:
+        prompt: |
+          请验证规则引擎核心是否完整：
+          1. 检查是否实现规则定义接口（条件、动作、权重、优先级）
+          2. 检查是否支持条件匹配（等于、大于、包含、正则等操作符）
+          3. 检查是否支持规则链执行（顺序、并行、条件分支）
+          4. 检查是否实现结果聚合（加权求和、投票、取最高）
+          5. 检查规则执行是否有性能监控和超时控制
+          6. 检查是否支持规则的热更新（无需重启应用）
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/recommendation/engine/RuleEngine.ts"
+          - "ui/web-client/src/recommendation/engine/RuleMatcher.ts"
+          - "ui/web-client/src/recommendation/engine/ResultAggregator.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-004B~criterion-2"
+    name: "时间规则策略"
+    description: "实现基于时间的推荐规则，包括时段偏好、截止日期临近、最佳执行时间等"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/recommendation/rules/time/"
+        test_files:
+          - "ui/web-client/src/recommendation/rules/time/TimeOfDayRule.test.ts"
+          - "ui/web-client/src/recommendation/rules/time/DeadlineRule.test.ts"
+          - "ui/web-client/src/recommendation/rules/time/BestTimeRule.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/recommendation/time-rules.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/recommendation/time-rules.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/recommendation/time-rules.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/recommendation/time-rules.spec.ts"
+      ai:
+        prompt: |
+          请验证时间规则策略是否完整：
+          1. 检查是否实现时段偏好规则（用户历史活跃时段匹配）
+          2. 检查是否实现截止日期临近规则（按紧急程度加权）
+          3. 检查是否实现最佳执行时间规则（预估完成时间匹配）
+          4. 检查是否支持时间规则的动态调整（学习用户习惯）
+          5. 检查时区处理是否正确（支持跨时区场景）
+          6. 检查是否有节假日和工作日的特殊处理
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/recommendation/rules/time/TimeOfDayRule.ts"
+          - "ui/web-client/src/recommendation/rules/time/DeadlineRule.ts"
+          - "ui/web-client/src/recommendation/rules/time/BestTimeRule.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-004B~criterion-3"
+    name: "优先级规则策略"
+    description: "实现基于优先级的推荐规则，考虑行为重要性、阻塞关系、依赖链等"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/recommendation/rules/priority/"
+        test_files:
+          - "ui/web-client/src/recommendation/rules/PriorityRule.test.ts"
+          - "ui/web-client/src/recommendation/rules/BlockerRule.test.ts"
+          - "ui/web-client/src/recommendation/rules/DependencyRule.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/recommendation/priority-rules.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/recommendation/priority-rules.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/recommendation/priority-rules.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/recommendation/priority-rules.spec.ts"
+      ai:
+        prompt: |
+          请验证优先级规则策略是否完整：
+          1. 检查是否实现行为优先级评分（手动设置+自动计算）
+          2. 检查是否识别阻塞其他行为的关键路径节点
+          3. 检查是否分析依赖链（前置任务完成情况）
+          4. 检查是否支持优先级动态调整（基于进度变化）
+          5. 检查是否处理优先级冲突（多个高优先级行为）
+          6. 检查是否支持紧急插入选项（临时高优先级）
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/recommendation/rules/PriorityRule.ts"
+          - "ui/web-client/src/recommendation/rules/BlockerRule.ts"
+          - "ui/web-client/src/recommendation/rules/DependencyRule.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-004B~criterion-4"
+    name: "历史模式规则策略"
+    description: "实现基于历史模式的推荐规则，分析用户完成类似任务的历史数据"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/recommendation/rules/pattern/"
+        test_files:
+          - "ui/web-client/src/recommendation/rules/pattern/HistoryPatternRule.test.ts"
+          - "ui/web-client/src/recommendation/rules/pattern/SimilarityRule.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/recommendation/pattern-rules.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/recommendation/pattern-rules.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/recommendation/pattern-rules.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/recommendation/pattern-rules.spec.ts"
+      ai:
+        prompt: |
+          请验证历史模式规则策略是否完整：
+          1. 检查是否分析用户完成同类任务的历史时间规律
+          2. 检查是否识别用户偏好的任务批次大小和工作节奏
+          3. 检查是否学习用户的行为分类偏好（喜欢先处理哪类任务）
+          4. 检查是否考虑任务完成的成功率历史
+          5. 检查是否支持模式置信度评估（数据量不足时降低权重）
+          6. 检查是否有冷启动处理（新用户默认策略）
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/recommendation/rules/pattern/HistoryPatternRule.ts"
+          - "ui/web-client/src/recommendation/rules/pattern/SimilarityRule.ts"
+          - "ui/web-client/src/recommendation/rules/pattern/ColdStart.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-004B~criterion-5"
+    name: "规则组合与权重配置"
+    description: "支持多规则组合执行，可配置规则权重和生效条件，支持A/B测试配置"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/recommendation/config/"
+        test_files:
+          - "ui/web-client/src/recommendation/config/RuleComposer.test.ts"
+          - "ui/web-client/src/recommendation/config/WeightConfig.test.ts"
+          - "ui/web-client/src/recommendation/config/ABTest.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/recommendation/config.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/recommendation/config.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/recommendation/config.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/recommendation/config.spec.ts"
+      ai:
+        prompt: |
+          请验证规则组合与权重配置功能是否完整：
+          1. 检查是否支持多规则组合（AND、OR、加权平均）
+          2. 检查是否支持规则权重动态配置（YAML/JSON配置）
+          3. 检查是否支持规则生效条件配置（时间窗口、用户属性）
+          4. 检查是否支持A/B测试配置（分流、对照组）
+          5. 检查配置变更是否热加载（无需重启）
+          6. 检查是否有配置验证和错误提示
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/recommendation/config/RuleComposer.ts"
+          - "ui/web-client/src/recommendation/config/WeightConfig.ts"
+          - "ui/web-client/src/recommendation/config/ABTest.ts"
+          - "ui/web-client/config/recommendation-rules.yaml"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-004B~criterion-6"
+    name: "推荐结果可解释性"
+    description: "推荐结果附带可解释性信息，用户可以了解推荐理由，支持反馈收集"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/recommendation/explainability/"
+        test_files:
+          - "ui/web-client/src/recommendation/explainability/ExplanationGenerator.test.ts"
+          - "ui/web-client/src/recommendation/feedback/FeedbackCollector.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/recommendation/explainability.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/recommendation/explainability.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/recommendation/explainability.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/recommendation/explainability.spec.ts"
+      ai:
+        prompt: |
+          请验证推荐结果可解释性功能是否完整：
+          1. 检查每个推荐结果是否附带推荐理由（基于哪些规则）
+          2. 检查推荐理由是否用户友好（自然语言描述）
+          3. 检查是否显示各规则的贡献度分数
+          4. 检查是否支持用户对推荐进行反馈（有用/无用）
+          5. 检查反馈是否影响后续推荐（学习用户偏好）
+          6. 检查是否支持用户禁用特定类型的推荐
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/recommendation/explainability/ExplanationGenerator.ts"
+          - "ui/web-client/src/recommendation/feedback/FeedbackCollector.ts"
+          - "ui/web-client/src/components/recommendation/RecommendationCard.tsx"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"

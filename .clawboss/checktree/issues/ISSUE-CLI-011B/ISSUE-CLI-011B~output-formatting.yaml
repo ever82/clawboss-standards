@@ -1,0 +1,224 @@
+id: "ISSUE-CLI-011B"
+issue_number: 11
+slug: "output-formatting"
+title: "输出格式化"
+description: |
+  实现AI-Me CLI的输出格式化功能，支持多种输出格式(JSON、表格、YAML等)、颜色主题、终端自适应等。
+  依赖CLI-002、CLI-003、CLI-004命令实现。
+status: "pending"
+is_parent: false
+sub_issues: []
+prerequisites:
+  - "ISSUE-CLI-002"
+  - "ISSUE-CLI-003"
+  - "ISSUE-CLI-004"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CLI-011B~criterion-1"
+    name: "多格式输出支持"
+    description: |
+      实现多种输出格式的支持，包括JSON、表格、YAML、Markdown等格式。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/formatter/formats.test.ts"
+        test_files:
+          - "src/cli/formatter/json.test.ts"
+          - "src/cli/formatter/table.test.ts"
+          - "src/cli/formatter/yaml.test.ts"
+      integration:
+        command: "npm test -- src/cli/formatter/integration.test.ts"
+        test_files:
+          - "src/cli/formatter/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/formatter/formats"
+        test_files:
+          - "e2e/cli/formatter/json.spec.ts"
+          - "e2e/cli/formatter/table.spec.ts"
+      ai:
+        prompt: |
+          请验证多格式输出支持的实现:
+          1. JSON格式: `--json` 输出结构化的JSON数据
+          2. 表格格式: `--table` 或默认以表格展示数据
+          3. YAML格式: `--yaml` 输出YAML格式
+          4. Markdown: `--markdown` 或 `--md` 输出Markdown表格
+          5. CSV格式: `--csv` 输出逗号分隔值
+          6. TSV格式: `--tsv` 输出制表符分隔值
+          7. 原始文本: `--raw` 纯文本输出
+          8. 静默模式: `--quiet` 或 `-q` 只输出错误
+
+          检查点:
+          - 各格式输出正确解析
+          - JSON/YAML字段名一致
+          - 表格列对齐正确
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/formatter/index.ts"
+          - "src/cli/formatter/json.ts"
+          - "src/cli/formatter/table.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CLI-011B~criterion-2"
+    name: "表格格式化增强"
+    description: |
+      实现表格输出的增强功能，包括列宽自适应、排序、筛选、边框样式等。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/formatter/table-enhanced.test.ts"
+        test_files:
+          - "src/cli/formatter/table/enhanced.test.ts"
+      integration:
+        command: "npm test -- src/cli/formatter/table/integration.test.ts"
+        test_files:
+          - "src/cli/formatter/table/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/formatter/table"
+        test_files:
+          - "e2e/cli/formatter/table.spec.ts"
+      ai:
+        prompt: |
+          请验证表格格式化增强功能的实现:
+          1. 自适应列宽: 根据内容和终端宽度自动调整列宽
+          2. 截断处理: 内容过长时截断并显示...
+          3. 列选择: `--columns id,name,status` 只显示指定列
+          4. 列重命名: `--column-title status=状态` 自定义列标题
+          5. 排序: `--sort name:asc` 按列排序
+          6. 边框样式: `--border simple|double|none|ascii`
+          7. 对齐方式: 数字右对齐，文本左对齐
+          8. 分组: `--group-by status` 按列分组显示
+          9. 分页: `--page-size 20` 长表格分页显示
+
+          检查点:
+          - 窄终端自动调整避免折行
+          - 列对齐美观
+          - 分组显示层次清晰
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/formatter/table/enhanced.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-011B~criterion-1"
+
+  - id: "ISSUE-CLI-011B~criterion-3"
+    name: "颜色与主题"
+    description: |
+      实现输出颜色支持和主题定制，包括自动检测、颜色配置、高亮显示等。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/formatter/colors.test.ts"
+        test_files:
+          - "src/cli/formatter/colors.test.ts"
+          - "src/cli/formatter/theme.test.ts"
+      integration:
+        command: "npm test -- src/cli/formatter/colors.integration.test.ts"
+        test_files:
+          - "src/cli/formatter/colors.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/formatter/colors"
+        test_files:
+          - "e2e/cli/formatter/colors.spec.ts"
+      ai:
+        prompt: |
+          请验证颜色与主题功能的实现:
+          1. 自动检测: 自动检测终端是否支持颜色
+          2. 强制颜色: `--color` 强制启用颜色输出
+          3. 禁用颜色: `--no-color` 禁用颜色输出
+          4. 状态颜色: todo=灰色, doing=黄色, done=绿色, blocked=红色
+          5. 优先级颜色: low=绿色, medium=黄色, high=红色, critical=紫色
+          6. 错误高亮: 错误信息使用红色高亮
+          7. 主题切换: `--theme dark|light|high-contrast`
+          8. 自定义主题: 支持配置自定义颜色方案
+          9. 环境变量: 支持NO_COLOR环境变量
+
+          检查点:
+          - 颜色在各种终端显示正确
+          - 高对比度主题可访问性好
+          - 颜色有语义(不是随意使用)
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/formatter/colors.ts"
+          - "src/cli/formatter/theme.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-011B~criterion-2"
+
+  - id: "ISSUE-CLI-011B~criterion-4"
+    name: "终端自适应与分页"
+    description: |
+      实现终端自适应功能，包括宽度检测、分页器集成、长内容处理等。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/formatter/terminal.test.ts"
+        test_files:
+          - "src/cli/formatter/terminal.test.ts"
+          - "src/cli/formatter/pager.test.ts"
+      integration:
+        command: "npm test -- src/cli/formatter/terminal.integration.test.ts"
+        test_files:
+          - "src/cli/formatter/terminal.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/formatter/terminal"
+        test_files:
+          - "e2e/cli/formatter/terminal.spec.ts"
+      ai:
+        prompt: |
+          请验证终端自适应与分页功能的实现:
+          1. 宽度检测: 自动检测终端宽度调整输出
+          2. 固定宽度: `--width 80` 强制指定输出宽度
+          3. 分页器: 长输出自动使用less/more分页
+          4. 禁用分页: `--no-pager` 禁用分页器
+          5. 管道检测: 输出到管道时自动禁用颜色和分页
+          6. 换行处理: 长文本自动换行或截断
+          7. Unicode支持: 正确处理中文等宽字符
+          8. emoji显示: 支持emoji显示(可禁用)
+          9. 终端类型: 检测终端类型优化输出
+
+          检查点:
+          - 管道输出纯文本无ANSI码
+          - 中文字符宽度计算正确
+          - 分页器可正常退出(q或Ctrl+C)
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/formatter/terminal.ts"
+          - "src/cli/formatter/pager.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-011B~criterion-3"

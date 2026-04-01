@@ -1,0 +1,269 @@
+id: "ISSUE-CLI-001A"
+issue_number: 1
+slug: "arg-parser"
+title: "CLI参数解析器"
+description: |
+  实现AI-Me CLI的参数解析器，支持位置参数、可选参数、布尔标志、数组参数、默认值、类型转换等功能。
+  解析器需要处理引号包裹的参数、转义字符，并提供清晰的错误提示。
+status: "pending"
+is_parent: false
+sub_issues: []
+prerequisites:
+  - "ISSUE-CORE-002B1"
+  - "ISSUE-INFRA-006A"
+  - "ISSUE-INFRA-006B"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CLI-001A~criterion-1"
+    name: "基础参数解析功能"
+    description: |
+      支持位置参数、短选项(-h)、长选项(--help)、布尔标志(--verbose)、带值选项(--config path)的正确解析。
+      必须支持参数别名和默认值设置。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/parser/arg-parser.test.ts"
+        test_files:
+          - "src/cli/parser/arg-parser.test.ts"
+          - "src/cli/parser/option-builder.test.ts"
+      integration:
+        command: "npm test -- src/cli/parser/integration.test.ts"
+        test_files:
+          - "src/cli/parser/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/parser"
+        test_files:
+          - "e2e/cli/parser/basic-args.spec.ts"
+          - "e2e/cli/parser/edge-cases.spec.ts"
+      ai:
+        prompt: |
+          请验证CLI参数解析器的以下功能是否实现:
+          1. 解析 `ai-me --help` 是否正确显示帮助信息
+          2. 解析 `ai-me -v` 和 `ai-me --version` 是否都能显示版本
+          3. 解析 `ai-me behavior create --name "Test"` 是否正确提取name参数值
+          4. 解析 `ai-me --verbose --config ./config.json` 是否正确处理多个选项
+          5. 测试引号内包含空格的参数解析: `ai-me search "hello world"`
+          6. 验证类型转换: --count 5 是否转为数字5而非字符串"5"
+          7. 检查无效参数的错误提示是否清晰友好
+
+          检查点:
+          - 解析结果对象结构是否正确
+          - 错误处理是否优雅，不会崩溃
+          - 边缘情况(空字符串、特殊字符)处理
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/parser/arg-parser.ts"
+          - "src/cli/parser/types.ts"
+          - "src/cli/parser/errors.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<3 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CLI-001A~criterion-2"
+    name: "复杂参数类型支持"
+    description: |
+      支持数组参数(--tags a b c)、嵌套选项(--behavior.name Test)、必需参数验证、互斥选项验证。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/parser/complex-types.test.ts"
+        test_files:
+          - "src/cli/parser/complex-types.test.ts"
+          - "src/cli/parser/validators.test.ts"
+      integration:
+        command: "npm test -- src/cli/parser/validation.integration.test.ts"
+        test_files:
+          - "src/cli/parser/validation.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/parser-complex"
+        test_files:
+          - "e2e/cli/parser/array-args.spec.ts"
+          - "e2e/cli/parser/validation.spec.ts"
+      ai:
+        prompt: |
+          请验证复杂参数类型支持的实现:
+          1. 数组参数: `ai-me tag --add work life coding` 应解析为数组["work", "life", "coding"]
+          2. 嵌套选项: `ai-me behavior create --config.name "Test" --config.priority high` 应正确解析为嵌套对象
+          3. 必需参数缺失时是否抛出清晰错误: `ai-me behavior create` (缺少--name)
+          4. 互斥选项验证: `ai-me search --json --table` 同时指定冲突格式时是否报错
+          5. 参数类型转换: --deadline "2026-04-01" 是否转为Date对象
+          6. 可选参数默认值: 未指定--format时使用预设默认值
+
+          检查点:
+          - 验证逻辑是否正确执行
+          - 错误消息是否包含参数名和期望值
+          - 复杂嵌套结构的序列化/反序列化
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/parser/validators.ts"
+          - "src/cli/parser/schema.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-001A~criterion-1"
+
+  - id: "ISSUE-CLI-001A~criterion-3"
+    name: "错误处理与帮助生成"
+    description: |
+      当参数解析失败时，提供清晰的错误信息和修复建议。自动生成帮助文档，支持自定义帮助模板。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/parser/help-generator.test.ts"
+        test_files:
+          - "src/cli/parser/help-generator.test.ts"
+          - "src/cli/parser/error-messages.test.ts"
+      integration:
+        command: "npm test -- src/cli/parser/help.integration.test.ts"
+        test_files:
+          - "src/cli/parser/help.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/help"
+        test_files:
+          - "e2e/cli/help/generation.spec.ts"
+          - "e2e/cli/help/errors.spec.ts"
+      ai:
+        prompt: |
+          请验证错误处理与帮助生成功能:
+          1. 运行 `ai-me` 无子命令时是否显示主帮助文档
+          2. 运行 `ai-me unknown-command` 是否显示"命令不存在"错误及相似命令建议
+          3. 缺少必需参数时，错误消息是否明确指出缺失的参数名和用法示例
+          4. 参数类型错误时(如字符串传给数字选项)，错误消息是否包含实际值和期望类型
+          5. 帮助文档格式是否美观，包含: 描述、用法、选项列表、示例
+          6. 子命令帮助: `ai-me behavior --help` 是否显示behavior子命令的详细说明
+          7. 自定义帮助模板是否生效(如果有配置)
+
+          检查点:
+          - 错误消息包含修复建议
+          - 帮助文本对齐正确，阅读体验良好
+          - 终端宽度适配，长文本自动换行
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/parser/help-generator.ts"
+          - "src/cli/parser/error-formatter.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<3 seconds"
+    prerequisites:
+      - "ISSUE-CLI-001A~criterion-1"
+
+  - id: "ISSUE-CLI-001A~criterion-4"
+    name: "性能与可扩展性"
+    description: |
+      参数解析性能满足要求(1000个参数<100ms)，支持动态添加选项和子命令。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: lacking
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/parser/performance.test.ts"
+        test_files:
+          - "src/cli/parser/performance.test.ts"
+          - "src/cli/parser/benchmark.ts"
+      integration:
+        command: "npm test -- src/cli/parser/extensibility.test.ts"
+        test_files:
+          - "src/cli/parser/extensibility.test.ts"
+      e2e:
+        command: ""
+        test_files: []
+      ai:
+        prompt: |
+          请验证参数解析器的性能与可扩展性:
+          1. 检查是否包含性能基准测试代码，解析大量参数(1000+)的时间是否在100ms内
+          2. 验证动态选项注册API: parser.addOption() 是否可在运行时添加新选项
+          3. 检查中间件支持: 是否可在解析前后执行自定义逻辑
+          4. 验证选项组支持: 是否支持将相关选项组织为组(如 Global, Behavior, Output)
+          5. 检查配置合并: 命令行参数是否正确覆盖配置文件中的设置
+          6. 验证内存使用: 解析大量参数时内存占用是否合理
+
+          检查点:
+          - 性能测试可重复运行
+          - 扩展API设计合理，易于使用
+          - 无内存泄漏或过度分配
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/parser/index.ts"
+          - "src/cli/parser/performance.test.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites:
+      - "ISSUE-CLI-001A~criterion-2"
+
+  - id: "ISSUE-CLI-001A~criterion-5"
+    name: "与错误处理和日志系统集成"
+    description: |
+      参数解析错误通过INFRA-006A错误处理系统统一处理，关键解析步骤记录到INFRA-006B日志系统。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/parser/error-integration.test.ts"
+        test_files:
+          - "src/cli/parser/error-integration.test.ts"
+      integration:
+        command: "npm test -- src/cli/parser/logging.integration.test.ts"
+        test_files:
+          - "src/cli/parser/logging.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/error-flow"
+        test_files:
+          - "e2e/cli/error/arg-parse-error.spec.ts"
+      ai:
+        prompt: |
+          请验证参数解析器与基础设施的集成:
+          1. 检查参数解析错误是否使用INFRA-006A的错误类(如 CliParseError extends BaseError)
+          2. 验证错误代码是否标准化: 如 ARG_MISSING, ARG_INVALID_TYPE, ARG_UNKNOWN
+          3. 检查DEBUG模式下是否记录解析过程: "Parsing argv: [...]", "Matched option: --verbose"
+          4. 验证错误上报: 解析失败是否触发错误事件供监控系统捕获
+          5. 检查日志级别: 常规解析信息用debug，解析错误用error
+          6. 验证错误上下文: 错误对象是否包含原始argv、当前解析位置、已解析选项
+
+          检查点:
+          - 错误处理与全局错误处理器兼容
+          - 日志输出格式符合项目规范
+          - 敏感信息(如密码)是否在日志中被脱敏
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/parser/errors.ts"
+          - "src/infra/error/types.ts"
+          - "src/infra/logging/logger.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<3 seconds"
+    prerequisites:
+      - "ISSUE-CLI-001A~criterion-3"
+      - "ISSUE-INFRA-006A"
+      - "ISSUE-INFRA-006B"

@@ -1,0 +1,235 @@
+id: "ISSUE-PERF-004"
+issue_number: 4
+title: "多级缓存策略实现"
+slug: "caching-strategy"
+status: "pending"
+description: "基于INFRA-009缓存层，实现多级缓存策略（L1内存缓存、L2分布式缓存、L3数据库），针对行为树、查询结果、元数据等不同数据类型制定差异化缓存策略。实现缓存预热、自动失效、一致性保障和穿透保护机制。"
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-009"
+  - "ISSUE-PERF-001"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-PERF-004~criterion-1"
+    name: "多级缓存架构实现"
+    description: "实现三级缓存架构：L1进程内内存缓存（Node-cache/QuickLRU）、L2分布式缓存（Redis）、L3数据库，支持缓存穿透和级联读取"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/perf/cache/"
+        test_files:
+          - "src/perf/cache/multi-level-cache.test.ts"
+          - "src/perf/cache/l1-memory-cache.test.ts"
+          - "src/perf/cache/l2-distributed-cache.test.ts"
+          - "src/perf/cache/cache-manager.test.ts"
+      integration:
+        command: "npm test -- src/perf/cache/integration/multi-level.test.ts"
+        test_files:
+          - "src/perf/cache/integration/multi-level.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/performance/multi-level-cache.spec.ts"
+        test_files:
+          - "tests/e2e/performance/multi-level-cache.spec.ts"
+      ai:
+        prompt: |
+          请验证多级缓存架构实现：
+          1. L1内存缓存是否基于QuickLRU或类似库实现，支持容量限制和TTL
+          2. L2分布式缓存是否基于Redis，支持连接池和集群模式
+          3. 是否实现缓存穿透保护（单飞、互斥锁、布隆过滤器）
+          4. 多级读取顺序是否正确：L1→L2→L3，命中后是否回填上级缓存
+          5. 是否支持异步写回策略（Write-Behind）和直写策略（Write-Through）
+          6. 缓存操作是否提供统一的Promise/Async接口
+          7. 降级机制是否完备（L2失效时是否自动降级到L3）
+          请检查代码实现，返回 {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/perf/cache/multi-level-cache.ts"
+          - "src/perf/cache/l1-memory-cache.ts"
+          - "src/perf/cache/l2-distributed-cache.ts"
+          - "src/perf/cache/cache-manager.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-PERF-004~criterion-2"
+    name: "差异化缓存策略"
+    description: "针对不同数据类型（行为树、查询结果、元数据、用户会话）制定差异化缓存策略，包括TTL、淘汰策略、序列化方式等"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/perf/cache/strategies/"
+        test_files:
+          - "src/perf/cache/strategies/tree-cache-strategy.test.ts"
+          - "src/perf/cache/strategies/query-cache-strategy.test.ts"
+          - "src/perf/cache/strategies/metadata-cache-strategy.test.ts"
+          - "src/perf/cache/strategies/session-cache-strategy.test.ts"
+      integration:
+        command: "npm test -- src/perf/cache/integration/strategy-selection.test.ts"
+        test_files:
+          - "src/perf/cache/integration/strategy-selection.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/performance/cache-strategies.spec.ts"
+        test_files:
+          - "tests/e2e/performance/cache-strategies.spec.ts"
+      ai:
+        prompt: |
+          请验证差异化缓存策略实现：
+          1. 行为树缓存是否采用结构共享（Structural Sharing）减少内存占用
+          2. 查询结果缓存是否支持基于查询指纹的键生成
+          3. 元数据缓存是否采用本地缓存优先策略（变化频率低）
+          4. 用户会话缓存是否支持分布式共享和自动续期
+          5. 各策略的TTL设置是否合理：树节点(5min)、查询结果(1min)、元数据(1hour)、会话(24hour)
+          6. 是否支持自定义缓存策略和策略链组合
+          7. 序列化方式是否优化：JSON vs MessagePack vs Protocol Buffer
+          请检查代码实现，返回 {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/perf/cache/strategies/tree-cache-strategy.ts"
+          - "src/perf/cache/strategies/query-cache-strategy.ts"
+          - "src/perf/cache/strategies/metadata-cache-strategy.ts"
+          - "src/perf/cache/strategies/session-cache-strategy.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+    prerequisites:
+      - "ISSUE-PERF-004~criterion-1"
+
+  - id: "ISSUE-PERF-004~criterion-3"
+    name: "缓存失效与一致性"
+    description: "实现缓存失效机制（主动失效、被动过期、监听变更），保障多级缓存间的数据一致性，处理并发更新场景"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/perf/cache/consistency/"
+        test_files:
+          - "src/perf/cache/consistency/invalidation.test.ts"
+          - "src/perf/cache/consistency/consistency-manager.test.ts"
+          - "src/perf/cache/consistency/concurrency-control.test.ts"
+      integration:
+        command: "npm test -- src/perf/cache/integration/consistency.test.ts"
+        test_files:
+          - "src/perf/cache/integration/consistency.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/performance/cache-consistency.spec.ts"
+        test_files:
+          - "tests/e2e/performance/cache-consistency.spec.ts"
+      ai:
+        prompt: |
+          请验证缓存失效与一致性实现：
+          1. 是否实现主动失效（数据更新时立即删除/更新缓存）
+          2. 是否支持基于数据库变更日志（CDC）的被动失效
+          3. 多级缓存失效是否级联传播（L1→L2→L3）
+          4. 并发更新场景是否使用乐观锁或分布式锁保障一致性
+          5. 是否实现最终一致性保障（延迟双删、补偿机制）
+          6. 缓存一致性检查工具是否可用（定期校验或手动触发）
+          7. 是否支持缓存预热（Pre-warming）避免冷启动问题
+          请检查代码实现，返回 {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/perf/cache/consistency/invalidation.ts"
+          - "src/perf/cache/consistency/consistency-manager.ts"
+          - "src/perf/cache/consistency/concurrency-control.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+    prerequisites:
+      - "ISSUE-PERF-004~criterion-2"
+
+  - id: "ISSUE-PERF-004~criterion-4"
+    name: "缓存监控与统计"
+    description: "实现缓存性能监控和统计功能，包括命中率、Miss率、Eviction率、平均访问时间等指标，支持缓存调优建议"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/perf/cache/monitoring/"
+        test_files:
+          - "src/perf/cache/monitoring/cache-metrics.test.ts"
+          - "src/perf/cache/monitoring/hit-rate-tracker.test.ts"
+          - "src/perf/cache/monitoring/optimization-advisor.test.ts"
+      integration:
+        command: "npm test -- src/perf/cache/integration/monitoring.test.ts"
+        test_files:
+          - "src/perf/cache/integration/monitoring.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/performance/cache-monitoring.spec.ts"
+        test_files:
+          - "tests/e2e/performance/cache-monitoring.spec.ts"
+      ai:
+        prompt: |
+          请验证缓存监控与统计实现：
+          1. 是否实时统计各级缓存的命中率、Miss率、Eviction率
+          2. 是否记录平均访问时间（L1<1ms, L2<5ms, L3<50ms目标）
+          3. 是否支持缓存容量使用率监控和告警
+          4. 是否提供缓存调优建议（容量调整、TTL优化）
+          5. 监控数据是否可导出到Prometheus/Grafana等外部系统
+          6. 是否支持热点Key分析和Top N查询
+          7. 是否提供缓存效果对比报告（有缓存vs无缓存）
+          请检查代码实现，返回 {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/perf/cache/monitoring/cache-metrics.ts"
+          - "src/perf/cache/monitoring/hit-rate-tracker.ts"
+          - "src/perf/cache/monitoring/optimization-advisor.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+    prerequisites:
+      - "ISSUE-PERF-004~criterion-3"
+
+  - id: "ISSUE-PERF-004~criterion-5"
+    name: "缓存性能基准达成"
+    description: "缓存系统性能指标达成：L1命中率>90%，L2命中率>70%，平均缓存响应<2ms，缓存穿透率<1%，缓存系统整体吞吐>10000 QPS"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      integration:
+        command: "npm test -- src/perf/cache/integration/cache-benchmark-suite.test.ts"
+        test_files:
+          - "src/perf/cache/integration/cache-benchmark-suite.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/performance/cache-benchmarks.spec.ts"
+        test_files:
+          - "tests/e2e/performance/cache-benchmarks.spec.ts"
+      ai:
+        prompt: |
+          请验证缓存性能基准是否达成：
+          1. L1内存缓存命中率在典型负载下是否>90%
+          2. L2分布式缓存命中率在典型负载下是否>70%
+          3. 缓存平均响应时间（包含网络开销）是否<2ms
+          4. 缓存穿透率（直接访问数据库的比例）是否<1%
+          5. 缓存系统整体吞吐能力是否>10000 QPS
+          6. 缓存命中率相比未优化前是否提升>50%
+          7. 系统整体响应时间在缓存加持下是否提升>70%
+          8. 缓存系统在极端负载下是否稳定无OOM
+          请检查性能测试报告，返回 {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "reports/performance/cache-benchmark-report.json"
+          - "src/perf/cache/benchmarks/cache-benchmarks.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<30 seconds"
+    prerequisites:
+      - "ISSUE-PERF-004~criterion-4"

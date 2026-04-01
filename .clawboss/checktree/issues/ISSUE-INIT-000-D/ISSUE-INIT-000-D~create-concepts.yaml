@@ -1,0 +1,50 @@
+id: "ISSUE-INIT-000-D"
+issue_number: "000-D"
+title: "Create CONCEPTS.md"
+slug: "create-concepts"
+status: "pending"
+description: |-
+  Create the CONCEPTS.md specification document defining the project's
+  core domain concepts, entity definitions, relationships, status flows,
+  and domain rules.
+is_parent: false
+parent_issue: "ISSUE-INIT-000"
+prerequisites:
+  - "ISSUE-INIT-000-A"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-INIT-000-D~criterion-1"
+    name: "CONCEPTS.md document complete"
+    description: |-
+      CONCEPTS.md contains: core domain entity definitions, entity relationships,
+      status flow diagrams, domain rules and constraints, dependency and
+      acceptance criteria patterns, and AI agent integration concepts.
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: sufficient
+    verification:
+      ai:
+        prompt: |-
+          Verify CONCEPTS.md contains all required sections:
+          1. Core entity definitions with properties
+          2. Entity relationships and hierarchy
+          3. Status flow and state transitions
+          4. Domain rules and constraints
+          5. Dependency and acceptance criteria patterns
+          6. AI agent integration concepts
+          Return: {"passed": true/false, "reason": "..."}
+        context_files: [".clawboss/spec/CONCEPTS.md"]
+        model: "claude-sonnet-4-6"
+      manual:
+        instructions: |-
+          1. Open .clawboss/spec/CONCEPTS.md
+          2. Verify all sections listed above are present and substantive
+        required_tools: ["editor"]
+    execution_time: "<5 minutes"
+    prerequisites: []

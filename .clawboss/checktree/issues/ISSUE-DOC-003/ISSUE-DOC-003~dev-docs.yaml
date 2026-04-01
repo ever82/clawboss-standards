@@ -1,0 +1,156 @@
+id: "ISSUE-DOC-003"
+issue_number: 3
+title: "开发者文档"
+slug: "dev-docs"
+status: "pending"
+description: |
+  编写面向开发者的技术文档，包含架构设计、开发环境搭建、编码规范、
+  测试指南、贡献流程等内容。开发者文档是项目开源和团队协作的基础，
+  需与代码仓库保持同步更新。
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-014"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-DOC-003~criterion-1"
+    name: "开发环境搭建指南完成"
+    description: |
+      提供详细的开发环境搭建指南，包含依赖安装、本地开发服务器启动、
+      测试运行、调试配置等步骤。支持Windows/macOS/Linux多平台。
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: sufficient
+    verification:
+      ai:
+        prompt: |
+          请验证开发环境搭建指南质量:
+          1. 系统要求说明是否清晰（Node版本、数据库等）
+          2. 安装步骤是否覆盖Windows/macOS/Linux
+          3. 命令是否可在各平台正确执行
+          4. 环境变量配置是否完整
+          5. 常见问题（如权限、端口冲突）是否有说明
+          6. 是否包含IDE配置建议（VSCode等）
+          返回: {"passed": true/false, "reason": "详细说明", "issues": ["问题列表"]}
+        context_files: ["docs/dev/setup.md", "README.md"]
+        model: "claude-sonnet-4-6"
+      manual:
+        instructions: |
+          1. 在干净的环境中按指南搭建开发环境
+          2. 记录从克隆仓库到成功运行测试的总时间
+          3. 验证dev server能正常启动
+          4. 运行完整测试套件，验证通过
+          5. 测试调试配置是否能正常工作
+        required_tools: ["terminal", "git", "node", "code-editor"]
+    execution_time: "<30 minutes"
+    prerequisites: []
+
+  - id: "ISSUE-DOC-003~criterion-2"
+    name: "架构设计文档完成"
+    description: |
+      提供系统架构设计文档，包含模块划分、数据流、依赖关系、设计模式应用等。
+      文档需与CORE-014的依赖管理设计保持一致，包含架构图和关键决策说明。
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: sufficient
+    verification:
+      ai:
+        prompt: |
+          请验证架构设计文档质量:
+          1. 模块划分是否与代码结构一致
+          2. 架构图是否准确反映实际实现
+          3. 数据流向描述是否清晰正确
+          4. 设计模式使用是否有合理解释
+          5. 与CORE-014的依赖管理设计是否一致
+          6. 是否包含性能和安全考量
+          返回: {"passed": true/false, "reason": "详细说明"}
+        context_files: ["docs/dev/architecture.md", "docs/dev/diagrams/", ".clawboss/spec/ARCHITECTURE.md"]
+        model: "claude-sonnet-4-6"
+      manual:
+        instructions: |
+          1. 根据架构图理解系统结构
+          2. 对照代码验证模块划分准确性
+          3. 检查关键接口定义与文档描述是否一致
+          4. 向新开发者展示架构图，验证可理解性
+        required_tools: ["code-editor", "draw.io"]
+    execution_time: "<20 minutes"
+    prerequisites: []
+
+  - id: "ISSUE-DOC-003~criterion-3"
+    name: "编码规范和测试指南完成"
+    description: |
+      编写详细的编码规范和测试指南，包含代码风格、命名约定、注释规范、
+      提交信息格式、测试编写要求等。与DEV-002的代码规范检查工具保持一致。
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: sufficient
+    verification:
+      ai:
+        prompt: |
+          请验证编码规范和测试指南质量:
+          1. 代码风格规范是否与ESLint/Prettier配置一致
+          2. 命名约定是否清晰且可执行
+          3. 提交信息格式是否有明确模板
+          4. 单元测试编写要求是否具体（覆盖率、mock使用等）
+          5. 是否包含PR审查清单
+          6. 与DEV-002的工具配置是否同步
+          返回: {"passed": true/false, "reason": "详细说明"}
+        context_files: ["docs/dev/coding-standards.md", "docs/dev/testing-guide.md", ".eslintrc", "vitest.config.ts"]
+        model: "claude-sonnet-4-6"
+      manual:
+        instructions: |
+          1. 根据编码规范检查现有代码
+          2. 运行lint工具，验证配置与文档一致
+          3. 按照测试指南编写一个测试用例
+          4. 验证测试是否符合指南要求
+        required_tools: ["terminal", "code-editor"]
+    execution_time: "<15 minutes"
+    prerequisites: []
+
+  - id: "ISSUE-DOC-003~criterion-4"
+    name: "模块开发指南完成"
+    description: |
+      为每个核心模块（Core、CLI、Workspace、Plugin等）编写专门的开发指南，
+      包含模块职责、关键类说明、扩展点、最佳实践等。
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: sufficient
+    verification:
+      ai:
+        prompt: |
+          请验证模块开发指南质量:
+          1. 每个模块的职责描述是否清晰
+          2. 关键类和接口是否有详细说明
+          3. 扩展点和钩子是否文档化
+          4. 最佳实践是否基于实际经验
+          5. 是否包含模块间的交互说明
+          6. 示例代码是否可运行
+          返回: {"passed": true/false, "reason": "详细说明"}
+        context_files: ["docs/dev/modules/", "src/"]
+        model: "claude-sonnet-4-6"
+      manual:
+        instructions: |
+          1. 选择一个模块，阅读其开发指南
+          2. 尝试基于指南实现一个小功能
+          3. 验证指南中的信息是否足够完整
+          4. 检查模块间的依赖说明是否准确
+        required_tools: ["code-editor"]
+    execution_time: "<30 minutes"
+    prerequisites: []

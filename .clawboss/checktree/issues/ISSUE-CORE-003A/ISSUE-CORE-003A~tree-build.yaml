@@ -1,0 +1,175 @@
+id: "ISSUE-CORE-003A"
+issue_number: 7
+title: "树构建与基础操作"
+slug: "tree-build"
+status: "pending"
+description: "实现行为树的构建和基础操作功能，支持创建树结构、添加/删除节点、节点排序、树的基本维护。作为树系统的核心基础，为后续的遍历、移动等高级功能提供支持。"
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-002B1"
+  - "ISSUE-INFRA-013"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CORE-003A~criterion-1"
+    name: "树节点类型定义"
+    description: "定义树节点（TreeNode）的完整类型系统，包含节点ID、Behavior引用、父节点引用、子节点顺序、层级等字段"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/tree/tree-node.types.test.ts"
+        test_files: ["src/core/tree/tree-node.types.test.ts"]
+      integration:
+        command: "npm test -- src/core/tree/tree-node.types.integration.test.ts"
+        test_files: ["src/core/tree/tree-node.types.integration.test.ts"]
+      e2e:
+        command: ""
+        test_files: []
+      ai:
+        prompt: "请验证树节点类型定义:\n1. 检查 TreeNode 接口包含 id, behaviorId, parentId, order, level 字段\n2. 验证 behaviorId 关联 Behavior 实体\n3. 检查 parentId 可为 null（根节点）\n4. 验证 order 字段表示同级节点顺序\n5. 检查 level 字段表示节点层级\n6. 验证类型定义使用严格模式\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/tree/types.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<30 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-003A~criterion-2"
+    name: "创建树节点"
+    description: "实现创建树节点功能，支持指定父节点、顺序位置，自动计算层级"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/tree/services/create-node.test.ts"
+        test_files: ["src/core/tree/services/create-node.test.ts"]
+      integration:
+        command: "npm test -- src/core/tree/services/create-node.integration.test.ts"
+        test_files: ["src/core/tree/services/create-node.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- tree-create-node"
+        test_files: ["e2e/tree-create-node.spec.ts"]
+      ai:
+        prompt: "请验证创建树节点功能:\n1. 检查 createNode 方法参数包含 behaviorId, parentId, order\n2. 验证不指定 parentId 时创建根节点\n3. 检查指定父节点时 level = parent.level + 1\n4. 验证 order 自动计算（末尾添加）\n5. 检查节点创建后建立 behavior 关联\n6. 验证创建事件正确发布\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/tree/services/tree.service.ts", "src/core/tree/repository.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-003A~criterion-3"
+    name: "删除树节点"
+    description: "实现删除树节点功能，支持级联删除子节点或上移子节点，更新同级节点顺序"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/tree/services/delete-node.test.ts"
+        test_files: ["src/core/tree/services/delete-node.test.ts"]
+      integration:
+        command: "npm test -- src/core/tree/services/delete-node.integration.test.ts"
+        test_files: ["src/core/tree/services/delete-node.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- tree-delete-node"
+        test_files: ["e2e/tree-delete-node.spec.ts"]
+      ai:
+        prompt: "请验证删除树节点功能:\n1. 检查 deleteNode 支持级联删除子节点\n2. 验证支持上移子节点到父节点级别\n3. 检查删除后同级节点 order 重新排序\n4. 验证软删除支持\n5. 检查删除前验证是否有子节点\n6. 验证删除事件正确发布\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/tree/services/tree.service.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-003A~criterion-4"
+    name: "节点排序调整"
+    description: "实现节点排序功能，支持同级节点重新排序、指定位置插入、批量调整顺序"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/tree/services/reorder-node.test.ts"
+        test_files: ["src/core/tree/services/reorder-node.test.ts"]
+      integration:
+        command: "npm test -- src/core/tree/services/reorder-node.integration.test.ts"
+        test_files: ["src/core/tree/services/reorder-node.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- tree-reorder"
+        test_files: ["e2e/tree-reorder.spec.ts"]
+      ai:
+        prompt: "请验证节点排序调整功能:\n1. 检查 moveNode 支持指定新 order\n2. 验证移动后同级节点 order 自动调整\n3. 检查支持跨父节点移动\n4. 验证批量调整顺序功能\n5. 检查无效 order 值返回错误\n6. 验证排序变更事件发布\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/tree/services/tree.service.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-003A~criterion-5"
+    name: "树结构验证"
+    description: "实现树结构完整性验证，检测循环引用、孤儿节点、层级异常等问题"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/tree/services/validate-tree.test.ts"
+        test_files: ["src/core/tree/services/validate-tree.test.ts"]
+      integration:
+        command: "npm test -- src/core/tree/services/validate-tree.integration.test.ts"
+        test_files: ["src/core/tree/services/validate-tree.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- tree-validate"
+        test_files: ["e2e/tree-validate.spec.ts"]
+      ai:
+        prompt: "请验证树结构验证功能:\n1. 检查 detectCycle 检测循环依赖\n2. 验证 detectOrphans 检测孤儿节点\n3. 检查 validateLevels 验证层级连续性\n4. 验证 validateOrders 检查顺序完整性\n5. 检查修复建议生成\n6. 验证批量验证性能\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/tree/services/validator.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-003A~criterion-6"
+    name: "多树管理"
+    description: "支持多棵树的管理，支持命名空间/项目隔离，支持树级别的操作"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/tree/services/multi-tree.test.ts"
+        test_files: ["src/core/tree/services/multi-tree.test.ts"]
+      integration:
+        command: "npm test -- src/core/tree/services/multi-tree.integration.test.ts"
+        test_files: ["src/core/tree/services/multi-tree.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- multi-tree"
+        test_files: ["e2e/multi-tree.spec.ts"]
+      ai:
+        prompt: "请验证多树管理功能:\n1. 检查支持创建命名空间隔离的树\n2. 验证不同命名空间树互不影响\n3. 检查支持树级别的元数据\n4. 验证支持删除整棵树\n5. 检查支持树之间复制节点\n6. 验证命名空间权限控制\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/tree/services/tree.service.ts", "src/core/tree/namespace.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []

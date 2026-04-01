@@ -1,0 +1,313 @@
+id: "ISSUE-INT-002"
+issue_number: "002"
+title: "CheckTree 同步机制"
+slug: "checktree-sync"
+status: "pending"
+description: |
+  实现 CheckTree 同步机制，确保 issue 状态、进度和元数据在系统与 CheckTree 文档之间保持一致。
+  CheckTree 是项目的依赖关系图谱和 issue 管理系统，同步机制保证 CheckTree.md 文档与系统实际状态
+  的双向同步，支持自动化状态更新和冲突解决。
+
+  主要功能包括：
+  1. CheckTree 解析器（解析 CheckTree.md 和 YAML issue 文件）
+  2. 状态同步引擎（系统状态与 CheckTree 状态的双向同步）
+  3. 变更检测与通知（检测 issue 变更、生成同步任务）
+  4. 冲突解决策略（处理双向修改的冲突情况）
+  5. 自动化工作流（基于状态变更自动触发后续操作）
+
+is_parent: false
+prerequisites:
+  - "ISSUE-CLI-003"
+  - "ISSUE-CLI-006B2"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+
+criteria:
+  - id: "ISSUE-INT-002~checktree-parser"
+    name: "CheckTree 解析器实现"
+    description: |
+      实现 CheckTree 文档和 YAML 文件的解析器：
+      - Mermaid 图表解析（提取节点、边、依赖关系）
+      - YAML issue 文件解析（读取 issue 元数据、状态、验收条件）
+      - 混合解析支持（同时解析 Markdown 和 YAML 格式）
+      - 增量解析优化（只解析变更部分，提升性能）
+      - 解析错误处理（语法错误、格式错误的诊断）
+      - 解析缓存（缓存解析结果，避免重复解析）
+
+      解析器应支持 CheckTree v3.4 格式规范。
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/integration/checktree/parser/"
+        test_files:
+          - "src/integration/checktree/parser/mermaid-parser.test.ts"
+          - "src/integration/checktree/parser/yaml-parser.test.ts"
+          - "src/integration/checktree/parser/cache.test.ts"
+      integration:
+        command: "npm test -- src/integration/checktree/parser/integration.test.ts"
+        test_files:
+          - "src/integration/checktree/parser/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- checktree-parser"
+        test_files:
+          - "tests/e2e/checktree-sync/parsing.spec.ts"
+      ai:
+        prompt: |
+          请验证 CheckTree 解析器实现：
+          1. 检查 src/integration/checktree/parser/ 目录结构
+          2. 验证 Mermaid 图表解析（节点、边、依赖关系提取）
+          3. 检查 YAML issue 文件解析（元数据、状态、验收条件）
+          4. 验证混合解析支持（同时处理 Markdown 和 YAML）
+          5. 检查增量解析优化（变更检测、部分更新）
+          6. 验证解析错误处理（语法错误诊断、友好提示）
+          7. 检查解析缓存机制
+          8. 验证 CheckTree v3.4 格式兼容性
+          9. 检查大数据集解析性能（100+ issue 的解析时间 < 1s）
+
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/integration/checktree/parser/mermaid-parser.ts"
+          - "src/integration/checktree/parser/yaml-parser.ts"
+          - "src/integration/checktree/parser/index.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-INT-002~sync-engine"
+    name: "状态同步引擎实现"
+    description: |
+      实现系统状态与 CheckTree 的双向同步引擎：
+      - 系统→CheckTree 同步（将系统状态更新到 CheckTree 文档）
+      - CheckTree→系统同步（将 CheckTree 变更同步到系统）
+      - 同步策略配置（单向/双向、自动/手动同步）
+      - 批量同步支持（多个 issue 的批量更新）
+      - 事务性同步（保证同步的原子性和一致性）
+      - 同步历史记录（记录每次同步的变更内容）
+
+      同步引擎应支持定时自动同步和手动触发同步。
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/integration/checktree/sync/"
+        test_files:
+          - "src/integration/checktree/sync/engine.test.ts"
+          - "src/integration/checktree/sync/strategy.test.ts"
+          - "src/integration/checktree/sync/batch.test.ts"
+          - "src/integration/checktree/sync/transaction.test.ts"
+      integration:
+        command: "npm test -- src/integration/checktree/sync/integration.test.ts"
+        test_files:
+          - "src/integration/checktree/sync/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- sync-engine"
+        test_files:
+          - "tests/e2e/checktree-sync/bidirectional-sync.spec.ts"
+          - "tests/e2e/checktree-sync/batch-sync.spec.ts"
+      ai:
+        prompt: |
+          请验证状态同步引擎实现：
+          1. 检查 src/integration/checktree/sync/ 目录结构
+          2. 验证系统→CheckTree 同步（状态更新到文档）
+          3. 检查 CheckTree→系统同步（文档变更到系统）
+          4. 验证同步策略配置（单向/双向、自动/手动）
+          5. 检查批量同步支持（多 issue 批量更新）
+          6. 验证事务性同步（原子性、一致性）
+          7. 检查同步历史记录（变更日志）
+          8. 验证定时自动同步机制
+          9. 检查同步性能（100 issue 同步时间 < 3s）
+
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/integration/checktree/sync/engine.ts"
+          - "src/integration/checktree/sync/strategy.ts"
+          - "src/integration/checktree/sync/transaction.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-INT-002~change-detection"
+    name: "变更检测与通知实现"
+    description: |
+      实现变更检测与通知机制，及时响应 issue 状态变化：
+      - 文件系统监听（监听 CheckTree.md 和 YAML 文件变更）
+      - 系统事件监听（监听系统内 issue 状态变更事件）
+      - 变更分类（内容变更、状态变更、元数据变更）
+      - 同步任务生成（根据变更生成同步任务队列）
+      - 通知机制（同步完成通知、冲突警告、错误提示）
+      - 变更防抖（避免频繁的同步操作）
+
+      变更检测应支持实时监听和轮询两种模式。
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/integration/checktree/changes/"
+        test_files:
+          - "src/integration/checktree/changes/detector.test.ts"
+          - "src/integration/checktree/changes/classifier.test.ts"
+          - "src/integration/checktree/changes/scheduler.test.ts"
+          - "src/integration/checktree/changes/notifier.test.ts"
+      integration:
+        command: "npm test -- src/integration/checktree/changes/integration.test.ts"
+        test_files:
+          - "src/integration/checktree/changes/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- change-detection"
+        test_files:
+          - "tests/e2e/checktree-sync/file-watcher.spec.ts"
+          - "tests/e2e/checktree-sync/event-listener.spec.ts"
+      ai:
+        prompt: |
+          请验证变更检测与通知实现：
+          1. 检查 src/integration/checktree/changes/ 目录结构
+          2. 验证文件系统监听（CheckTree.md、YAML 文件变更）
+          3. 检查系统事件监听（issue 状态变更事件）
+          4. 验证变更分类（内容/状态/元数据变更）
+          5. 检查同步任务生成（任务队列、优先级）
+          6. 验证通知机制（完成通知、冲突警告、错误提示）
+          7. 检查变更防抖机制
+          8. 验证实时监听和轮询两种模式
+          9. 检查变更检测性能（大文件变更检测 < 100ms）
+
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/integration/checktree/changes/detector.ts"
+          - "src/integration/checktree/changes/classifier.ts"
+          - "src/integration/checktree/changes/scheduler.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-INT-002~conflict-resolution"
+    name: "冲突解决策略实现"
+    description: |
+      实现冲突检测和解决策略，处理双向修改的冲突情况：
+      - 冲突检测（检测系统和 CheckTree 的并发修改）
+      - 冲突分类（状态冲突、内容冲突、依赖冲突）
+      - 自动解决策略（基于时间戳、优先级、规则的自动解决）
+      - 手动解决支持（交互式冲突解决界面）
+      - 冲突报告生成（详细的冲突说明和建议）
+      - 冲突预防（乐观锁、变更提示等预防机制）
+
+      冲突解决应优先保证数据完整性，提供清晰的解决指引。
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/integration/checktree/conflict/"
+        test_files:
+          - "src/integration/checktree/conflict/detector.test.ts"
+          - "src/integration/checktree/conflict/resolver.test.ts"
+          - "src/integration/checktree/conflict/strategies.test.ts"
+          - "src/integration/checktree/conflict/reporter.test.ts"
+      integration:
+        command: "npm test -- src/integration/checktree/conflict/integration.test.ts"
+        test_files:
+          - "src/integration/checktree/conflict/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- conflict-resolution"
+        test_files:
+          - "tests/e2e/checktree-sync/conflict-detection.spec.ts"
+          - "tests/e2e/checktree-sync/conflict-resolution.spec.ts"
+      ai:
+        prompt: |
+          请验证冲突解决策略实现：
+          1. 检查 src/integration/checktree/conflict/ 目录结构
+          2. 验证冲突检测机制（并发修改检测）
+          3. 检查冲突分类（状态/内容/依赖冲突）
+          4. 验证自动解决策略（时间戳、优先级、规则）
+          5. 检查手动解决支持（交互式界面）
+          6. 验证冲突报告生成（冲突说明、解决建议）
+          7. 检查冲突预防机制（乐观锁、变更提示）
+          8. 验证复杂冲突场景处理（三方冲突、循环依赖冲突）
+          9. 检查冲突解决后的数据一致性
+
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/integration/checktree/conflict/detector.ts"
+          - "src/integration/checktree/conflict/resolver.ts"
+          - "src/integration/checktree/conflict/strategies.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-INT-002~automation-workflow"
+    name: "自动化工作流实现"
+    description: |
+      实现基于 CheckTree 状态变更的自动化工作流：
+      - 触发器定义（状态变更、依赖完成、里程碑达成等触发条件）
+      - 动作执行（自动更新依赖 issue、发送通知、生成报告）
+      - 工作流编排（顺序执行、并行执行、条件分支）
+      - 工作流模板（预定义常用工作流模板）
+      - 执行历史（记录工作流执行过程和结果）
+      - 工作流调试（单步执行、断点、日志输出）
+
+      自动化工作流应可配置、可扩展，支持自定义脚本。
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/integration/checktree/workflow/"
+        test_files:
+          - "src/integration/checktree/workflow/engine.test.ts"
+          - "src/integration/checktree/workflow/triggers.test.ts"
+          - "src/integration/checktree/workflow/actions.test.ts"
+          - "src/integration/checktree/workflow/templates.test.ts"
+      integration:
+        command: "npm test -- src/integration/checktree/workflow/integration.test.ts"
+        test_files:
+          - "src/integration/checktree/workflow/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- automation-workflow"
+        test_files:
+          - "tests/e2e/checktree-sync/workflow-trigger.spec.ts"
+          - "tests/e2e/checktree-sync/workflow-execution.spec.ts"
+      ai:
+        prompt: |
+          请验证自动化工作流实现：
+          1. 检查 src/integration/checktree/workflow/ 目录结构
+          2. 验证触发器定义（状态变更、依赖完成、里程碑等）
+          3. 检查动作执行（更新依赖 issue、通知、报告）
+          4. 验证工作流编排（顺序、并行、条件分支）
+          5. 检查工作流模板（至少 5 个预定义模板）
+          6. 验证执行历史记录
+          7. 检查工作流调试功能（单步、断点、日志）
+          8. 验证自定义脚本支持
+          9. 检查工作流性能（复杂工作流执行时间 < 5s）
+
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/integration/checktree/workflow/engine.ts"
+          - "src/integration/checktree/workflow/triggers.ts"
+          - "src/integration/checktree/workflow/actions.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites: []

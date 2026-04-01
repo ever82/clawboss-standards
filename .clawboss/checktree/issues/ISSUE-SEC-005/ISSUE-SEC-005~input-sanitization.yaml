@@ -1,0 +1,174 @@
+id: "ISSUE-SEC-005"
+issue_number: 5
+title: "输入净化与防注入"
+slug: "input-sanitization"
+status: "pending"
+description: "实现全面的输入验证和净化机制，防止SQL注入、命令注入、XSS、路径遍历等注入攻击。对用户输入、文件路径、命令参数等进行严格验证和清理，确保系统安全性。"
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-013"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-SEC-005~criterion-1"
+    name: "SQL注入防护"
+    description: "实现SQL注入防护机制，使用参数化查询和输入验证，防止数据库注入攻击"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/security/sanitization/sql-injection-guard.test.ts"
+        test_files: ["src/security/sanitization/sql-injection-guard.test.ts"]
+      integration:
+        command: "npm test -- src/security/sanitization/sql-injection.integration.test.ts"
+        test_files: ["src/security/sanitization/sql-injection.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- sql-injection"
+        test_files: ["e2e/security/sql-injection.spec.ts"]
+      ai:
+        prompt: "请验证SQL注入防护:\n1. 所有数据库查询使用参数化查询\n2. 输入验证过滤危险字符\n3. 预编译语句正确使用\n4. ORM/Lite配置安全\n5. 注入攻击测试用例通过\n返回: {\"passed\": true/false, \"reason\": \"说明\"}"
+        context_files: ["src/security/sanitization/sql-injection-guard.ts", "src/database/query-builder.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<30 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-SEC-005~criterion-2"
+    name: "命令注入防护"
+    description: "实现命令注入防护，对外部输入的命令参数进行严格验证，使用安全的命令执行方式"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/security/sanitization/command-injection-guard.test.ts"
+        test_files: ["src/security/sanitization/command-injection-guard.test.ts"]
+      integration:
+        command: "npm test -- src/security/sanitization/command-injection.integration.test.ts"
+        test_files: ["src/security/sanitization/command-injection.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- command-injection"
+        test_files: ["e2e/security/command-injection.spec.ts"]
+      ai:
+        prompt: "请验证命令注入防护:\n1. 外部输入不直接拼接到命令\n2. 使用参数化命令执行方式\n3. 命令参数白名单验证\n4. 危险字符转义处理\n5. 命令注入测试用例通过\n返回: {\"passed\": true/false, \"reason\": \"说明\"}"
+        context_files: ["src/security/sanitization/command-injection-guard.ts", "src/utils/command-executor.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<25 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-SEC-005~criterion-3"
+    name: "路径遍历防护"
+    description: "实现路径遍历攻击防护，对用户提供的文件路径进行规范化处理和验证"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/security/sanitization/path-traversal-guard.test.ts"
+        test_files: ["src/security/sanitization/path-traversal-guard.test.ts"]
+      integration:
+        command: "npm test -- src/security/sanitization/path-traversal.integration.test.ts"
+        test_files: ["src/security/sanitization/path-traversal.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- path-traversal"
+        test_files: ["e2e/security/path-traversal.spec.ts"]
+      ai:
+        prompt: "请验证路径遍历防护:\n1. 路径规范化处理(../等)\n2. 路径前缀验证\n3. 禁止访问敏感目录\n4. 路径遍历攻击测试用例通过\n5. 符号链接处理安全\n返回: {\"passed\": true/false, \"reason\": \"说明\"}"
+        context_files: ["src/security/sanitization/path-traversal-guard.ts", "src/utils/path-validator.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<25 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-SEC-005~criterion-4"
+    name: "XSS防护与输出编码"
+    description: "实现XSS防护机制，对用户输入进行适当的编码处理，防止跨站脚本攻击"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/security/sanitization/xss-guard.service.test.ts"
+        test_files: ["src/security/sanitization/xss-guard.service.test.ts"]
+      integration:
+        command: "npm test -- src/security/sanitization/xss-guard.integration.test.ts"
+        test_files: ["src/security/sanitization/xss-guard.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- xss"
+        test_files: ["e2e/security/xss.spec.ts"]
+      ai:
+        prompt: "请验证XSS防护:\n1. HTML上下文输出正确编码\n2. JavaScript上下文编码处理\n3. URL参数编码处理\n4. 富文本输入使用白名单过滤\n5. XSS攻击测试用例通过\n返回: {\"passed\": true/false, \"reason\": \"说明\"}"
+        context_files: ["src/security/sanitization/xss-guard.service.ts", "src/security/sanitization/encoding-utils.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<25 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-SEC-005~criterion-5"
+    name: "通用输入验证框架"
+    description: "实现统一的输入验证框架，提供验证规则定义、验证装饰器和验证错误处理机制"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/security/validation/validation-framework.test.ts"
+        test_files: ["src/security/validation/validation-framework.test.ts"]
+      integration:
+        command: "npm test -- src/security/validation/validation.integration.test.ts"
+        test_files: ["src/security/validation/validation.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- validation"
+        test_files: ["e2e/security/validation.spec.ts"]
+      ai:
+        prompt: "请验证输入验证框架:\n1. 支持多种验证规则(长度、格式、范围等)\n2. 验证装饰器工作正常\n3. 验证错误信息友好且安全\n4. 支持自定义验证规则\n5. 与INFRA-013验证层集成正确\n返回: {\"passed\": true/false, \"reason\": \"说明\"}"
+        context_files: ["src/security/validation/validation-framework.ts", "src/security/validation/validators.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<30 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-SEC-005~criterion-6"
+    name: "危险模式检测"
+    description: "实现危险输入模式检测，识别包含恶意代码或可疑模式的输入数据"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/security/sanitization/dangerous-pattern-detector.test.ts"
+        test_files: ["src/security/sanitization/dangerous-pattern-detector.test.ts"]
+      integration:
+        command: "npm test -- src/security/sanitization/dangerous-pattern.integration.test.ts"
+        test_files: ["src/security/sanitization/dangerous-pattern.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- dangerous-pattern"
+        test_files: ["e2e/security/dangerous-pattern.spec.ts"]
+      ai:
+        prompt: "请验证危险模式检测:\n1. 危险字符和序列识别\n2. 编码绕过攻击检测\n3. 混淆攻击检测\n4. 检测规则可配置更新\n5. 误报率控制在合理范围\n返回: {\"passed\": true/false, \"reason\": \"说明\"}"
+        context_files: ["src/security/sanitization/dangerous-pattern-detector.ts", "src/security/sanitization/threat-patterns.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<25 seconds"
+    prerequisites: []

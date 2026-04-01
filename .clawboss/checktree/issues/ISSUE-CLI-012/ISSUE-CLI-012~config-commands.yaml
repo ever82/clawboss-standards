@@ -1,0 +1,275 @@
+id: "ISSUE-CLI-012"
+issue_number: 12
+slug: "config-commands"
+title: "配置管理命令"
+description: |
+  实现AI-Me CLI的配置管理相关命令，支持配置的查看、修改、验证、导入导出等操作。
+  命令需要与INFRA-005配置系统深度集成。
+status: "pending"
+is_parent: false
+sub_issues: []
+prerequisites:
+  - "ISSUE-CLI-001B"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CLI-012~criterion-1"
+    name: "配置查看与设置"
+    description: |
+      实现 `ai-me config` 命令的基础功能，支持配置的查看、设置、删除操作。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/config/basic.test.ts"
+        test_files:
+          - "src/cli/commands/config/get.test.ts"
+          - "src/cli/commands/config/set.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/config/integration.test.ts"
+        test_files:
+          - "src/cli/commands/config/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/config/basic"
+        test_files:
+          - "e2e/cli/config/get.spec.ts"
+          - "e2e/cli/config/set.spec.ts"
+      ai:
+        prompt: |
+          请验证配置查看与设置功能的实现:
+          1. 获取配置: `ai-me config get <key>` 显示配置值
+          2. 嵌套配置: `ai-me config get "database.host"` 支持点号路径
+          3. 设置配置: `ai-me config set <key> <value>`
+          4. 类型推断: 自动识别数字、布尔、字符串类型
+          5. 设置嵌套: `ai-me config set "ui.theme" "dark"`
+          6. 列出配置: `ai-me config list` 显示所有配置
+          7. 删除配置: `ai-me config delete <key>` 移除配置项
+          8. 配置路径: `ai-me config path` 显示配置文件路径
+          9. 默认配置: 显示默认值和当前值
+
+          检查点:
+          - 与INFRA-005配置系统正确集成
+          - 配置变更立即生效
+          - 敏感值(密码)显示时脱敏
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/config/index.ts"
+          - "src/infra/config/manager.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CLI-012~criterion-2"
+    name: "配置验证与检查"
+    description: |
+      实现配置验证功能，检查配置合法性，提供配置问题诊断。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/config/validate.test.ts"
+        test_files:
+          - "src/cli/commands/config/validate.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/config/validate.integration.test.ts"
+        test_files:
+          - "src/cli/commands/config/validate.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/config/validate"
+        test_files:
+          - "e2e/cli/config/validate.spec.ts"
+      ai:
+        prompt: |
+          请验证配置验证与检查功能的实现:
+          1. 配置验证: `ai-me config validate` 检查配置合法性
+          2. 错误报告: 显示无效配置项和错误原因
+          3. 修复建议: 对无效配置提供修复建议
+          4. 自动修复: `--fix` 自动修复可修复的配置问题
+          5. 类型检查: 验证配置值类型是否符合要求
+          6. 范围检查: 验证数值是否在允许范围内
+          7. 依赖检查: 验证相关配置项是否匹配
+          8. 配置测试: `--test` 测试配置是否可正常工作
+          9. 详细模式: `--verbose` 显示详细验证信息
+
+          检查点:
+          - 验证规则与配置模式一致
+          - 错误消息清晰有用
+          - 自动修复安全不破坏数据
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/config/validate.ts"
+          - "src/infra/config/validator.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-012~criterion-1"
+
+  - id: "ISSUE-CLI-012~criterion-3"
+    name: "配置导入导出"
+    description: |
+      实现配置的导入导出功能，支持多种格式和环境迁移。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/config/import.test.ts"
+        test_files:
+          - "src/cli/commands/config/import.test.ts"
+          - "src/cli/commands/config/export.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/config/io.integration.test.ts"
+        test_files:
+          - "src/cli/commands/config/io.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/config/io"
+        test_files:
+          - "e2e/cli/config/import.spec.ts"
+          - "e2e/cli/config/export.spec.ts"
+      ai:
+        prompt: |
+          请验证配置导入导出功能的实现:
+          1. JSON导出: `ai-me config export --format json --output config.json`
+          2. YAML导出: `ai-me config export --format yaml --output config.yaml`
+          3. 环境导出: `ai-me config export --env` 导出为环境变量格式
+          4. 选择性导出: `--keys key1,key2` 只导出指定配置
+          5. JSON导入: `ai-me config import config.json`
+          6. YAML导入: `ai-me config import config.yaml`
+          7. 合并导入: `--merge` 与现有配置合并而非覆盖
+          8. 验证导入: `--validate` 导入前验证格式
+          9. 备份: 导入前自动备份原配置
+
+          检查点:
+          - 导出格式与INFRA-005兼容
+          - 导入后配置立即生效
+          - 备份文件正确生成
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/config/import.ts"
+          - "src/cli/commands/config/export.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-012~criterion-2"
+
+  - id: "ISSUE-CLI-012~criterion-4"
+    name: "环境配置管理"
+    description: |
+      实现多环境配置管理，支持开发、测试、生产等不同环境的配置切换。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/config/environment.test.ts"
+        test_files:
+          - "src/cli/commands/config/environment.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/config/environment.integration.test.ts"
+        test_files:
+          - "src/cli/commands/config/environment.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/config/environment"
+        test_files:
+          - "e2e/cli/config/environment.spec.ts"
+      ai:
+        prompt: |
+          请验证环境配置管理功能的实现:
+          1. 环境列表: `ai-me config env list` 显示所有环境
+          2. 当前环境: `ai-me config env current` 显示当前环境
+          3. 切换环境: `ai-me config env switch <name>`
+          4. 创建环境: `ai-me config env create <name> [--template dev]`
+          5. 删除环境: `ai-me config env delete <name>`
+          6. 复制环境: `ai-me config env copy <source> <target>`
+          7. 环境变量: 支持AI_ME_ENV环境变量指定环境
+          8. 配置继承: 环境配置继承默认配置
+          9. 环境特定: 某些配置项仅存在于特定环境
+
+          检查点:
+          - 与DEPLOY-005多环境配置集成
+          - 环境切换正确加载对应配置
+          - 环境隔离，配置不互相影响
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/config/environment.ts"
+          - "src/infra/config/environment.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-012~criterion-3"
+      - "ISSUE-DEPLOY-005"
+
+  - id: "ISSUE-CLI-012~criterion-5"
+    name: "配置编辑与初始化"
+    description: |
+      实现配置的交互式编辑和初始化向导，简化配置管理。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/config/edit.test.ts"
+        test_files:
+          - "src/cli/commands/config/edit.test.ts"
+          - "src/cli/commands/config/init.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/config/edit.integration.test.ts"
+        test_files:
+          - "src/cli/commands/config/edit.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/config/edit"
+        test_files:
+          - "e2e/cli/config/edit.spec.ts"
+          - "e2e/cli/config/init.spec.ts"
+      ai:
+        prompt: |
+          请验证配置编辑与初始化功能的实现:
+          1. 交互编辑: `ai-me config edit` 启动交互式配置编辑器
+          2. 打开编辑器: `ai-me config edit --editor` 用系统编辑器打开
+          3. 初始化向导: `ai-me config init` 引导新用户完成初始配置
+          4. 配置模板: `ai-me config init --template minimal|full` 选择模板
+          5. 重置配置: `ai-me config reset` 恢复默认配置
+          6. 重置单项: `ai-me config reset <key>` 恢复单个配置项
+          7. 配置差异: `ai-me config diff` 显示与默认配置的差异
+          8. 配置历史: `ai-me config history` 显示配置修改历史
+
+          检查点:
+          - 编辑器支持语法高亮(如JSON)
+          - 向导步骤清晰，有默认值
+          - 重置操作有确认提示
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/config/edit.ts"
+          - "src/cli/commands/config/init.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-012~criterion-4"

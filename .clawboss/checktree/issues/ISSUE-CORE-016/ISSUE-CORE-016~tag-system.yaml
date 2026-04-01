@@ -1,0 +1,174 @@
+id: "ISSUE-CORE-016"
+issue_number: 27
+title: "标签系统"
+slug: "tag-system"
+status: "pending"
+description: "实现标签系统，支持标签的增删改查、标签分组、智能标签建议，提供灵活的数据组织方式。"
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-002B1"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CORE-016~criterion-1"
+    name: "标签基础管理"
+    description: "实现标签的增删改查功能，支持标签颜色、描述"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/tag/crud.test.ts"
+        test_files: ["src/core/tag/crud.test.ts"]
+      integration:
+        command: "npm test -- src/core/tag/crud.integration.test.ts"
+        test_files: ["src/core/tag/crud.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- tag-crud"
+        test_files: ["e2e/tag-crud.spec.ts"]
+      ai:
+        prompt: "请验证标签基础管理功能:\n1. 检查支持创建标签\n2. 验证支持更新标签\n3. 检查支持删除标签\n4. 验证支持设置颜色\n5. 检查支持添加描述\n6. 验证标签唯一性\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/tag/crud.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-016~criterion-2"
+    name: "行为标签关联"
+    description: "实现行为与标签的关联管理，支持添加、移除、查询标签"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/tag/association.test.ts"
+        test_files: ["src/core/tag/association.test.ts"]
+      integration:
+        command: "npm test -- src/core/tag/association.integration.test.ts"
+        test_files: ["src/core/tag/association.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- tag-association"
+        test_files: ["e2e/tag-association.spec.ts"]
+      ai:
+        prompt: "请验证行为标签关联功能:\n1. 检查支持为行为添加标签\n2. 验证支持移除标签\n3. 检查支持查询行为标签\n4. 验证支持批量添加\n5. 检查支持批量移除\n6. 验证关联限制\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/tag/association.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-016~criterion-3"
+    name: "标签分组"
+    description: "实现标签分组功能，支持创建分组、将标签归类"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/tag/groups.test.ts"
+        test_files: ["src/core/tag/groups.test.ts"]
+      integration:
+        command: "npm test -- src/core/tag/groups.integration.test.ts"
+        test_files: ["src/core/tag/groups.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- tag-groups"
+        test_files: ["e2e/tag-groups.spec.ts"]
+      ai:
+        prompt: "请验证标签分组功能:\n1. 检查支持创建分组\n2. 验证支持分组管理\n3. 检查支持标签归类\n4. 验证支持分组排序\n5. 检查支持嵌套分组\n6. 验证分组查询\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/tag/groups.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-016~criterion-4"
+    name: "标签统计"
+    description: "实现标签统计功能，统计标签使用频率、分布"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/tag/statistics.test.ts"
+        test_files: ["src/core/tag/statistics.test.ts"]
+      integration:
+        command: "npm test -- src/core/tag/statistics.integration.test.ts"
+        test_files: ["src/core/tag/statistics.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- tag-statistics"
+        test_files: ["e2e/tag-statistics.spec.ts"]
+      ai:
+        prompt: "请验证标签统计功能:\n1. 检查统计标签使用次数\n2. 验证统计标签分布\n3. 检查识别热门标签\n4. 验证识别未使用标签\n5. 检查生成标签云\n6. 验证统计时间范围\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/tag/statistics.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-016~criterion-5"
+    name: "智能标签建议"
+    description: "实现智能标签建议，基于内容、历史推荐标签"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/tag/suggestions.test.ts"
+        test_files: ["src/core/tag/suggestions.test.ts"]
+      integration:
+        command: "npm test -- src/core/tag/suggestions.integration.test.ts"
+        test_files: ["src/core/tag/suggestions.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- tag-suggestions"
+        test_files: ["e2e/tag-suggestions.spec.ts"]
+      ai:
+        prompt: "请验证智能标签建议功能:\n1. 检查基于内容推荐\n2. 验证基于历史推荐\n3. 检查基于相似行为推荐\n4. 验证支持自动打标\n5. 检查推荐置信度\n6. 验证推荐准确性\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/tag/suggestions.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-016~criterion-6"
+    name: "标签导入导出"
+    description: "实现标签的导入导出功能，支持批量操作"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/tag/import-export.test.ts"
+        test_files: ["src/core/tag/import-export.test.ts"]
+      integration:
+        command: "npm test -- src/core/tag/import-export.integration.test.ts"
+        test_files: ["src/core/tag/import-export.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- tag-import-export"
+        test_files: ["e2e/tag-import-export.spec.ts"]
+      ai:
+        prompt: "请验证标签导入导出功能:\n1. 检查支持导出标签\n2. 验证支持导入标签\n3. 检查支持格式转换\n4. 验证支持批量导入\n5. 检查导入验证\n6. 验证导入冲突处理\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/tag/import-export.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []

@@ -1,0 +1,278 @@
+id: "ISSUE-PLUGIN-001E"
+issue_number: "1E"
+module: "PLUGIN"
+title: "插件安全沙箱"
+slug: "plugin-security"
+status: "pending"
+completion: 0
+description: "实现插件安全沙箱机制，包括权限控制、代码隔离、资源限制、恶意代码检测，确保插件运行安全可控，防止插件破坏系统或窃取数据。"
+category: "component"
+is_parent: false
+prerequisites:
+  - "ISSUE-PLUGIN-001D"
+  - "ISSUE-BC-004"
+  - "ISSUE-SEC-001"
+related_specs:
+  - "PLUGIN"
+  - "SECURITY"
+created_at: "2026-04-01"
+completed_at: null
+logic: "sufficient_necessary"
+
+criteria:
+  - id: "ISSUE-PLUGIN-001E~criterion-1"
+    name: "权限系统实现"
+    description: "实现插件权限系统，支持声明式权限申请、运行时权限检查、权限降级和撤销机制"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "权限粒度细分到API级别，支持动态权限申请"
+    execution_time: "<500 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/security/permission-system.ts"
+      - type: "types"
+        path: "src/plugin/security/permission.types.ts"
+      - type: "schema"
+        path: "src/plugin/schemas/permission.schema.ts"
+    verification:
+      unit:
+        command: "npm test -- src/plugin/security/permission-system.test.ts"
+        test_files:
+          - "src/plugin/security/permission-system.test.ts"
+          - "src/plugin/security/permission.types.test.ts"
+          - "src/plugin/schemas/permission.schema.test.ts"
+      integration:
+        command: "npm run test:integration -- plugin-permissions"
+        test_files:
+          - "tests/integration/plugin/security/permissions.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- plugin-permission-flow"
+        test_files:
+          - "tests/e2e/plugin/security/permissions.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证权限系统实现是否满足以下要求:
+          1. 是否定义了完整的权限分类: filesystem(文件系统), network(网络), commands(命令执行), ui(界面操作), storage(存储), clipboard(剪贴板)等
+          2. 权限是否在manifest中声明(permissions字段)，支持必需和可选权限
+          3. 运行时API调用是否有权限检查(如无权访问文件系统时抛出PermissionDeniedError)
+          4. 是否支持动态权限申请(插件运行时请求额外权限，需用户确认)
+          5. 是否有权限降级机制(当用户拒绝某些权限时插件以降级模式运行)
+          6. 是否支持权限撤销(用户可随时收回已授权的权限)
+          7. 权限检查是否有缓存机制(避免频繁IO检查权限状态)
+          8. 敏感操作是否有审计日志(记录谁在什么时间做了什么操作)
+          返回格式: {"passed": true/false, "reason": "详细说明", "details": [{"check": "检查项", "passed": true/false}]}
+        context_files:
+          - "src/plugin/security/permission-system.ts"
+          - "src/plugin/security/permission.types.ts"
+          - "src/plugin/schemas/permission.schema.ts"
+        model: "claude-sonnet-4-6"
+
+  - id: "ISSUE-PLUGIN-001E~criterion-2"
+    name: "代码隔离沙箱"
+    description: "实现插件代码隔离机制，使用VM或Worker隔离插件代码执行环境，防止污染全局命名空间"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "隔离Node.js原生API，只允许通过白名单访问"
+    execution_time: "<2 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/security/code-sandbox.ts"
+      - type: "component"
+        path: "src/plugin/security/vm-isolate.ts"
+    verification:
+      unit:
+        command: "npm test -- src/plugin/security/code-sandbox.test.ts"
+        test_files:
+          - "src/plugin/security/code-sandbox.test.ts"
+          - "src/plugin/security/vm-isolate.test.ts"
+      integration:
+        command: "npm run test:integration -- code-sandbox"
+        test_files:
+          - "tests/integration/plugin/security/sandbox.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- sandbox-isolation"
+        test_files:
+          - "tests/e2e/plugin/security/code-isolation.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证代码隔离沙箱是否满足以下要求:
+          1. 是否使用VM2、Node:vm或Worker Threads隔离插件代码执行环境
+          2. 全局对象(global/Window)是否隔离，插件修改不影响宿主
+          3. Node.js原生模块(require)是否受控，只允许访问白名单模块
+          4. 危险API(process.exit, child_process)是否被完全禁止
+          5. 原型链污染防护是否实现(防止修改Object.prototype等)
+          6. 沙箱逃逸防护是否实现(防止通过constructor.constructor访问宿主)
+          7. 是否支持多层沙箱(核心插件权限更高，第三方插件限制更严)
+          8. 沙箱执行是否有超时控制，防止死循环或长时间阻塞
+          返回格式: {"passed": true/false, "reason": "详细说明", "details": [{"check": "检查项", "passed": true/false}]}
+        context_files:
+          - "src/plugin/security/code-sandbox.ts"
+          - "src/plugin/security/vm-isolate.ts"
+        model: "claude-sonnet-4-6"
+
+  - id: "ISSUE-PLUGIN-001E~criterion-3"
+    name: "资源限制机制"
+    description: "实现插件资源限制，包括CPU时间、内存使用、文件句柄、网络连接等配额控制"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "超限时有优雅降级，极端情况强制终止"
+    execution_time: "<1 second"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/security/resource-limiter.ts"
+      - type: "component"
+        path: "src/plugin/security/resource-monitor.ts"
+    verification:
+      unit:
+        command: "npm test -- src/plugin/security/resource-limiter.test.ts"
+        test_files:
+          - "src/plugin/security/resource-limiter.test.ts"
+          - "src/plugin/security/resource-monitor.test.ts"
+      integration:
+        command: "npm run test:integration -- resource-limiting"
+        test_files:
+          - "tests/integration/plugin/security/resource-limits.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- resource-enforcement"
+        test_files:
+          - "tests/e2e/plugin/security/resource-limits.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证资源限制机制是否满足以下要求:
+          1. 是否实现内存限制(如单个插件最多128MB)，超限时是否触发垃圾回收或警告
+          2. 是否实现CPU时间限制(如单次操作最多5秒)，超限时是否中断执行
+          3. 是否实现文件句柄限制(如最多同时打开50个文件)，防止资源泄漏
+          4. 是否实现存储配额限制(插件数据最大存储空间)，超限时是否拒绝写入
+          5. 是否实现网络请求限制(如每秒最多10个请求)，防止DDoS或滥用
+          6. 资源使用是否实时监控，有仪表盘展示各插件资源占用
+          7. 超限行为是否可配置(警告/拒绝/终止)，超限前是否有预警
+          8. 资源限制是否可配置(用户可调整插件资源配额)
+          返回格式: {"passed": true/false, "reason": "详细说明", "details": [{"check": "检查项", "passed": true/false}]}
+        context_files:
+          - "src/plugin/security/resource-limiter.ts"
+          - "src/plugin/security/resource-monitor.ts"
+        model: "claude-sonnet-4-6"
+
+  - id: "ISSUE-PLUGIN-001E~criterion-4"
+    name: "恶意代码检测"
+    description: "实现静态和动态恶意代码检测，扫描危险代码模式、敏感API调用、异常行为检测"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "扫描规则可更新，支持社区安全规则库"
+    execution_time: "<5 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/security/malware-scanner.ts"
+      - type: "component"
+        path: "src/plugin/security/behavior-analyzer.ts"
+      - type: "config"
+        path: "src/plugin/security/security-rules.json"
+    verification:
+      unit:
+        command: "npm test -- src/plugin/security/malware-scanner.test.ts"
+        test_files:
+          - "src/plugin/security/malware-scanner.test.ts"
+          - "src/plugin/security/behavior-analyzer.test.ts"
+      integration:
+        command: "npm run test:integration -- malware-detection"
+        test_files:
+          - "tests/integration/plugin/security/malware-scan.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- security-scanning"
+        test_files:
+          - "tests/e2e/plugin/security/malware-detection.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证恶意代码检测是否满足以下要求:
+          1. 静态扫描是否检测危险代码模式(eval, Function, setTimeout字符串, 原型链污染等)
+          2. 是否检测敏感API调用(require('child_process'), fs.writeFile系统路径等)
+          3. 是否检测混淆/加密代码(高熵字符串、异常编码等可疑特征)
+          4. 动态行为分析是否监控运行时异常行为(高频文件访问、异常网络连接)
+          5. 扫描规则是否可配置和更新(支持远程规则库更新)
+          6. 发现恶意代码时的处理策略(阻止安装/警告用户/隔离插件)
+          7. 误报处理机制(允许用户标记误报，优化规则)
+          8. 扫描结果是否详细报告(列出所有风险点、风险等级、建议措施)
+          返回格式: {"passed": true/false, "reason": "详细说明", "details": [{"check": "检查项", "passed": true/false}]}
+        context_files:
+          - "src/plugin/security/malware-scanner.ts"
+          - "src/plugin/security/behavior-analyzer.ts"
+          - "src/plugin/security/security-rules.json"
+        model: "claude-sonnet-4-6"
+
+  - id: "ISSUE-PLUGIN-001E~criterion-5"
+    name: "安全审计与报告"
+    description: "实现安全审计系统，记录插件安全事件，生成安全报告，支持安全合规检查"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "安全事件持久化，支持导出合规报告"
+    execution_time: "<1 second"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/security/security-audit.ts"
+      - type: "component"
+        path: "src/plugin/security/security-reporter.ts"
+    verification:
+      unit:
+        command: "npm test -- src/plugin/security/security-audit.test.ts"
+        test_files:
+          - "src/plugin/security/security-audit.test.ts"
+          - "src/plugin/security/security-reporter.test.ts"
+      integration:
+        command: "npm run test:integration -- security-auditing"
+        test_files:
+          - "tests/integration/plugin/security/audit.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- security-report"
+        test_files:
+          - "tests/e2e/plugin/security/audit-report.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证安全审计与报告是否满足以下要求:
+          1. 是否记录所有安全相关事件(权限申请、拒绝、越权尝试、异常行为等)
+          2. 审计日志是否包含完整上下文(时间戳、插件信息、操作详情、结果)
+          3. 是否提供安全报告生成(插件安全评分、风险汇总、建议措施)
+          4. 是否支持合规检查(如是否满足GDPR数据保护要求)
+          5. 审计数据是否加密存储，防止篡改
+          6. 是否支持实时安全告警(检测到高危行为时立即通知)
+          7. 报告是否支持多种格式导出(PDF, JSON, CSV)
+          8. 是否有安全仪表盘(可视化展示系统安全状态、各插件安全评分)
+          返回格式: {"passed": true/false, "reason": "详细说明", "details": [{"check": "检查项", "passed": true/false}]}
+        context_files:
+          - "src/plugin/security/security-audit.ts"
+          - "src/plugin/security/security-reporter.ts"
+        model: "claude-sonnet-4-6"

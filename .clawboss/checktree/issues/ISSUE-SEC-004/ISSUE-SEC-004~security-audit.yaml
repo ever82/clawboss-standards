@@ -1,0 +1,148 @@
+id: "ISSUE-SEC-004"
+issue_number: 4
+title: "安全审计与API安全"
+slug: "security-audit"
+status: "pending"
+description: "实现全面的安全审计系统，记录所有安全相关事件和操作日志。同时实现API安全机制，包括速率限制、CORS配置、请求签名验证等，保护系统API免受滥用和攻击。"
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-003B"
+  - "ISSUE-INFRA-005"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-SEC-004~criterion-1"
+    name: "安全事件审计日志"
+    description: "实现安全事件审计系统，记录登录、权限变更、敏感操作等安全相关事件"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/security/audit/security-audit.service.test.ts"
+        test_files: ["src/security/audit/security-audit.service.test.ts"]
+      integration:
+        command: "npm test -- src/security/audit/security-audit.integration.test.ts"
+        test_files: ["src/security/audit/security-audit.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- security-audit"
+        test_files: ["e2e/security/security-audit.spec.ts"]
+      ai:
+        prompt: "请验证安全审计日志:\n1. 关键安全事件(登录/登出/失败/权限变更)被记录\n2. 审计日志包含必要信息(用户、时间、IP、操作、结果)\n3. 审计日志不可篡改\n4. 支持按条件查询审计日志\n5. 审计日志存储安全\n返回: {\"passed\": true/false, \"reason\": \"说明\"}"
+        context_files: ["src/security/audit/security-audit.service.ts", "src/security/audit/audit.entity.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<25 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-SEC-004~criterion-2"
+    name: "API速率限制"
+    description: "实现API速率限制机制，防止API滥用和暴力破解攻击，支持按IP和用户限流"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/security/api/rate-limiter.service.test.ts"
+        test_files: ["src/security/api/rate-limiter.service.test.ts"]
+      integration:
+        command: "npm test -- src/security/api/rate-limiter.integration.test.ts"
+        test_files: ["src/security/api/rate-limiter.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- rate-limit"
+        test_files: ["e2e/security/rate-limit.spec.ts"]
+      ai:
+        prompt: "请验证API速率限制:\n1. 速率限制按规则执行(请求/秒、请求/分钟)\n2. 超限请求返回429状态码\n3. 支持按IP和用户分别限流\n4. 限流计数器正确重置\n5. 提供友好的限流提示信息\n返回: {\"passed\": true/false, \"reason\": \"说明\"}"
+        context_files: ["src/security/api/rate-limiter.service.ts", "src/security/api/rate-limit.middleware.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<25 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-SEC-004~criterion-3"
+    name: "CORS与安全头部"
+    description: "实现CORS配置和安全HTTP响应头部，防止常见Web攻击(CSRF、点击劫持等)"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/security/api/security-headers.service.test.ts"
+        test_files: ["src/security/api/security-headers.service.test.ts"]
+      integration:
+        command: "npm test -- src/security/api/security-headers.integration.test.ts"
+        test_files: ["src/security/api/security-headers.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- security-headers"
+        test_files: ["e2e/security/security-headers.spec.ts"]
+      ai:
+        prompt: "请验证CORS与安全头部:\n1. CORS配置合理，限制跨域来源\n2. 安全头部正确设置(X-Frame-Options等)\n3. CSP内容安全策略配置\n4. 敏感信息头部移除\n5. HSTS策略配置\n返回: {\"passed\": true/false, \"reason\": \"说明\"}"
+        context_files: ["src/security/api/security-headers.service.ts", "src/security/api/cors.config.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<20 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-SEC-004~criterion-4"
+    name: "请求签名验证"
+    description: "实现API请求签名验证机制，确保请求完整性和来源可信，防止重放攻击"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/security/api/request-signature.service.test.ts"
+        test_files: ["src/security/api/request-signature.service.test.ts"]
+      integration:
+        command: "npm test -- src/security/api/request-signature.integration.test.ts"
+        test_files: ["src/security/api/request-signature.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- request-signature"
+        test_files: ["e2e/security/request-signature.spec.ts"]
+      ai:
+        prompt: "请验证请求签名验证:\n1. 签名算法使用HMAC-SHA256等\n2. 签名验证逻辑正确\n3. 时间戳验证防止重放攻击\n4. 签名错误返回正确错误码\n5. 签名字段顺序标准化\n返回: {\"passed\": true/false, \"reason\": \"说明\"}"
+        context_files: ["src/security/api/request-signature.service.ts", "src/security/api/signature.middleware.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<25 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-SEC-004~criterion-5"
+    name: "审计日志分析与告警"
+    description: "实现审计日志分析和异常检测，对可疑行为自动告警，支持安全报告生成"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/security/audit/audit-analyzer.service.test.ts"
+        test_files: ["src/security/audit/audit-analyzer.service.test.ts"]
+      integration:
+        command: "npm test -- src/security/audit/audit-analyzer.integration.test.ts"
+        test_files: ["src/security/audit/audit-analyzer.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- audit-analyzer"
+        test_files: ["e2e/security/audit-analyzer.spec.ts"]
+      ai:
+        prompt: "请验证审计日志分析:\n1. 异常行为检测规则有效\n2. 自动告警机制正常工作\n3. 安全报告生成功能完整\n4. 支持自定义检测规则\n5. 告警信息包含足够的上下文\n返回: {\"passed\": true/false, \"reason\": \"说明\"}"
+        context_files: ["src/security/audit/audit-analyzer.service.ts", "src/security/audit/threat-detection.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<30 seconds"
+    prerequisites: []

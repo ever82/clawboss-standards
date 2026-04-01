@@ -1,0 +1,272 @@
+id: "ISSUE-CLI-010"
+issue_number: 10
+slug: "report-commands"
+title: "报告命令"
+description: |
+  实现AI-Me CLI的报告生成相关命令，支持多种报告类型、自定义模板、定时报告等功能。
+  命令需要与CORE-010A/B/C分析服务集成。
+status: "pending"
+is_parent: false
+sub_issues: []
+prerequisites:
+  - "ISSUE-CLI-001B"
+  - "ISSUE-CORE-010B"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CLI-010~criterion-1"
+    name: "基础报告生成"
+    description: |
+      实现 `ai-me report` 命令的基础功能，支持生成常见报告类型和基本导出。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/report/basic.test.ts"
+        test_files:
+          - "src/cli/commands/report/basic.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/report/integration.test.ts"
+        test_files:
+          - "src/cli/commands/report/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/report/basic"
+        test_files:
+          - "e2e/cli/report/basic.spec.ts"
+      ai:
+        prompt: |
+          请验证基础报告生成功能的实现:
+          1. 生成报告: `ai-me report --type summary` 生成摘要报告
+          2. 报告类型: summary, progress, completion, time-tracking, burndown
+          3. 时间范围: `--period today|week|month|quarter|year|custom`
+          4. 自定义范围: `--from "2026-01-01" --to "2026-01-31"`
+          5. 工作空间: `--workspace <name>` 指定工作空间
+          6. 标签过滤: `--tags work,project` 只包含指定标签的行为
+          7. 报告预览: 默认在终端显示报告摘要
+          8. 报告保存: `--output report.md` 保存到文件
+          9. 报告格式: `--format markdown|json|html|pdf`
+
+          检查点:
+          - 与CORE-010B报告服务正确集成
+          - 报告内容准确反映数据
+          - 终端报告格式美观易读
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/report/index.ts"
+          - "src/core/services/analytics/report.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CLI-010~criterion-2"
+    name: "自定义报告模板"
+    description: |
+      实现自定义报告模板功能，支持用户定义报告结构、字段、样式。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/report/template.test.ts"
+        test_files:
+          - "src/cli/commands/report/template.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/report/template.integration.test.ts"
+        test_files:
+          - "src/cli/commands/report/template.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/report/template"
+        test_files:
+          - "e2e/cli/report/template.spec.ts"
+      ai:
+        prompt: |
+          请验证自定义报告模板功能的实现:
+          1. 创建模板: `ai-me report template create <name>`
+          2. 模板列表: `ai-me report template list` 显示可用模板
+          3. 编辑模板: `ai-me report template edit <name>`
+          4. 删除模板: `ai-me report template delete <name>`
+          5. 使用模板: `ai-me report --template <name>`
+          6. 模板变量: 支持{{total_behaviors}}, {{completion_rate}}等变量
+          7. 条件块: 支持{{#if has_overdue}}...{{/if}}条件渲染
+          8. 循环: 支持{{#each behaviors}}...{{/each}}列表渲染
+          9. 模板分享: `--export-template` 导出模板供他人使用
+
+          检查点:
+          - 模板语法文档完整
+          - 模板验证提供清晰错误
+          - 变量替换正确执行
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/report/template.ts"
+          - "src/core/services/analytics/template.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites:
+      - "ISSUE-CLI-010~criterion-1"
+
+  - id: "ISSUE-CLI-010~criterion-3"
+    name: "报告可视化与图表"
+    description: |
+      实现报告中的可视化图表功能，支持ASCII图表和图形导出。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/report/charts.test.ts"
+        test_files:
+          - "src/cli/commands/report/charts.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/report/charts.integration.test.ts"
+        test_files:
+          - "src/cli/commands/report/charts.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/report/charts"
+        test_files:
+          - "e2e/cli/report/charts.spec.ts"
+      ai:
+        prompt: |
+          请验证报告可视化与图表功能的实现:
+          1. ASCII图表: 终端显示柱状图、饼图、折线图
+          2. 完成趋势: 显示一段时间内的完成行为趋势
+          3. 状态分布: 饼图展示各状态行为占比
+          4. 优先级分布: 柱状图展示优先级分布
+          5. 燃尽图: 显示剩余工作量和时间关系
+          6. 日历热力图: 显示每日活跃度
+          7. 图表导出: `--charts` 生成独立图表文件
+          8. 图表尺寸: `--chart-width 80` 控制图表宽度
+          9. 无图表模式: `--no-charts` 纯文本报告
+
+          检查点:
+          - 图表在终端显示清晰
+          - 数据与图表一致
+          - 窄终端自动调整尺寸
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/report/charts.ts"
+          - "src/cli/formatter/charts.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-010~criterion-1"
+
+  - id: "ISSUE-CLI-010~criterion-4"
+    name: "报告导出与分享"
+    description: |
+      实现报告导出和分享功能，支持多种格式、邮件发送、云存储上传。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/report/export.test.ts"
+        test_files:
+          - "src/cli/commands/report/export.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/report/export.integration.test.ts"
+        test_files:
+          - "src/cli/commands/report/export.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/report/export"
+        test_files:
+          - "e2e/cli/report/export.spec.ts"
+      ai:
+        prompt: |
+          请验证报告导出与分享功能的实现:
+          1. Markdown导出: 默认格式，适合阅读和版本控制
+          2. HTML导出: `--format html` 带样式的网页报告
+          3. PDF导出: `--format pdf` 适合打印和分享
+          4. JSON导出: `--format json` 结构化数据
+          5. CSV导出: `--format csv` 表格数据
+          6. 邮件发送: `--email recipient@example.com`
+          7. 云存储: `--upload drive|dropbox|s3` 上传到云存储
+          8. 分享链接: `--share` 生成可访问的链接
+          9. 定时导出: `--schedule weekly` 定期生成和发送
+
+          检查点:
+          - 导出文件格式正确
+          - 邮件发送成功有确认
+          - PDF排版美观
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/report/export.ts"
+          - "src/core/services/analytics/export.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites:
+      - "ISSUE-CLI-010~criterion-2"
+
+  - id: "ISSUE-CLI-010~criterion-5"
+    name: "报告比较与趋势"
+    description: |
+      实现报告比较和趋势分析功能，支持对比不同时期的报告、分析趋势变化。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/report/compare.test.ts"
+        test_files:
+          - "src/cli/commands/report/compare.test.ts"
+          - "src/cli/commands/report/trends.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/report/compare.integration.test.ts"
+        test_files:
+          - "src/cli/commands/report/compare.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/report/compare"
+        test_files:
+          - "e2e/cli/report/compare.spec.ts"
+          - "e2e/cli/report/trends.spec.ts"
+      ai:
+        prompt: |
+          请验证报告比较与趋势功能的实现:
+          1. 报告对比: `ai-me report compare --report1 report1.md --report2 report2.md`
+          2. 时期对比: `ai-me report compare --period1 last-week --period2 this-week`
+          3. 差异高亮: 对比结果高亮显示变化(增加+，减少-)
+          4. 趋势分析: `ai-me report trends --period last-month` 显示趋势
+          5. 预测: 基于趋势预测未来完成情况
+          6. 基线设置: `ai-me report baseline set <name>` 设置对比基线
+          7. 基线对比: `ai-me report baseline compare <name>`
+          8. 变化率: 显示各项指标的变化百分比
+          9. 趋势图表: 折线图展示历史趋势
+
+          检查点:
+          - 对比数据准确
+          - 趋势计算逻辑正确
+          - 预测有置信区间
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/report/compare.ts"
+          - "src/cli/commands/report/trends.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-010~criterion-3"

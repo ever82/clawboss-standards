@@ -1,0 +1,274 @@
+id: "ISSUE-CLI-006A"
+issue_number: 6
+slug: "interactive-framework"
+title: "交互式框架基础"
+description: |
+  实现AI-Me CLI的交互式框架基础，支持命令行交互模式、提示输入、选择列表、自动补全等交互能力。
+  为CLI-006B1/B2/B3的交互式命令提供基础设施。
+status: "pending"
+is_parent: false
+sub_issues: []
+prerequisites:
+  - "ISSUE-CLI-001B"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CLI-006A~criterion-1"
+    name: "交互式会话框架"
+    description: |
+      实现交互式会话框架，支持启动交互模式、命令历史、会话状态管理，提供类似REPL的体验。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/interactive/session.test.ts"
+        test_files:
+          - "src/cli/interactive/session.test.ts"
+          - "src/cli/interactive/repl.test.ts"
+      integration:
+        command: "npm test -- src/cli/interactive/integration.test.ts"
+        test_files:
+          - "src/cli/interactive/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/interactive/session"
+        test_files:
+          - "e2e/cli/interactive/session.spec.ts"
+      ai:
+        prompt: |
+          请验证交互式会话框架的实现:
+          1. 启动交互模式: `ai-me interactive` 或 `ai-me i` 进入REPL
+          2. 提示符: 显示当前工作空间和上下文信息(如 "work@project> ")
+          3. 命令执行: 在REPL中输入命令可正常执行
+          4. 退出: `exit`, `quit`, 或 Ctrl+D 正确退出
+          5. 历史记录: 上下箭头浏览历史命令，支持搜索(Ctrl+R)
+          6. 会话持久化: 退出后历史记录保存，下次启动可恢复
+          7. 多行输入: 支持未闭合引号时的多行输入
+          8. 自动补全: Tab键触发命令和选项补全
+
+          检查点:
+          - REPL循环稳定，不会意外退出
+          - 错误不会中断会话，显示后继续提示
+          - 历史记录持久化到文件
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/interactive/session.ts"
+          - "src/cli/interactive/repl.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CLI-006A~criterion-2"
+    name: "提示组件库"
+    description: |
+      实现丰富的提示组件库，包括文本输入、密码输入、确认框、选择列表、多选、文件选择等。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/interactive/prompts/*.test.ts"
+        test_files:
+          - "src/cli/interactive/prompts/input.test.ts"
+          - "src/cli/interactive/prompts/select.test.ts"
+          - "src/cli/interactive/prompts/confirm.test.ts"
+      integration:
+        command: "npm test -- src/cli/interactive/prompts/integration.test.ts"
+        test_files:
+          - "src/cli/interactive/prompts/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/interactive/prompts"
+        test_files:
+          - "e2e/cli/interactive/prompts.spec.ts"
+      ai:
+        prompt: |
+          请验证提示组件库的实现:
+          1. 文本输入: `prompt.text({ message: 'Name?' })` 基础输入框
+          2. 密码输入: `prompt.password({ message: 'Password?' })` 输入时隐藏字符
+          3. 确认框: `prompt.confirm({ message: 'Continue?' })` Y/n 选择
+          4. 单选列表: `prompt.select({ choices: ['A', 'B', 'C'] })` 箭头选择
+          5. 多选列表: `prompt.multiselect({ choices: [...] })` 空格选择多项
+          6. 自动补全: `prompt.autocomplete({ source: [...] })` 输入过滤选项
+          7. 文件选择: `prompt.file({ root: './' })` 浏览文件系统
+          8. 验证: 支持required, validate函数进行输入验证
+          9. 默认值: 支持default选项设置默认值
+
+          检查点:
+          - 各组件在终端显示正确
+          - 键盘导航(上下箭头、Enter、Escape)正常
+          - 验证失败时提示清晰，允许重新输入
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/interactive/prompts/index.ts"
+          - "src/cli/interactive/components/*.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites:
+      - "ISSUE-CLI-006A~criterion-1"
+
+  - id: "ISSUE-CLI-006A~criterion-3"
+    name: "动态表单与向导"
+    description: |
+      实现动态表单和向导功能，支持根据上下文动态生成表单字段，实现分步骤的交互式向导。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/interactive/form.test.ts"
+        test_files:
+          - "src/cli/interactive/form.test.ts"
+          - "src/cli/interactive/wizard.test.ts"
+      integration:
+        command: "npm test -- src/cli/interactive/form.integration.test.ts"
+        test_files:
+          - "src/cli/interactive/form.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/interactive/form"
+        test_files:
+          - "e2e/cli/interactive/form.spec.ts"
+      ai:
+        prompt: |
+          请验证动态表单与向导功能的实现:
+          1. 表单定义: `form.create({ fields: [...] })` 定义多字段表单
+          2. 字段类型: text, number, select, multiselect, date, boolean等
+          3. 条件字段: `when: (values) => values.type === 'complex'` 动态显示
+          4. 字段验证: 支持同步/异步验证函数
+          5. 向导模式: `wizard.create({ steps: [...] })` 分步骤收集信息
+          6. 步骤导航: 支持前进、后退、跳过步骤
+          7. 进度显示: 显示当前步骤和总步骤数(如 "Step 2/5")
+          8. 结果汇总: 向导结束前显示所有收集的数据供确认
+          9. 中断恢复: 支持保存进度，下次继续
+
+          检查点:
+          - 表单渲染美观，字段对齐
+          - 条件字段切换流畅
+          - 验证错误即时显示或汇总显示
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/interactive/form.ts"
+          - "src/cli/interactive/wizard.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites:
+      - "ISSUE-CLI-006A~criterion-2"
+
+  - id: "ISSUE-CLI-006A~criterion-4"
+    name: "终端UI组件"
+    description: |
+      实现终端UI组件，包括进度条、加载动画、表格、树形展示、语法高亮等富文本输出。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/interactive/ui/*.test.ts"
+        test_files:
+          - "src/cli/interactive/ui/progress.test.ts"
+          - "src/cli/interactive/ui/spinner.test.ts"
+          - "src/cli/interactive/ui/table.test.ts"
+      integration:
+        command: "npm test -- src/cli/interactive/ui/integration.test.ts"
+        test_files:
+          - "src/cli/interactive/ui/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/interactive/ui"
+        test_files:
+          - "e2e/cli/interactive/ui.spec.ts"
+      ai:
+        prompt: |
+          请验证终端UI组件的实现:
+          1. 进度条: `ui.progress({ total: 100 })` 显示进度条，支持更新
+          2. 加载动画: `ui.spinner({ text: 'Loading...' })` 旋转动画
+          3. 表格: `ui.table({ columns: [...], data: [...] })` 自适应列宽
+          4. 树形: `ui.tree({ nodes: [...] })` ASCII树形展示
+          5. 语法高亮: `ui.code(code, 'typescript')` 代码高亮显示
+          6. 颜色样式: `ui.text('Hello', { color: 'green', bold: true })`
+          7. 面板: `ui.panel({ title: 'Result', content: '...' })` 边框面板
+          8. 终端检测: 自动检测终端宽度、颜色支持能力
+          9. 分页: 长内容自动分页显示(如git log)
+
+          检查点:
+          - 组件在标准终端显示正常
+          - 支持无颜色模式(--no-color)
+          - 窄终端自动换行/截断
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/interactive/ui/index.ts"
+          - "src/cli/interactive/terminal.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-006A~criterion-2"
+
+  - id: "ISSUE-CLI-006A~criterion-5"
+    name: "框架扩展API"
+    description: |
+      提供交互式框架的扩展API，允许其他模块注册自定义交互组件、主题、快捷键处理。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/interactive/extensibility.test.ts"
+        test_files:
+          - "src/cli/interactive/extensibility.test.ts"
+      integration:
+        command: "npm test -- src/cli/interactive/extension.integration.test.ts"
+        test_files:
+          - "src/cli/interactive/extension.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/interactive/ext"
+        test_files:
+          - "e2e/cli/interactive/extension.spec.ts"
+      ai:
+        prompt: |
+          请验证框架扩展API的实现:
+          1. 自定义组件: `interactive.registerComponent('my-prompt', MyPrompt)`
+          2. 主题系统: `interactive.setTheme({ colors: {...}, symbols: {...} })`
+          3. 快捷键: `interactive.registerKeybinding('ctrl+s', handler)`
+          4. 钩子系统: `interactive.on('beforePrompt', callback)`
+          5. 插件接口: 提供清晰的插件注册和生命周期管理
+          6. 上下文共享: 组件间可共享状态和数据
+          7. 事件系统: 支持自定义事件的发布和订阅
+          8. 文档: 扩展API有完整文档和示例
+
+          检查点:
+          - API设计一致，易于使用
+          - 扩展组件与内置组件行为一致
+          - 主题变化即时生效
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/interactive/api.ts"
+          - "src/cli/interactive/extension.ts"
+          - "src/cli/interactive/README.md"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-006A~criterion-3"

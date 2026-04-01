@@ -1,0 +1,224 @@
+id: "ISSUE-PERF-001"
+issue_number: 1
+title: "性能基准测试框架"
+slug: "performance-baseline"
+status: "pending"
+description: "建立系统性能基准测试框架，定义性能指标采集标准，实现自动化性能测试基础设施，为后续性能优化提供可量化的对比基准。包括响应时间、吞吐量、资源占用等核心指标的测量机制。"
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-007"
+  - "ISSUE-CORE-002B1"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-PERF-001~criterion-1"
+    name: "性能测试框架搭建完成"
+    description: "基于INFRA-007测试基础设施，搭建专门的性能测试框架，支持基准测试、负载测试和压力测试三种模式"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/perf/benchmark-framework.test.ts"
+        test_files:
+          - "src/perf/benchmark-framework.test.ts"
+          - "src/perf/benchmark-runner.test.ts"
+      integration:
+        command: "npm test -- src/perf/integration/benchmark-with-core.test.ts"
+        test_files:
+          - "src/perf/integration/benchmark-with-core.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/performance/baseline-framework.spec.ts"
+        test_files:
+          - "tests/e2e/performance/baseline-framework.spec.ts"
+      ai:
+        prompt: |
+          请验证性能基准测试框架实现是否符合以下要求：
+          1. 框架是否支持三种测试模式：基准测试(benchmark)、负载测试(load)、压力测试(stress)
+          2. 是否提供了统一的测试用例基类或接口，便于扩展新的性能测试
+          3. 是否实现了测试数据的自动收集和统计计算（平均值、中位数、P90、P95、P99）
+          4. 是否支持测试结果与历史基线的自动对比和回归检测
+          5. 测试配置是否支持通过JSON/YAML文件进行参数化配置
+          请检查代码实现，返回 {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/perf/benchmark-framework.ts"
+          - "src/perf/benchmark-runner.ts"
+          - "src/perf/types.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-PERF-001~criterion-2"
+    name: "核心性能指标定义与采集"
+    description: "定义系统的核心性能指标集（响应时间、吞吐量、CPU/内存占用），实现自动化的指标采集和存储机制"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/perf/metrics/"
+        test_files:
+          - "src/perf/metrics/metric-collector.test.ts"
+          - "src/perf/metrics/metric-store.test.ts"
+          - "src/perf/metrics/aggregators.test.ts"
+      integration:
+        command: "npm test -- src/perf/integration/metrics-collection.test.ts"
+        test_files:
+          - "src/perf/integration/metrics-collection.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/performance/metrics-collection.spec.ts"
+        test_files:
+          - "tests/e2e/performance/metrics-collection.spec.ts"
+      ai:
+        prompt: |
+          请验证核心性能指标定义与采集实现：
+          1. 是否定义了完整的性能指标枚举：ResponseTime、Throughput、CpuUsage、MemoryUsage、DiskIO、NetworkIO
+          2. 指标采集器是否实现了采样频率可配置（默认1秒）
+          3. 指标存储是否支持内存缓存和持久化存储双模式
+          4. 是否实现了指标的实时聚合计算（滑动窗口、固定窗口）
+          5. 指标数据格式是否标准化，便于后续的监控和分析系统消费
+          请检查代码实现，返回 {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/perf/metrics/metric-collector.ts"
+          - "src/perf/metrics/metric-store.ts"
+          - "src/perf/metrics/types.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<8 seconds"
+    prerequisites:
+      - "ISSUE-PERF-001~criterion-1"
+
+  - id: "ISSUE-PERF-001~criterion-3"
+    name: "基线数据管理"
+    description: "实现性能基线数据的版本化管理，支持基线的创建、更新、对比和历史回溯，支持基线数据的导入导出"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/perf/baseline/"
+        test_files:
+          - "src/perf/baseline/baseline-manager.test.ts"
+          - "src/perf/baseline/baseline-storage.test.ts"
+          - "src/perf/baseline/comparator.test.ts"
+      integration:
+        command: "npm test -- src/perf/integration/baseline-workflow.test.ts"
+        test_files:
+          - "src/perf/integration/baseline-workflow.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/performance/baseline-management.spec.ts"
+        test_files:
+          - "tests/e2e/performance/baseline-management.spec.ts"
+      ai:
+        prompt: |
+          请验证基线数据管理功能实现：
+          1. 基线管理是否支持版本化（Git风格或SemVer风格）
+          2. 是否实现了基线数据的CRUD操作接口
+          3. 基线对比功能是否支持百分比差异、绝对差异和阈值告警
+          4. 是否支持基线数据的JSON/CSV格式导入导出
+          5. 基线元数据是否包含：创建时间、测试环境、代码版本、测试参数
+          6. 是否实现了基线的分支和标签功能，支持多环境基线管理
+          请检查代码实现，返回 {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/perf/baseline/baseline-manager.ts"
+          - "src/perf/baseline/baseline-storage.ts"
+          - "src/perf/baseline/comparator.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<8 seconds"
+    prerequisites:
+      - "ISSUE-PERF-001~criterion-2"
+
+  - id: "ISSUE-PERF-001~criterion-4"
+    name: "性能测试报告生成"
+    description: "实现性能测试报告的自动生成，包含图表可视化、趋势分析、性能回归告警等，支持HTML/PDF/JSON多格式输出"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/perf/reporting/"
+        test_files:
+          - "src/perf/reporting/report-generator.test.ts"
+          - "src/perf/reporting/chart-renderer.test.ts"
+          - "src/perf/reporting/trend-analyzer.test.ts"
+      integration:
+        command: "npm test -- src/perf/integration/reporting-pipeline.test.ts"
+        test_files:
+          - "src/perf/integration/reporting-pipeline.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/performance/report-generation.spec.ts"
+        test_files:
+          - "tests/e2e/performance/report-generation.spec.ts"
+      ai:
+        prompt: |
+          请验证性能测试报告生成功能实现：
+          1. 报告生成是否支持HTML、PDF、JSON三种输出格式
+          2. 是否包含性能趋势图表（折线图、柱状图、热力图）
+          3. 报告是否自动检测性能回归（与基线对比超出阈值）
+          4. 是否包含详细的测试环境信息、配置参数和原始数据
+          5. 图表是否支持交互式缩放、筛选和导出
+          6. 报告模板是否可自定义，支持企业品牌定制
+          7. 是否支持报告的自动化分发（邮件、Slack、Webhook）
+          请检查代码实现，返回 {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/perf/reporting/report-generator.ts"
+          - "src/perf/reporting/chart-renderer.ts"
+          - "src/perf/reporting/trend-analyzer.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+    prerequisites:
+      - "ISSUE-PERF-001~criterion-3"
+
+  - id: "ISSUE-PERF-001~criterion-5"
+    name: "CI/CD集成"
+    description: "将性能基准测试集成到CI/CD流水线，实现自动化的性能门禁检查，阻止性能退化的代码合并"
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      integration:
+        command: "npm test -- src/perf/integration/ci-integration.test.ts"
+        test_files:
+          - "src/perf/integration/ci-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/performance/ci-pipeline.spec.ts"
+        test_files:
+          - "tests/e2e/performance/ci-pipeline.spec.ts"
+      ai:
+        prompt: |
+          请验证CI/CD集成功能实现：
+          1. 是否提供了CI配置文件模板（GitHub Actions、GitLab CI、Jenkins）
+          2. 性能门禁是否支持配置阈值和失败策略（警告/阻止）
+          3. 是否实现了PR级别的性能对比（当前分支vs目标分支）
+          4. 是否支持并发控制，避免资源竞争影响测试结果
+          5. 测试结果是否以PR Comment或Check Run形式反馈
+          6. 是否支持历史趋势图在PR中展示
+          请检查CI配置和集成代码，返回 {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - ".github/workflows/performance.yml"
+          - "src/perf/ci/ci-adapter.ts"
+          - "src/perf/ci/github-actions.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+    prerequisites:
+      - "ISSUE-PERF-001~criterion-4"

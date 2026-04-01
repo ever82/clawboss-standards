@@ -1,0 +1,269 @@
+id: "ISSUE-PLUGIN-001B"
+issue_number: "1B"
+module: "PLUGIN"
+title: "插件加载器"
+slug: "plugin-loader"
+status: "pending"
+completion: 0
+description: "实现插件加载器，支持从本地文件系统、npm包、远程URL加载插件，处理插件依赖和初始化。确保插件加载过程安全、可靠、可回滚。"
+category: "component"
+is_parent: false
+prerequisites:
+  - "ISSUE-PLUGIN-001A"
+related_specs:
+  - "PLUGIN"
+  - "LOADER"
+created_at: "2026-04-01"
+completed_at: null
+logic: "sufficient_necessary"
+
+criteria:
+  - id: "ISSUE-PLUGIN-001B~criterion-1"
+    name: "本地插件加载实现"
+    description: "实现从本地文件系统加载插件，支持文件夹和压缩包(.zip/.tar.gz)格式，自动解压和验证"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持.zip/.tar.gz格式的插件包，自动解压到临时目录验证"
+    execution_time: "<3 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/loader/local-plugin-loader.ts"
+      - type: "utility"
+        path: "src/plugin/utils/archive-extractor.ts"
+    verification:
+      unit:
+        command: "npm test -- src/plugin/loader/local-plugin-loader.test.ts"
+        test_files:
+          - "src/plugin/loader/local-plugin-loader.test.ts"
+          - "src/plugin/utils/archive-extractor.test.ts"
+      integration:
+        command: "npm run test:integration -- local-plugin-loading"
+        test_files:
+          - "tests/integration/plugin/loader/local-loader.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- local-plugin-loading"
+        test_files:
+          - "tests/e2e/plugin/loader/local-loading.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证本地插件加载功能是否满足以下要求:
+          1. 是否能从指定路径加载文件夹形式的插件(包含plugin.json的目录)
+          2. 是否能加载.zip格式的插件包并自动解压到临时目录
+          3. 是否能加载.tar.gz格式的插件包并正确处理gzip压缩
+          4. 加载前是否验证插件包完整性(检查必需文件如manifest.json、主入口文件)
+          5. 压缩包解压是否安全(防止zip slip攻击，路径遍历检查)
+          6. 临时解压目录是否在加载完成后清理，或按策略保留用于调试
+          7. 是否支持符号链接(symlink)插件目录，且能正确解析实际路径
+          8. 加载失败时是否提供详细的错误信息(文件不存在、格式错误、权限不足等)
+          返回格式: {"passed": true/false, "reason": "详细说明", "details": [{"check": "检查项", "passed": true/false}]}
+        context_files:
+          - "src/plugin/loader/local-plugin-loader.ts"
+          - "src/plugin/utils/archive-extractor.ts"
+        model: "claude-sonnet-4-6"
+
+  - id: "ISSUE-PLUGIN-001B~criterion-2"
+    name: "NPM包插件加载实现"
+    description: "实现从npm registry加载插件，支持私有registry和版本范围指定，自动安装依赖"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "自动安装缺失的依赖，支持npmrc配置"
+    execution_time: "<30 seconds with network"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/loader/npm-plugin-loader.ts"
+      - type: "component"
+        path: "src/plugin/loader/npm-client.ts"
+    verification:
+      unit:
+        command: "npm test -- src/plugin/loader/npm-plugin-loader.test.ts"
+        test_files:
+          - "src/plugin/loader/npm-plugin-loader.test.ts"
+          - "src/plugin/loader/npm-client.test.ts"
+      integration:
+        command: "npm run test:integration -- npm-plugin-loading"
+        test_files:
+          - "tests/integration/plugin/loader/npm-loader.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- npm-plugin-loading"
+        test_files:
+          - "tests/e2e/plugin/loader/npm-loading.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证NPM包插件加载功能是否满足以下要求:
+          1. 是否能从公共npm registry加载插件包
+          2. 是否支持版本范围指定(如^1.0.0, ~1.0.0, >=1.0.0 <2.0.0)
+          3. 是否支持私有registry配置(读取.npmrc或自定义配置)
+          4. 加载时是否自动安装插件的dependencies到隔离目录
+          5. 是否支持离线模式(使用本地缓存的npm包)
+          6. 网络失败时是否有重试机制和超时控制
+          7. 是否支持npm scope包(@scope/package-name)
+          8. 加载后是否验证包的完整性(检查package.json中的plugin元数据)
+          返回格式: {"passed": true/false, "reason": "详细说明", "details": [{"check": "检查项", "passed": true/false}]}
+        context_files:
+          - "src/plugin/loader/npm-plugin-loader.ts"
+          - "src/plugin/loader/npm-client.ts"
+        model: "claude-sonnet-4-6"
+
+  - id: "ISSUE-PLUGIN-001B~criterion-3"
+    name: "插件依赖解析实现"
+    description: "实现插件依赖的自动解析和安装，处理版本冲突，支持peer dependencies"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "支持peer dependencies，处理版本冲突时优先高版本"
+    execution_time: "<10 seconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/loader/dependency-resolver.ts"
+      - type: "component"
+        path: "src/plugin/loader/version-conflict-resolver.ts"
+    verification:
+      unit:
+        command: "npm test -- src/plugin/loader/dependency-resolver.test.ts"
+        test_files:
+          - "src/plugin/loader/dependency-resolver.test.ts"
+          - "src/plugin/loader/version-conflict-resolver.test.ts"
+      integration:
+        command: "npm run test:integration -- dependency-resolution"
+        test_files:
+          - "tests/integration/plugin/loader/dependency.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- plugin-dependency-resolution"
+        test_files:
+          - "tests/e2e/plugin/loader/dependency-resolution.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证插件依赖解析功能是否满足以下要求:
+          1. 是否能解析插件声明的dependencies并生成依赖树
+          2. 是否支持peer dependencies(宿主依赖)声明和验证
+          3. 版本冲突时是否采用适当的解决策略(如使用最高兼容版本)
+          4. 循环依赖检测是否能正确识别并抛出错误
+          5. 依赖安装是否隔离(不同插件使用不同node_modules)
+          6. 是否支持依赖去重(相同版本共享，不同版本隔离)
+          7. 缺少必需依赖时是否给出清晰的错误提示和建议
+          8. 依赖解析结果是否缓存以提高后续加载速度
+          返回格式: {"passed": true/false, "reason": "详细说明", "details": [{"check": "检查项", "passed": true/false}]}
+        context_files:
+          - "src/plugin/loader/dependency-resolver.ts"
+          - "src/plugin/loader/version-conflict-resolver.ts"
+        model: "claude-sonnet-4-6"
+
+  - id: "ISSUE-PLUGIN-001B~criterion-4"
+    name: "插件初始化流程实现"
+    description: "实现插件的初始化流程，包括配置加载、依赖注入、资源准备、API绑定"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "初始化失败时提供详细错误信息，支持部分回滚"
+    execution_time: "<2 seconds per plugin"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/loader/plugin-initializer.ts"
+      - type: "component"
+        path: "src/plugin/loader/plugin-context.ts"
+    verification:
+      unit:
+        command: "npm test -- src/plugin/loader/plugin-initializer.test.ts"
+        test_files:
+          - "src/plugin/loader/plugin-initializer.test.ts"
+          - "src/plugin/loader/plugin-context.test.ts"
+      integration:
+        command: "npm run test:integration -- plugin-initialization"
+        test_files:
+          - "tests/integration/plugin/loader/initialization.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- plugin-initialization"
+        test_files:
+          - "tests/e2e/plugin/loader/initialization.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证插件初始化流程是否满足以下要求:
+          1. 是否按正确顺序执行初始化: 加载配置 -> 依赖注入 -> 资源准备 -> API绑定 -> activate()
+          2. 是否向插件提供PluginContext对象，包含API、配置、事件总线等
+          3. 插件activate函数是否异步执行，支持async/await
+          4. 初始化超时是否可配置，超时时是否优雅中断
+          5. 初始化失败时是否执行回滚(释放已分配资源、解绑扩展点)
+          6. 是否支持热重载模式(开发时重新加载插件)
+          7. 初始化过程是否记录详细日志(阶段开始/结束、耗时)
+          8. 插件间依赖初始化顺序是否正确(拓扑排序)
+          返回格式: {"passed": true/false, "reason": "详细说明", "details": [{"check": "检查项", "passed": true/false}]}
+        context_files:
+          - "src/plugin/loader/plugin-initializer.ts"
+          - "src/plugin/loader/plugin-context.ts"
+        model: "claude-sonnet-4-6"
+
+  - id: "ISSUE-PLUGIN-001B~criterion-5"
+    name: "加载错误处理机制"
+    description: "实现插件加载过程中的错误处理，包括格式错误、依赖缺失、版本不兼容等，提供诊断报告"
+    category: "feature"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    note: "错误信息需要友好且可定位，支持错误恢复建议"
+    execution_time: "<500 milliseconds"
+    prerequisites: []
+    implementations:
+      - type: "component"
+        path: "src/plugin/loader/load-error-handler.ts"
+      - type: "component"
+        path: "src/plugin/loader/diagnostic-reporter.ts"
+    verification:
+      unit:
+        command: "npm test -- src/plugin/loader/load-error-handler.test.ts"
+        test_files:
+          - "src/plugin/loader/load-error-handler.test.ts"
+          - "src/plugin/loader/diagnostic-reporter.test.ts"
+      integration:
+        command: "npm run test:integration -- plugin-load-errors"
+        test_files:
+          - "tests/integration/plugin/loader/error-handling.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- plugin-error-recovery"
+        test_files:
+          - "tests/e2e/plugin/loader/error-handling.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证加载错误处理机制是否满足以下要求:
+          1. 是否定义了PluginLoadError基类和具体子类(ManifestError, DependencyError等)
+          2. 错误消息是否包含上下文信息(插件名、版本、操作步骤)
+          3. 是否提供错误恢复建议(如缺少依赖时建议安装命令)
+          4. 诊断报告是否包含加载过程的完整日志和关键节点快照
+          5. 是否支持部分加载(某些插件失败不影响其他插件加载)
+          6. 错误是否包含堆栈跟踪，方便开发者定位问题
+          7. 是否支持错误码(error codes)，便于程序化处理和文档查询
+          8. 诊断报告是否可导出为JSON格式用于问题反馈
+          返回格式: {"passed": true/false, "reason": "详细说明", "details": [{"check": "检查项", "passed": true/false}]}
+        context_files:
+          - "src/plugin/loader/load-error-handler.ts"
+          - "src/plugin/loader/diagnostic-reporter.ts"
+        model: "claude-sonnet-4-6"

@@ -1,0 +1,219 @@
+id: "ISSUE-CLI-011A"
+issue_number: 11
+slug: "shell-completion"
+title: "Shell自动补全"
+description: |
+  实现AI-Me CLI的Shell自动补全功能，支持Bash、Zsh、Fish等常见Shell的命令、选项、参数补全。
+  依赖CLI-002、CLI-003、CLI-004命令实现。
+status: "pending"
+is_parent: false
+sub_issues: []
+prerequisites:
+  - "ISSUE-CLI-002"
+  - "ISSUE-CLI-003"
+  - "ISSUE-CLI-004"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CLI-011A~criterion-1"
+    name: "命令和子命令补全"
+    description: |
+      实现命令和子命令的自动补全，支持Tab键触发补全建议。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/completion/commands.test.ts"
+        test_files:
+          - "src/cli/completion/commands.test.ts"
+      integration:
+        command: "npm test -- src/cli/completion/integration.test.ts"
+        test_files:
+          - "src/cli/completion/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/completion/commands"
+        test_files:
+          - "e2e/cli/completion/commands.spec.ts"
+      ai:
+        prompt: |
+          请验证命令和子命令补全功能的实现:
+          1. 顶级命令: `ai-me beh<Tab>` 补全为 `ai-me behavior`
+          2. 子命令: `ai-me behavior c<Tab>` 补全为 `ai-me behavior create`
+          3. 多级补全: `ai-me tree m<Tab>` 补全为 `ai-me tree move`
+          4. 模糊匹配: `ai-me b c<Tab>` 匹配 `behavior create`
+          5. 补全列表: 多个匹配时显示候选列表
+          6. 唯一补全: 唯一匹配时直接补全
+          7. 无匹配: 无匹配时不执行操作或有提示
+          8. 别名支持: 别名也能正确补全
+
+          检查点:
+          - 补全脚本正确生成
+          - 补全响应迅速(<100ms)
+          - 所有命令和子命令都支持
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/completion/commands.ts"
+          - "src/cli/completion/generator.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CLI-011A~criterion-2"
+    name: "选项和参数补全"
+    description: |
+      实现命令选项和参数的自动补全，包括长选项、短选项、参数值。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/completion/options.test.ts"
+        test_files:
+          - "src/cli/completion/options.test.ts"
+      integration:
+        command: "npm test -- src/cli/completion/options.integration.test.ts"
+        test_files:
+          - "src/cli/completion/options.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/completion/options"
+        test_files:
+          - "e2e/cli/completion/options.spec.ts"
+      ai:
+        prompt: |
+          请验证选项和参数补全功能的实现:
+          1. 长选项: `ai-me behavior create --<Tab>` 显示所有可用选项
+          2. 短选项: `ai-me behavior create -<Tab>` 显示短选项列表
+          3. 选项值: `ai-me behavior create --priority <Tab>` 显示high/medium/low
+          4. 文件路径: 需要文件时补全本地文件路径
+          5. 行为ID: 需要行为ID时提供最近的行为列表
+          6. 标签: `--tags <Tab>` 显示现有标签列表
+          7. 工作空间: `--workspace <Tab>` 显示工作空间列表
+          8. 去重: 已使用的选项不再提示
+
+          检查点:
+          - 选项补全与命令上下文相关
+          - 动态值(如行为ID)从数据库获取
+          - 文件路径补全支持Tab循环
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/completion/options.ts"
+          - "src/cli/completion/values.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-011A~criterion-1"
+
+  - id: "ISSUE-CLI-011A~criterion-3"
+    name: "多Shell支持"
+    description: |
+      支持Bash、Zsh、Fish、PowerShell等主流Shell的补全脚本生成。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/completion/shells.test.ts"
+        test_files:
+          - "src/cli/completion/shells.test.ts"
+      integration:
+        command: "npm test -- src/cli/completion/shells.integration.test.ts"
+        test_files:
+          - "src/cli/completion/shells.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/completion/shells"
+        test_files:
+          - "e2e/cli/completion/bash.spec.ts"
+          - "e2e/cli/completion/zsh.spec.ts"
+          - "e2e/cli/completion/fish.spec.ts"
+      ai:
+        prompt: |
+          请验证多Shell支持功能的实现:
+          1. Bash补全: `ai-me completion bash` 生成Bash补全脚本
+          2. Zsh补全: `ai-me completion zsh` 生成Zsh补全脚本
+          3. Fish补全: `ai-me completion fish` 生成Fish补全脚本
+          4. PowerShell: `ai-me completion powershell` 生成PowerShell补全
+          5. 自动安装: `ai-me completion install` 自动安装到合适位置
+          6. 手动安装指引: 显示如何手动启用补全的说明
+          7. 脚本测试: 各Shell补全脚本语法正确
+          8. 卸载: `ai-me completion uninstall` 移除补全脚本
+
+          检查点:
+          - 各Shell补全脚本语法正确
+          - 安装路径符合各Shell规范
+          - 补全功能在各Shell中正常工作
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/completion/shells/bash.ts"
+          - "src/cli/completion/shells/zsh.ts"
+          - "src/cli/completion/shells/fish.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites:
+      - "ISSUE-CLI-011A~criterion-2"
+
+  - id: "ISSUE-CLI-011A~criterion-4"
+    name: "动态补全与缓存"
+    description: |
+      实现动态补全数据的获取和缓存，提高补全性能。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/completion/dynamic.test.ts"
+        test_files:
+          - "src/cli/completion/dynamic.test.ts"
+      integration:
+        command: "npm test -- src/cli/completion/cache.integration.test.ts"
+        test_files:
+          - "src/cli/completion/cache.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/completion/dynamic"
+        test_files:
+          - "e2e/cli/completion/dynamic.spec.ts"
+      ai:
+        prompt: |
+          请验证动态补全与缓存功能的实现:
+          1. 行为ID补全: 从数据库获取最近使用的50个行为ID
+          2. 标签补全: 获取所有现有标签用于补全
+          3. 工作空间: 获取所有工作空间名称
+          4. 缓存机制: 动态数据缓存5分钟避免频繁查询
+          5. 缓存刷新: `--refresh-completion-cache` 手动刷新
+          6. 自动刷新: 数据变更时自动使缓存失效
+          7. 离线支持: 缓存数据在离线时可用
+          8. 性能: 动态补全响应<200ms
+
+          检查点:
+          - 缓存数据格式正确
+          - 缓存过期机制有效
+          - 离线时补全功能可用
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/completion/cache.ts"
+          - "src/cli/completion/dynamic.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-011A~criterion-3"

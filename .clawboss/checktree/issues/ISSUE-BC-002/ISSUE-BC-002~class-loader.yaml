@@ -1,0 +1,228 @@
+id: "ISSUE-BC-002"
+issue_number: 2
+title: "行为类加载器"
+slug: "class-loader"
+status: "pending"
+description: |
+  实现行为类加载器，负责从文件系统、内存、网络等多种来源加载行为类定义。
+  支持动态加载、懒加载、缓存机制，确保类定义的高效加载和内存管理。
+  提供加载错误处理和恢复机制。
+is_parent: false
+prerequisites:
+  - "ISSUE-BC-001"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-BC-002~criterion-1"
+    name: "文件系统加载器"
+    description: |
+      实现从文件系统加载行为类定义的功能，支持单个文件、
+      整个目录的批量加载，自动识别类定义文件格式（.json, .yaml等）。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/loader/file-loader.test.ts"
+        test_files:
+          - "src/behavior-class/loader/file-loader.test.ts"
+          - "src/behavior-class/loader/file-utils.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/loader/file-integration.test.ts"
+        test_files:
+          - "src/behavior-class/loader/file-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/file-loader"
+        test_files:
+          - "tests/e2e/behavior-class/file-loader.spec.ts"
+      ai:
+        prompt: |
+          请验证行为类文件系统加载器实现：
+          1. 支持从指定文件路径加载单个类定义
+          2. 支持递归遍历目录批量加载类定义
+          3. 自动识别.json, .yaml, .yml文件格式
+          4. 文件不存在或格式错误时提供清晰的错误信息
+          5. 支持文件监听和热重载（可选）
+          6. 加载性能优化，支持大文件和大量文件
+          请检查文件加载器的健壮性和性能。
+        context_files:
+          - "src/behavior-class/loader/file-loader.ts"
+          - "src/behavior-class/loader/file-utils.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-002~criterion-2"
+    name: "内存与缓存机制"
+    description: |
+      实现行为类定义的内存缓存系统，支持缓存策略配置（LRU, TTL等），
+      提供缓存命中率统计，支持手动刷新和自动过期。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/loader/cache.test.ts"
+        test_files:
+          - "src/behavior-class/loader/cache.test.ts"
+          - "src/behavior-class/loader/cache-strategies.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/loader/cache-integration.test.ts"
+        test_files:
+          - "src/behavior-class/loader/cache-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/cache"
+        test_files:
+          - "tests/e2e/behavior-class/cache.spec.ts"
+      ai:
+        prompt: |
+          请验证行为类缓存机制实现：
+          1. 支持LRU缓存淘汰策略
+          2. 支持TTL过期时间配置
+          3. 提供缓存命中率、大小等统计信息
+          4. 支持手动刷新指定类或全部缓存
+          5. 线程安全（如适用）和内存泄漏防护
+          6. 缓存持久化支持（可选）
+          请检查缓存系统的性能和稳定性。
+        context_files:
+          - "src/behavior-class/loader/cache.ts"
+          - "src/behavior-class/loader/cache-strategies.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-002~criterion-3"
+    name: "懒加载与动态加载"
+    description: |
+      实现行为类的懒加载机制，只在首次访问时加载类定义。
+      支持动态加载（运行时从网络或其他来源加载），提供加载进度反馈。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/loader/lazy-loader.test.ts"
+        test_files:
+          - "src/behavior-class/loader/lazy-loader.test.ts"
+          - "src/behavior-class/loader/dynamic-loader.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/loader/lazy-integration.test.ts"
+        test_files:
+          - "src/behavior-class/loader/lazy-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/lazy-loading"
+        test_files:
+          - "tests/e2e/behavior-class/lazy-loading.spec.ts"
+      ai:
+        prompt: |
+          请验证行为类懒加载和动态加载实现：
+          1. 懒加载只在首次访问时触发实际加载
+          2. 并发访问同一类时只执行一次加载
+          3. 支持运行时从URL动态加载类定义
+          4. 提供加载进度和状态反馈
+          5. 加载失败时优雅降级，不影响其他类
+          6. 内存管理完善，避免重复加载
+          请检查加载机制的效率和可靠性。
+        context_files:
+          - "src/behavior-class/loader/lazy-loader.ts"
+          - "src/behavior-class/loader/dynamic-loader.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-002~criterion-4"
+    name: "加载错误处理与恢复"
+    description: |
+      实现完善的加载错误处理机制，包括文件不存在、格式错误、
+      依赖缺失等场景。提供错误恢复策略，如跳过错误类、使用默认类等。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/loader/error-handling.test.ts"
+        test_files:
+          - "src/behavior-class/loader/error-handling.test.ts"
+          - "src/behavior-class/loader/recovery.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/loader/error-integration.test.ts"
+        test_files:
+          - "src/behavior-class/loader/error-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/error-handling"
+        test_files:
+          - "tests/e2e/behavior-class/error-handling.spec.ts"
+      ai:
+        prompt: |
+          请验证行为类加载错误处理与恢复机制：
+          1. 文件不存在错误处理和友好提示
+          2. JSON/YAML格式错误精确定位和报告
+          3. 依赖类缺失时的错误处理
+          4. 支持配置错误处理策略：strict/warning/skip
+          5. 提供错误恢复机制：使用默认类、跳过等
+          6. 错误日志记录和分类统计
+          请检查错误处理的完整性和用户体验。
+        context_files:
+          - "src/behavior-class/loader/error-handling.ts"
+          - "src/behavior-class/loader/recovery.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-002~criterion-5"
+    name: "加载器统一接口"
+    description: |
+      定义统一的类加载器接口，支持多种加载源（文件、内存、网络、数据库等）。
+      提供加载器组合和链式调用能力，支持自定义加载器扩展。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/loader/loader-interface.test.ts"
+        test_files:
+          - "src/behavior-class/loader/loader-interface.test.ts"
+          - "src/behavior-class/loader/composite-loader.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/loader/interface-integration.test.ts"
+        test_files:
+          - "src/behavior-class/loader/interface-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/loader-interface"
+        test_files:
+          - "tests/e2e/behavior-class/loader-interface.spec.ts"
+      ai:
+        prompt: |
+          请验证行为类加载器统一接口实现：
+          1. 定义统一的Loader接口，所有加载器遵循
+          2. 支持加载源配置和优先级设置
+          3. 支持组合多个加载器（Composite模式）
+          4. 支持链式加载（Chain of Responsibility）
+          5. 提供自定义加载器注册机制
+          6. 加载器生命周期管理（init/load/destroy）
+          请检查接口设计的扩展性和一致性。
+        context_files:
+          - "src/behavior-class/loader/loader-interface.ts"
+          - "src/behavior-class/loader/composite-loader.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+    prerequisites:
+      - "ISSUE-BC-002~criterion-1"
+      - "ISSUE-BC-002~criterion-2"

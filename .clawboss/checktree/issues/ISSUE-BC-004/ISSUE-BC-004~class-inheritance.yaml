@@ -1,0 +1,229 @@
+id: "ISSUE-BC-004"
+issue_number: 4
+title: "行为类继承和组合"
+slug: "class-inheritance"
+status: "pending"
+description: |
+  实现行为类的继承和组合机制，支持单继承、多重继承（通过混入mixin）、
+  接口实现等模式。提供继承链解析、方法重写、属性合并等功能。
+  确保继承关系的循环依赖检测和一致性验证。
+is_parent: false
+prerequisites:
+  - "ISSUE-BC-003"
+  - "ISSUE-CORE-002B1"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-BC-004~criterion-1"
+    name: "单继承机制"
+    description: |
+      实现行为类的单继承机制，子类继承父类的所有属性和方法。
+      支持方法重写（override），属性覆盖规则定义，super调用机制。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/inheritance/single-inheritance.test.ts"
+        test_files:
+          - "src/behavior-class/inheritance/single-inheritance.test.ts"
+          - "src/behavior-class/inheritance/override.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/inheritance/inheritance-integration.test.ts"
+        test_files:
+          - "src/behavior-class/inheritance/inheritance-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/single-inheritance"
+        test_files:
+          - "tests/e2e/behavior-class/single-inheritance.spec.ts"
+      ai:
+        prompt: |
+          请验证行为类单继承机制实现：
+          1. 子类正确继承父类属性和方法
+          2. 方法重写使用override关键字标识
+          3. super调用可访问父类方法
+          4. 属性覆盖遵循最后定义优先原则
+          5. 继承链长度无硬性限制（性能可接受）
+          6. 抽象类继承支持
+          请检查继承机制的正确性和完整性。
+        context_files:
+          - "src/behavior-class/inheritance/single-inheritance.ts"
+          - "src/behavior-class/inheritance/override.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-004~criterion-2"
+    name: "Mixin混入机制"
+    description: |
+      实现Mixin混入机制，支持将多个功能模块组合到一个类中。
+      处理Mixin之间的属性/方法冲突，提供冲突解决策略。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/inheritance/mixin.test.ts"
+        test_files:
+          - "src/behavior-class/inheritance/mixin.test.ts"
+          - "src/behavior-class/inheritance/mixin-composition.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/inheritance/mixin-integration.test.ts"
+        test_files:
+          - "src/behavior-class/inheritance/mixin-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/mixin"
+        test_files:
+          - "tests/e2e/behavior-class/mixin.spec.ts"
+      ai:
+        prompt: |
+          请验证Mixin混入机制实现：
+          1. 支持多个Mixin混入到单个类
+          2. Mixin可以有自己的属性和方法
+          3. 冲突检测：同名属性/方法冲突识别
+          4. 冲突解决策略：覆盖、合并、报错、显式选择
+          5. Mixin的混入顺序影响最终类结构
+          6. Mixin可嵌套（Mixin中包含Mixin）
+          请检查Mixin机制的灵活性和可预测性。
+        context_files:
+          - "src/behavior-class/inheritance/mixin.ts"
+          - "src/behavior-class/inheritance/mixin-composition.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-004~criterion-3"
+    name: "继承链解析"
+    description: |
+      实现继承链解析器，计算类的完整继承层次结构（祖先链），
+      支持方法查找的线性化算法（C3线性化或其他），确保方法解析顺序（MRO）正确。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/inheritance/linearization.test.ts"
+        test_files:
+          - "src/behavior-class/inheritance/linearization.test.ts"
+          - "src/behavior-class/inheritance/mro.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/inheritance/linearization-integration.test.ts"
+        test_files:
+          - "src/behavior-class/inheritance/linearization-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/linearization"
+        test_files:
+          - "tests/e2e/behavior-class/linearization.spec.ts"
+      ai:
+        prompt: |
+          请验证继承链解析和线性化算法实现：
+          1. 正确计算单继承的祖先链
+          2. 正确计算多Mixin继承的线性化顺序
+          3. 实现C3线性化算法或等效算法
+          4. 方法解析顺序（MRO）符合预期
+          5. 复杂继承场景测试（菱形继承等）
+          6. 线性化失败时提供清晰的错误信息
+          请检查算法实现的正确性和鲁棒性。
+        context_files:
+          - "src/behavior-class/inheritance/linearization.ts"
+          - "src/behavior-class/inheritance/mro.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-004~criterion-4"
+    name: "循环依赖检测"
+    description: |
+      实现继承关系的循环依赖检测，防止A继承B、B继承C、C继承A的死循环。
+      提供友好的错误报告，指出循环路径。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/inheritance/cycle-detection.test.ts"
+        test_files:
+          - "src/behavior-class/inheritance/cycle-detection.test.ts"
+          - "src/behavior-class/inheritance/graph-utils.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/inheritance/cycle-integration.test.ts"
+        test_files:
+          - "src/behavior-class/inheritance/cycle-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/cycle-detection"
+        test_files:
+          - "tests/e2e/behavior-class/cycle-detection.spec.ts"
+      ai:
+        prompt: |
+          请验证循环依赖检测机制实现：
+          1. 检测直接循环（A extends A）
+          2. 检测间接循环（A→B→C→A）
+          3. 通过Mixin引入的循环检测
+          4. 错误报告指出完整的循环路径
+          5. 检测在类加载时早期进行
+          6. 性能优化：使用高效的环检测算法
+          请检查检测机制的正确性和错误提示质量。
+        context_files:
+          - "src/behavior-class/inheritance/cycle-detection.ts"
+          - "src/behavior-class/inheritance/graph-utils.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-004~criterion-5"
+    name: "属性与方法合并"
+    description: |
+      实现继承过程中的属性和方法合并策略，包括默认值合并、
+      验证器合并、元数据合并等。支持自定义合并策略。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/inheritance/merging.test.ts"
+        test_files:
+          - "src/behavior-class/inheritance/merging.test.ts"
+          - "src/behavior-class/inheritance/merge-strategies.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/inheritance/merging-integration.test.ts"
+        test_files:
+          - "src/behavior-class/inheritance/merging-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/merging"
+        test_files:
+          - "tests/e2e/behavior-class/merging.spec.ts"
+      ai:
+        prompt: |
+          请验证属性与方法合并机制实现：
+          1. 属性默认值合并策略（覆盖或合并）
+          2. 验证器列表合并（继承+重写）
+          3. 方法装饰器/元数据合并
+          4. 支持自定义合并策略配置
+          5. 合并结果可预测且文档化
+          6. 深合并与浅合并选项
+          请检查合并策略的灵活性和一致性。
+        context_files:
+          - "src/behavior-class/inheritance/merging.ts"
+          - "src/behavior-class/inheritance/merge-strategies.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+    prerequisites:
+      - "ISSUE-BC-004~criterion-1"
+      - "ISSUE-BC-004~criterion-3"

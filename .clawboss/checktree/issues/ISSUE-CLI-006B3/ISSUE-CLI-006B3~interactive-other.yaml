@@ -1,0 +1,223 @@
+id: "ISSUE-CLI-006B3"
+issue_number: 6
+slug: "interactive-other"
+title: "其他交互式命令"
+description: |
+  实现AI-Me CLI的其他交互式命令，包括搜索、报告、配置的交互式界面。
+  依赖CLI-006A框架和CLI-004工作空间命令。
+status: "pending"
+is_parent: false
+sub_issues: []
+prerequisites:
+  - "ISSUE-CLI-006A"
+  - "ISSUE-CLI-004"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CLI-006B3~criterion-1"
+    name: "交互式搜索界面"
+    description: |
+      实现交互式搜索界面，支持实时搜索、过滤条件动态调整、结果预览和详情查看。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/interactive/search/ui.test.ts"
+        test_files:
+          - "src/cli/interactive/search/ui.test.ts"
+      integration:
+        command: "npm test -- src/cli/interactive/search/integration.test.ts"
+        test_files:
+          - "src/cli/interactive/search/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/interactive/search-ui"
+        test_files:
+          - "e2e/cli/interactive/search/ui.spec.ts"
+      ai:
+        prompt: |
+          请验证交互式搜索界面的实现:
+          1. 启动搜索: `ai-me search --interactive` 或 `ai-me search -i`
+          2. 实时搜索: 输入关键词实时显示匹配结果
+          3. 过滤器: F键打开过滤器面板，勾选过滤条件
+          4. 过滤器: 状态、优先级、标签、日期范围、负责人等
+          5. 排序: S键切换排序方式(相关性/时间/优先级)
+          6. 结果浏览: 上下箭头浏览结果，Enter查看详情
+          7. 快捷操作: 选中结果后可编辑、删除、更改状态
+          8. 搜索历史: H键查看和选择历史搜索
+          9. 保存搜索: 将当前搜索条件保存为快捷方式
+
+          检查点:
+          - 搜索响应快速(<500ms)
+          - 过滤器组合逻辑正确
+          - 大结果集分页或虚拟滚动
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/interactive/search/ui.ts"
+          - "src/cli/commands/search/index.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CLI-006B3~criterion-2"
+    name: "交互式报告生成器"
+    description: |
+      实现交互式报告生成向导，引导用户选择报告类型、时间范围、筛选条件，预览并导出报告。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/interactive/report/wizard.test.ts"
+        test_files:
+          - "src/cli/interactive/report/wizard.test.ts"
+      integration:
+        command: "npm test -- src/cli/interactive/report/integration.test.ts"
+        test_files:
+          - "src/cli/interactive/report/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/interactive/report-wizard"
+        test_files:
+          - "e2e/cli/interactive/report/wizard.spec.ts"
+      ai:
+        prompt: |
+          请验证交互式报告生成器的实现:
+          1. 启动向导: `ai-me report --interactive` 选择报告类型
+          2. 报告类型: 进度报告、时间追踪、完成统计、燃尽图等
+          3. 时间范围: 日期选择器或预设(本周/本月/本季度)
+          4. 筛选条件: 选择工作空间、标签、优先级等
+          5. 报告预览: 在终端中实时预览报告内容
+          6. 图表展示: ASCII图表展示统计数据
+          7. 导出格式: 选择导出格式(PDF/JSON/HTML/Markdown)
+          8. 保存位置: 文件选择器选择保存路径
+          9. 定时报告: 可选设置定期生成报告
+
+          检查点:
+          - 向导步骤逻辑清晰
+          - 预览与最终输出一致
+          - 大报告生成分步显示进度
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/interactive/report/wizard.ts"
+          - "src/cli/commands/report/index.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites:
+      - "ISSUE-CLI-006B3~criterion-1"
+      - "ISSUE-CLI-010"
+
+  - id: "ISSUE-CLI-006B3~criterion-3"
+    name: "交互式配置编辑器"
+    description: |
+      实现交互式配置编辑器，支持可视化的配置项浏览、修改、验证和导入导出。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/interactive/config/editor.test.ts"
+        test_files:
+          - "src/cli/interactive/config/editor.test.ts"
+      integration:
+        command: "npm test -- src/cli/interactive/config/integration.test.ts"
+        test_files:
+          - "src/cli/interactive/config/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/interactive/config-editor"
+        test_files:
+          - "e2e/cli/interactive/config/editor.spec.ts"
+      ai:
+        prompt: |
+          请验证交互式配置编辑器的实现:
+          1. 启动编辑器: `ai-me config --interactive` 或 `ai-me config -i`
+          2. 分类浏览: 配置项按分类展示(通用/CLI/核心/UI)
+          3. 搜索配置: /键搜索配置项名称或描述
+          4. 编辑值: Enter编辑选中配置项，根据类型显示合适输入
+          5. 类型支持: 字符串、数字、布尔值、数组、对象
+          6. 验证反馈: 非法值实时提示错误
+          7. 默认值: D键恢复默认值
+          8. 配置说明: 显示配置项的详细说明和示例
+          9. 保存/放弃: 退出时选择保存或放弃修改
+
+          检查点:
+          - 配置分类清晰，易于查找
+          - 编辑验证即时反馈
+          - 敏感值(密码)输入时隐藏
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/interactive/config/editor.ts"
+          - "src/cli/commands/config/index.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-006B3~criterion-1"
+      - "ISSUE-INFRA-005"
+
+  - id: "ISSUE-CLI-006B3~criterion-4"
+    name: "交互式仪表盘"
+    description: |
+      实现交互式仪表盘界面，展示关键指标、近期活动、待办事项等，支持自定义布局。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/interactive/dashboard/index.test.ts"
+        test_files:
+          - "src/cli/interactive/dashboard/index.test.ts"
+      integration:
+        command: "npm test -- src/cli/interactive/dashboard/integration.test.ts"
+        test_files:
+          - "src/cli/interactive/dashboard/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/interactive/dashboard"
+        test_files:
+          - "e2e/cli/interactive/dashboard/index.spec.ts"
+      ai:
+        prompt: |
+          请验证交互式仪表盘功能的实现:
+          1. 启动仪表盘: `ai-me dashboard` 或 `ai-me dash`
+          2. 组件布局: 网格布局展示多个信息组件
+          3. 今日概览: 显示今日待办、进行中、已完成数量
+          4. 近期活动: 列表展示最近的状态变更和活动
+          5. 优先级队列: 高优先级行为列表，可快速操作
+          6. 截止日期: 即将到期的行为提醒
+          7. 统计图表: ASCII图表展示本周/月统计
+          8. 自定义布局: 可添加/移除/调整组件位置
+          9. 刷新: R键或自动刷新数据
+          10. 快捷操作: 数字键快速跳转到对应行为
+
+          检查点:
+          - 仪表盘布局自适应终端大小
+          - 数据刷新流畅不闪烁
+          - 组件交互响应迅速
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/interactive/dashboard/index.ts"
+          - "src/cli/interactive/dashboard/widgets.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites:
+      - "ISSUE-CLI-006B3~criterion-3"
+      - "ISSUE-CORE-010A"

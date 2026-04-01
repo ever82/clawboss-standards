@@ -1,0 +1,181 @@
+id: "ISSUE-INFRA-011"
+issue_number: 11
+title: "数据库迁移工具"
+slug: "db-migration"
+status: "pending"
+description: |
+  实现数据库迁移系统，支持：迁移脚本管理、版本控制、
+  向上/向下迁移、迁移状态查询、迁移冲突检测、
+  迁移日志记录。
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-003B"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-INFRA-011~criterion-1"
+    name: "迁移脚本管理实现完成"
+    description: |
+      实现迁移脚本系统：
+      - 迁移脚本命名规范（YYYYMMDDHHMMSS_description.sql）
+      - 脚本模板生成
+      - 脚本目录组织（migrations/）
+      - 脚本校验（语法检查）
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    verification:
+      unit:
+        command: "npm test -- src/infra/migration-scripts.test.ts"
+        test_files: ["src/infra/migration-scripts.test.ts"]
+      integration:
+        command: "npm test -- src/infra/migration-scripts.integration.test.ts"
+        test_files: ["src/infra/migration-scripts.integration.test.ts"]
+      manual:
+        instructions: |
+          1. 运行迁移创建命令生成新脚本
+          2. 验证文件名包含时间戳和描述
+          3. 检查脚本包含 up/down 两部分
+          4. 测试脚本语法校验
+          5. 验证模板内容正确
+        required_tools: ["npm", "bash", "ls"]
+    execution_time: "<30 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-INFRA-011~criterion-2"
+    name: "迁移执行引擎完成"
+    description: |
+      实现迁移执行系统：
+      - 向上迁移（apply/up）
+      - 向下迁移（rollback/down）
+      - 迁移到指定版本
+      - 事务保护（失败回滚）
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    verification:
+      unit:
+        command: "npm test -- src/infra/migration-engine.test.ts"
+        test_files: ["src/infra/migration-engine.test.ts"]
+      integration:
+        command: "npm test -- src/infra/migration-engine.integration.test.ts"
+        test_files: ["src/infra/migration-engine.integration.test.ts"]
+      manual:
+        instructions: |
+          1. 执行向上迁移，验证 SQL 执行
+          2. 测试向下迁移回滚
+          3. 验证迁移到指定版本号
+          4. 测试失败时事务回滚
+          5. 检查迁移按顺序执行
+        required_tools: ["npm", "bash", "sqlite3/psql"]
+    execution_time: "<60 seconds"
+    prerequisites: ["ISSUE-INFRA-011~criterion-1"]
+
+  - id: "ISSUE-INFRA-011~criterion-3"
+    name: "迁移版本控制完成"
+    description: |
+      实现迁移版本管理：
+      - schema_migrations 表记录
+      - 当前版本查询
+      - 迁移历史查询
+      - 版本号校验
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    verification:
+      unit:
+        command: "npm test -- src/infra/migration-version.test.ts"
+        test_files: ["src/infra/migration-version.test.ts"]
+      integration:
+        command: "npm test -- src/infra/migration-version.integration.test.ts"
+        test_files: ["src/infra/migration-version.integration.test.ts"]
+      manual:
+        instructions: |
+          1. 执行迁移后检查 schema_migrations 表
+          2. 验证版本记录包含时间戳和校验和
+          3. 查询当前版本命令正确
+          4. 检查历史迁移列表完整
+          5. 验证版本号唯一性约束
+        required_tools: ["npm", "bash", "sqlite3/psql"]
+    execution_time: "<30 seconds"
+    prerequisites: ["ISSUE-INFRA-011~criterion-2"]
+
+  - id: "ISSUE-INFRA-011~criterion-4"
+    name: "迁移冲突检测完成"
+    description: |
+      实现迁移冲突预防：
+      - 已执行脚本修改检测
+      - 并行开发冲突提示
+      - 校验和验证
+      - 强制迁移选项（危险操作）
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    verification:
+      unit:
+        command: "npm test -- src/infra/migration-conflict.test.ts"
+        test_files: ["src/infra/migration-conflict.test.ts"]
+      integration:
+        command: "npm test -- src/infra/migration-conflict.integration.test.ts"
+        test_files: ["src/infra/migration-conflict.integration.test.ts"]
+      manual:
+        instructions: |
+          1. 修改已执行迁移脚本
+          2. 验证校验和不匹配警告
+          3. 测试冲突检测提示
+          4. 验证强制迁移需要显式确认
+          5. 检查并行迁移建议（基于时间戳）
+        required_tools: ["npm", "bash"]
+    execution_time: "<30 seconds"
+    prerequisites: ["ISSUE-INFRA-011~criterion-3"]
+
+  - id: "ISSUE-INFRA-011~criterion-5"
+    name: "迁移 CLI 命令完成"
+    description: |
+      实现迁移相关 CLI 命令：
+      - migrate up: 执行向上迁移
+      - migrate down: 回滚迁移
+      - migrate status: 查看迁移状态
+      - migrate create: 创建新迁移
+      - migrate validate: 验证迁移脚本
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    verification:
+      unit:
+        command: "npm test -- src/infra/migration-cli.test.ts"
+        test_files: ["src/infra/migration-cli.test.ts"]
+      integration:
+        command: "npm test -- src/infra/migration-cli.integration.test.ts"
+        test_files: ["src/infra/migration-cli.integration.test.ts"]
+      manual:
+        instructions: |
+          1. 测试 migrate create 生成脚本
+          2. 验证 migrate up 执行迁移
+          3. 检查 migrate status 显示正确状态
+          4. 测试 migrate down 回滚
+          5. 验证 migrate validate 检查语法
+        required_tools: ["npm", "bash", "ai-me"]
+    execution_time: "<60 seconds"
+    prerequisites: ["ISSUE-INFRA-011~criterion-2"]

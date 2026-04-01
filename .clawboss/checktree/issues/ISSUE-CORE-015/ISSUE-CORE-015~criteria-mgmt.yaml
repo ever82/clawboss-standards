@@ -1,0 +1,175 @@
+id: "ISSUE-CORE-015"
+issue_number: 26
+title: "验收标准管理"
+slug: "criteria-mgmt"
+status: "pending"
+description: "实现验收标准管理功能，支持为行为定义验收标准、跟踪验收进度、验收完成确认。"
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-002B1"
+  - "ISSUE-INFRA-013"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CORE-015~criterion-1"
+    name: "验收标准定义"
+    description: "定义验收标准的类型和结构，支持文本标准、检查项、数值标准等"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/criteria/types.test.ts"
+        test_files: ["src/core/criteria/types.test.ts"]
+      integration:
+        command: "npm test -- src/core/criteria/types.integration.test.ts"
+        test_files: ["src/core/criteria/types.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- criteria-types"
+        test_files: ["e2e/criteria-types.spec.ts"]
+      ai:
+        prompt: "请验证验收标准定义功能:\n1. 检查 Criterion 类型定义\n2. 验证文本标准类型\n3. 检查检查项标准类型\n4. 验证数值标准类型\n5. 检查标准优先级\n6. 验证类型严格性\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/criteria/types.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<30 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-015~criterion-2"
+    name: "验收标准CRUD"
+    description: "实现验收标准的增删改查功能"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/criteria/crud.test.ts"
+        test_files: ["src/core/criteria/crud.test.ts"]
+      integration:
+        command: "npm test -- src/core/criteria/crud.integration.test.ts"
+        test_files: ["src/core/criteria/crud.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- criteria-crud"
+        test_files: ["e2e/criteria-crud.spec.ts"]
+      ai:
+        prompt: "请验证验收标准CRUD功能:\n1. 检查支持创建标准\n2. 验证支持更新标准\n3. 检查支持删除标准\n4. 验证支持查询标准\n5. 检查支持排序标准\n6. 验证操作权限\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/criteria/crud.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-015~criterion-3"
+    name: "验收进度跟踪"
+    description: "实现验收进度跟踪，支持标记完成、计算完成百分比"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/criteria/progress.test.ts"
+        test_files: ["src/core/criteria/progress.test.ts"]
+      integration:
+        command: "npm test -- src/core/criteria/progress.integration.test.ts"
+        test_files: ["src/core/criteria/progress.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- criteria-progress"
+        test_files: ["e2e/criteria-progress.spec.ts"]
+      ai:
+        prompt: "请验证验收进度跟踪功能:\n1. 检查支持标记标准完成\n2. 验证支持取消完成\n3. 检查计算完成百分比\n4. 验证支持进度可视化\n5. 检查支持完成备注\n6. 验证完成时间记录\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/criteria/progress.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-015~criterion-4"
+    name: "验收完成确认"
+    description: "实现验收完成确认，支持全部标准完成时自动或手动确认"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/criteria/complete.test.ts"
+        test_files: ["src/core/criteria/complete.test.ts"]
+      integration:
+        command: "npm test -- src/core/criteria/complete.integration.test.ts"
+        test_files: ["src/core/criteria/complete.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- criteria-complete"
+        test_files: ["e2e/criteria-complete.spec.ts"]
+      ai:
+        prompt: "请验证验收完成确认功能:\n1. 检查支持自动确认\n2. 验证支持手动确认\n3. 检查确认时验证所有标准\n4. 验证支持强制确认\n5. 检查确认后触发状态变更\n6. 验证确认记录\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/criteria/complete.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-015~criterion-5"
+    name: "验收模板"
+    description: "实现验收标准模板，支持创建、使用、共享模板"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/criteria/templates.test.ts"
+        test_files: ["src/core/criteria/templates.test.ts"]
+      integration:
+        command: "npm test -- src/core/criteria/templates.integration.test.ts"
+        test_files: ["src/core/criteria/templates.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- criteria-templates"
+        test_files: ["e2e/criteria-templates.spec.ts"]
+      ai:
+        prompt: "请验证验收模板功能:\n1. 检查支持创建模板\n2. 验证支持应用模板\n3. 检查支持模板管理\n4. 验证支持模板共享\n5. 检查支持模板分类\n6. 验证模板版本\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/criteria/templates.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-015~criterion-6"
+    name: "验收报告"
+    description: "实现验收报告生成，支持验收结果汇总、导出"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/criteria/reports.test.ts"
+        test_files: ["src/core/criteria/reports.test.ts"]
+      integration:
+        command: "npm test -- src/core/criteria/reports.integration.test.ts"
+        test_files: ["src/core/criteria/reports.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- criteria-reports"
+        test_files: ["e2e/criteria-reports.spec.ts"]
+      ai:
+        prompt: "请验证验收报告功能:\n1. 检查生成验收汇总\n2. 验证显示完成率\n3. 检查显示未完成项\n4. 验证支持导出报告\n5. 检查支持时间筛选\n6. 验证报告格式\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/criteria/reports.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []

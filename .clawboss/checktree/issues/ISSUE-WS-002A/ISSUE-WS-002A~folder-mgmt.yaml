@@ -1,0 +1,353 @@
+id: "ISSUE-WS-002A"
+issue_number: 2
+title: "文件夹管理"
+slug: "folder-mgmt"
+status: "pending"
+description: |
+  实现工作空间文件夹管理功能，支持在工作空间内创建、组织和管理文件夹层次结构。
+  文件夹用于对行为进行逻辑分组，支持嵌套结构形成文件夹树。
+
+  核心功能：
+  1. 文件夹 CRUD 操作（创建、读取、更新、删除）
+  2. 文件夹树结构管理（父子关系、路径计算）
+  3. 文件夹移动和重命名
+  4. 文件夹权限和访问控制
+  5. 文件夹元数据管理（图标、颜色、描述）
+  6. 特殊文件夹支持（收件箱、归档、垃圾桶）
+
+  技术要求：
+  - 基于 WS-001 工作空间核心服务
+  - 支持虚拟文件夹（逻辑分组，非物理目录）
+  - 提供文件夹路径与 ID 的双向解析
+  - 支持文件夹导入/导出
+is_parent: false
+prerequisites:
+  - "ISSUE-WS-001"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-WS-002A~criterion-1"
+    name: "文件夹实体与类型定义"
+    description: |
+      定义文件夹实体（Folder）的完整数据结构：
+      - 基础字段：id, workspaceId, parentId, name, path
+      - 元数据字段：createdAt, updatedAt, icon, color, description
+      - 类型字段：type (regular, inbox, archive, trash, special)
+      - 统计字段：behaviorCount, totalBehaviorCount（含子文件夹）
+
+      类型定义需包含：
+      - Folder 接口/类型
+      - FolderType 枚举
+      - CreateFolderInput / UpdateFolderInput DTO
+      - FolderTree 树形结构类型
+
+      约束：
+      - 同一父文件夹下名称唯一
+      - 路径格式：/folder1/folder2
+      - 最大嵌套深度：10层
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/workspace/folder/entities/folder.entity.test.ts"
+        test_files:
+          - "src/workspace/folder/entities/folder.entity.test.ts"
+          - "src/workspace/folder/dto/create-folder.dto.test.ts"
+          - "src/workspace/folder/dto/update-folder.dto.test.ts"
+      integration:
+        command: "npm test -- src/workspace/folder/folder.type.integration.test.ts"
+        test_files:
+          - "src/workspace/folder/folder.type.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- folder-types"
+        test_files:
+          - "tests/e2e/workspace/folder/folder-types.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证文件夹实体定义的完整性和正确性：
+          1. 检查 Folder 接口是否包含所有必需字段：
+             - id, workspaceId, parentId, name, path
+             - createdAt, updatedAt, icon, color, description
+             - type (FolderType 枚举)
+             - behaviorCount, totalBehaviorCount
+          2. 检查 FolderType 枚举是否包含：regular, inbox, archive, trash, special
+          3. 检查 CreateFolderInput DTO 是否对 name 和 workspaceId 有验证（@IsString, @IsNotEmpty, @MaxLength(100)）
+          4. 检查路径格式验证器是否确保 path 以 / 开头且不超过 10 层深度
+          5. 检查 FolderTree 类型是否正确表示树形结构（包含 children: FolderTree[]）
+          6. 检查 UpdateFolderInput 是否禁止修改 workspaceId
+          请返回 {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/workspace/folder/entities/folder.entity.ts"
+          - "src/workspace/folder/enums/folder-type.enum.ts"
+          - "src/workspace/folder/dto/"
+          - "src/workspace/folder/types/folder-tree.type.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-WS-002A~criterion-2"
+    name: "文件夹 Repository 实现"
+    description: |
+      实现 FolderRepository 数据访问层：
+      - findByWorkspaceId(workspaceId): 获取工作空间的所有文件夹
+      - findById(id): 根据 ID 查询文件夹
+      - findByPath(workspaceId, path): 根据路径查询文件夹
+      - findChildren(parentId): 获取子文件夹列表
+      - findDescendants(folderId): 获取所有后代文件夹
+      - findAncestors(folderId): 获取所有祖先文件夹
+      - create(data): 创建文件夹
+      - update(id, data): 更新文件夹
+      - delete(id): 删除文件夹（支持级联删除）
+      - move(id, newParentId): 移动文件夹
+      - updatePath(folderId, newPath): 更新路径（级联更新子文件夹）
+
+      支持特殊文件夹自动创建（每个工作空间自动创建收件箱、归档、垃圾桶）。
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/workspace/folder/repositories/folder.repository.test.ts"
+        test_files:
+          - "src/workspace/folder/repositories/folder.repository.test.ts"
+      integration:
+        command: "npm test -- src/workspace/folder/folder.repository.integration.test.ts"
+        test_files:
+          - "src/workspace/folder/folder.repository.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- folder-repository"
+        test_files:
+          - "tests/e2e/workspace/folder/folder-repository.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证 FolderRepository 的实现：
+          1. 检查是否实现了所有必需方法：
+             - findByWorkspaceId, findById, findByPath
+             - findChildren, findDescendants, findAncestors
+             - create, update, delete, move, updatePath
+          2. 检查 findDescendants 是否使用递归或 CTE（Common Table Expression）正确获取所有后代
+          3. 检查 delete 方法是否支持级联删除（删除子文件夹及其内容）
+          4. 检查 move 方法是否正确验证：
+             - 目标父文件夹是否存在
+             - 是否会造成循环引用
+             - 是否超过最大深度限制
+          5. 检查 updatePath 是否级联更新所有子文件夹的路径
+          6. 检查是否在事务中执行批量更新操作
+          请返回 {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/workspace/folder/repositories/folder.repository.ts"
+          - "src/workspace/folder/repositories/folder.repository.interface.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+    prerequisites:
+      - "ISSUE-WS-002A~criterion-1"
+
+  - id: "ISSUE-WS-002A~criterion-3"
+    name: "文件夹服务层与业务逻辑"
+    description: |
+      实现 FolderService 业务逻辑层：
+      - createFolder: 创建文件夹（自动生成路径、验证深度）
+      - updateFolder: 更新文件夹信息（支持重命名）
+      - moveFolder: 移动文件夹到新位置（验证约束）
+      - deleteFolder: 删除文件夹（支持安全删除和级联删除）
+      - getFolderTree: 获取文件夹树结构
+      - getFolderPath: 获取文件夹完整路径
+      - resolvePath: 解析路径为文件夹 ID
+      - getSpecialFolder: 获取特殊文件夹（收件箱、归档、垃圾桶）
+      - initializeSpecialFolders: 为工作空间初始化特殊文件夹
+
+      业务规则：
+      - 收件箱、归档、垃圾桶为系统保留名称
+      - 移动时禁止形成循环（A -> B -> A）
+      - 删除文件夹时提供安全模式（移动行为到归档）
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/workspace/folder/services/folder.service.test.ts"
+        test_files:
+          - "src/workspace/folder/services/folder.service.test.ts"
+      integration:
+        command: "npm test -- src/workspace/folder/folder.service.integration.test.ts"
+        test_files:
+          - "src/workspace/folder/folder.service.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- folder-service"
+        test_files:
+          - "tests/e2e/workspace/folder/folder-service.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证 FolderService 业务逻辑层实现：
+          1. 检查 createFolder 是否：
+             - 自动生成路径（基于父文件夹路径 + 名称）
+             - 验证名称唯一性（同级目录）
+             - 检查深度限制（不超过 10 层）
+          2. 检查 moveFolder 是否验证循环引用（禁止 A -> B -> A）
+          3. 检查 deleteFolder 的安全模式：
+             - 当 safe=true 时，将行为移动到归档而非删除
+             - 当 safe=false 时，级联删除所有子文件夹和行为
+          4. 检查 getFolderTree 是否正确构建嵌套树结构
+          5. 检查 initializeSpecialFolders 是否为每个工作空间创建：
+             - Inbox (/Inbox)
+             - Archive (/Archive)
+             - Trash (/Trash)
+          6. 检查是否正确阻止用户删除系统特殊文件夹
+          请返回 {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/workspace/folder/services/folder.service.ts"
+          - "src/workspace/folder/services/folder.service.interface.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+    prerequisites:
+      - "ISSUE-WS-002A~criterion-2"
+
+  - id: "ISSUE-WS-002A~criterion-4"
+    name: "文件夹树操作与遍历"
+    description: |
+      实现文件夹树的复杂操作：
+      - buildFolderTree: 从平面数据构建嵌套树结构
+      - flattenFolderTree: 将树结构展平为列表（支持多种遍历顺序）
+      - findFolderPath: 查找从根到目标的完整路径
+      - getFolderDepth: 计算文件夹深度
+      - validateTreeIntegrity: 验证树的完整性（无循环、深度合规）
+      - getSubtree: 获取指定文件夹的子树
+      - reorderFolders: 对同级文件夹进行排序
+
+      支持遍历策略：
+      - 深度优先（DFS）
+      - 广度优先（BFS）
+      - 按名称排序遍历
+      - 按创建时间排序遍历
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/workspace/folder/utils/folder-tree.util.test.ts"
+        test_files:
+          - "src/workspace/folder/utils/folder-tree.util.test.ts"
+          - "src/workspace/folder/utils/folder-traversal.util.test.ts"
+      integration:
+        command: "npm test -- src/workspace/folder/folder-tree.integration.test.ts"
+        test_files:
+          - "src/workspace/folder/folder-tree.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- folder-tree-operations"
+        test_files:
+          - "tests/e2e/workspace/folder/folder-tree-operations.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证文件夹树操作实现的正确性：
+          1. 检查 buildFolderTree 是否正确将平面列表转换为嵌套树：
+             - 根文件夹的 parentId 为 null
+             - 正确建立父子关系
+             - 保持正确的层级顺序
+          2. 检查 flattenFolderTree 是否支持：
+             - DFS 前序遍历
+             - DFS 后序遍历
+             - BFS 层级遍历
+          3. 检查 validateTreeIntegrity 是否检测：
+             - 循环引用（A.parent = B, B.parent = A）
+             - 孤立节点（parentId 指向不存在的文件夹）
+             - 超过最大深度（> 10）
+          4. 检查 findFolderPath 是否返回从根到目标的完整路径节点列表
+          5. 检查 reorderFolders 是否正确更新同级文件夹的排序字段
+          6. 检查性能：树操作在 1000 个文件夹时是否能在 < 100ms 内完成
+          请返回 {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/workspace/folder/utils/folder-tree.util.ts"
+          - "src/workspace/folder/utils/folder-traversal.util.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+    prerequisites:
+      - "ISSUE-WS-002A~criterion-3"
+
+  - id: "ISSUE-WS-002A~criterion-5"
+    name: "文件夹异常处理与边界情况"
+    description: |
+      实现文件夹模块的异常处理和边界情况处理：
+      - FolderNotFoundError: 文件夹不存在
+      - FolderAlreadyExistsError: 同名文件夹已存在
+      - FolderCycleError: 操作会导致循环引用
+      - FolderDepthExceededError: 超过最大深度限制
+      - FolderNotEmptyError: 非空文件夹无法删除（非级联模式）
+      - ReservedFolderNameError: 使用保留名称
+      - InvalidFolderPathError: 无效路径格式
+
+      边界情况处理：
+      - 根文件夹保护（不能删除、移动根）
+      - 并发操作处理（同时创建同名文件夹）
+      - 长时间操作的超时处理
+      - 批量操作的错误恢复
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/workspace/folder/exceptions/"
+        test_files:
+          - "src/workspace/folder/exceptions/folder-not-found.error.test.ts"
+          - "src/workspace/folder/exceptions/folder-already-exists.error.test.ts"
+          - "src/workspace/folder/exceptions/folder-cycle.error.test.ts"
+          - "src/workspace/folder/exceptions/folder-depth-exceeded.error.test.ts"
+      integration:
+        command: "npm test -- src/workspace/folder/folder.exceptions.integration.test.ts"
+        test_files:
+          - "src/workspace/folder/folder.exceptions.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- folder-error-handling"
+        test_files:
+          - "tests/e2e/workspace/folder/folder-error-handling.e2e.test.ts"
+      ai:
+        prompt: |
+          请验证文件夹模块的异常处理实现：
+          1. 检查是否定义了所有必需的异常类：
+             - FolderNotFoundError (404)
+             - FolderAlreadyExistsError (409)
+             - FolderCycleError (400)
+             - FolderDepthExceededError (400)
+             - FolderNotEmptyError (409)
+             - ReservedFolderNameError (400)
+             - InvalidFolderPathError (400)
+          2. 检查每个异常类是否：
+             - 继承自 BaseWorkspaceError
+             - 有明确的错误代码和消息
+             - 包含相关上下文（folderId, path, parentId）
+          3. 检查根文件夹保护：
+             - 禁止删除 parentId 为 null 的文件夹
+             - 禁止将根文件夹作为移动目标
+          4. 检查并发处理：
+             - 使用数据库唯一约束防止重复创建
+             - 正确处理并发修改的冲突
+          5. 检查是否在所有边界情况下都有适当的错误处理
+          6. 检查日志是否记录了足够信息用于调试
+          请返回 {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/workspace/folder/exceptions/"
+          - "src/workspace/folder/services/folder.service.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+    prerequisites:
+      - "ISSUE-WS-002A~criterion-4"

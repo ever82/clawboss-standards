@@ -1,0 +1,175 @@
+id: "ISSUE-CORE-013C"
+issue_number: 24
+title: "格式转换器"
+slug: "data-format"
+status: "pending"
+description: "实现数据格式转换器，支持多种数据格式之间的相互转换，支持自定义转换规则和扩展。"
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-013A"
+  - "ISSUE-CORE-013B"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CORE-013C~criterion-1"
+    name: "转换器架构"
+    description: "实现可扩展的转换器架构，支持注册转换器、链式转换"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/format/converter.test.ts"
+        test_files: ["src/core/format/converter.test.ts"]
+      integration:
+        command: "npm test -- src/core/format/converter.integration.test.ts"
+        test_files: ["src/core/format/converter.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- format-converter"
+        test_files: ["e2e/format-converter.spec.ts"]
+      ai:
+        prompt: "请验证转换器架构功能:\n1. 检查支持注册转换器\n2. 验证支持链式转换\n3. 检查支持中间格式\n4. 验证支持转换器优先级\n5. 检查支持扩展转换器\n6. 验证转换器管理\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/format/converter.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-013C~criterion-2"
+    name: "JSON 转换"
+    description: "实现 JSON 格式转换，支持 JSON 与其他格式的双向转换"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/format/json.test.ts"
+        test_files: ["src/core/format/json.test.ts"]
+      integration:
+        command: "npm test -- src/core/format/json.integration.test.ts"
+        test_files: ["src/core/format/json.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- format-json"
+        test_files: ["e2e/format-json.spec.ts"]
+      ai:
+        prompt: "请验证 JSON 转换功能:\n1. 检查支持 JSON 序列化\n2. 验证支持 JSON 反序列化\n3. 检查支持格式化选项\n4. 验证支持 JSON Schema 验证\n5. 检查支持大 JSON 处理\n6. 验证转换正确性\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/format/json.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-013C~criterion-3"
+    name: "YAML 转换"
+    description: "实现 YAML 格式转换，支持 YAML 与其他格式的双向转换"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/format/yaml.test.ts"
+        test_files: ["src/core/format/yaml.test.ts"]
+      integration:
+        command: "npm test -- src/core/format/yaml.integration.test.ts"
+        test_files: ["src/core/format/yaml.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- format-yaml"
+        test_files: ["e2e/format-yaml.spec.ts"]
+      ai:
+        prompt: "请验证 YAML 转换功能:\n1. 检查支持 YAML 序列化\n2. 验证支持 YAML 反序列化\n3. 检查支持锚点和别名\n4. 验证支持多文档\n5. 检查支持注释保留\n6. 验证转换正确性\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/format/yaml.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-013C~criterion-4"
+    name: "CSV 转换"
+    description: "实现 CSV 格式转换，支持 CSV 与结构化数据的双向转换"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/format/csv.test.ts"
+        test_files: ["src/core/format/csv.test.ts"]
+      integration:
+        command: "npm test -- src/core/format/csv.integration.test.ts"
+        test_files: ["src/core/format/csv.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- format-csv"
+        test_files: ["e2e/format-csv.spec.ts"]
+      ai:
+        prompt: "请验证 CSV 转换功能:\n1. 检查支持 CSV 生成\n2. 验证支持 CSV 解析\n3. 检查支持分隔符配置\n4. 验证支持引号处理\n5. 检查支持多行单元格\n6. 验证转换正确性\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/format/csv.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-013C~criterion-5"
+    name: "XML 转换"
+    description: "实现 XML 格式转换，支持 XML 与结构化数据的双向转换"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/format/xml.test.ts"
+        test_files: ["src/core/format/xml.test.ts"]
+      integration:
+        command: "npm test -- src/core/format/xml.integration.test.ts"
+        test_files: ["src/core/format/xml.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- format-xml"
+        test_files: ["e2e/format-xml.spec.ts"]
+      ai:
+        prompt: "请验证 XML 转换功能:\n1. 检查支持 XML 生成\n2. 验证支持 XML 解析\n3. 检查支持命名空间\n4. 验证支持属性处理\n5. 检查支持 CDATA\n6. 验证转换正确性\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/format/xml.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-013C~criterion-6"
+    name: "自定义转换规则"
+    description: "实现自定义转换规则，支持字段映射、数据转换、条件转换"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/format/custom.test.ts"
+        test_files: ["src/core/format/custom.test.ts"]
+      integration:
+        command: "npm test -- src/core/format/custom.integration.test.ts"
+        test_files: ["src/core/format/custom.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- format-custom"
+        test_files: ["e2e/format-custom.spec.ts"]
+      ai:
+        prompt: "请验证自定义转换规则功能:\n1. 检查支持字段映射\n2. 验证支持数据转换函数\n3. 检查支持条件转换\n4. 验证支持转换模板\n5. 检查支持转换规则验证\n6. 验证转换规则复用\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/format/custom.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []

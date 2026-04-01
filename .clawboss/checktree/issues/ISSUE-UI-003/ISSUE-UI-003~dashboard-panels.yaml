@@ -1,0 +1,268 @@
+id: "ISSUE-UI-003"
+issue_number: 3
+title: "仪表盘面板系统"
+slug: "dashboard-panels"
+module: "UI"
+status: "pending"
+description: |
+  构建可定制的仪表盘面板系统，支持多种数据可视化组件（图表、统计卡片、列表等）、
+  拖拽布局、面板配置持久化、实时数据更新等功能。用户可以根据需求自定义工作区布局。
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-010A"
+  - "ISSUE-CORE-010B"
+  - "ISSUE-UI-002"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-UI-003~criterion-1"
+    name: "面板容器系统"
+    description: "仪表盘容器系统实现，支持网格布局、响应式断点、自适应尺寸调整"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/components/dashboard/"
+        test_files:
+          - "ui/web-client/src/components/dashboard/Dashboard.test.tsx"
+          - "ui/web-client/src/components/dashboard/GridLayout.test.tsx"
+          - "ui/web-client/src/components/dashboard/PanelContainer.test.tsx"
+      integration:
+        command: "npm run test:integration -- tests/integration/dashboard/layout.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/dashboard/layout.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/dashboard/layout.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/dashboard/layout.spec.ts"
+      ai:
+        prompt: |
+          请验证面板容器系统是否完整：
+          1. 检查是否使用网格布局系统（CSS Grid）支持多列配置
+          2. 检查是否支持响应式断点（大屏4列、中屏2列、小屏1列）
+          3. 检查面板容器是否支持自适应高度和最小/最大尺寸限制
+          4. 检查布局是否在窗口resize时自动调整
+          5. 检查是否有空白占位符和添加面板入口
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/components/dashboard/Dashboard.tsx"
+          - "ui/web-client/src/components/dashboard/GridLayout.tsx"
+          - "ui/web-client/src/components/dashboard/PanelContainer.tsx"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-003~criterion-2"
+    name: "拖拽布局配置"
+    description: "支持面板拖拽重排、调整大小，布局变更自动保存"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/components/dashboard/dnd/"
+        test_files:
+          - "ui/web-client/src/components/dashboard/dnd/usePanelDrag.test.ts"
+          - "ui/web-client/src/components/dashboard/dnd/usePanelResize.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/dashboard/drag-resize.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/dashboard/drag-resize.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/dashboard/drag-resize.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/dashboard/drag-resize.spec.ts"
+      ai:
+        prompt: |
+          请验证拖拽布局配置功能是否完整：
+          1. 检查是否支持面板拖拽重排（使用react-grid-layout或类似库）
+          2. 检查是否支持拖拽调整面板大小（右下角拖拽柄）
+          3. 检查拖拽和调整大小时是否有视觉反馈（阴影、边框高亮）
+          4. 检查布局变更是否自动保存到localStorage或后端
+          5. 检查是否支持布局重置为默认配置
+          6. 检查拖拽操作是否有适当的碰撞检测和自动对齐
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/components/dashboard/dnd/DraggablePanel.tsx"
+          - "ui/web-client/src/components/dashboard/dnd/ResizablePanel.tsx"
+          - "ui/web-client/src/hooks/useDashboardLayout.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<20 seconds"
+
+  - id: "ISSUE-UI-003~criterion-3"
+    name: "统计卡片组件"
+    description: "提供多种统计卡片组件（数字统计、进度环、趋势指示器等），支持自定义数据源"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/components/dashboard/widgets/StatCard/"
+        test_files:
+          - "ui/web-client/src/components/dashboard/widgets/StatCard/StatCard.test.tsx"
+          - "ui/web-client/src/components/dashboard/widgets/StatCard/ProgressRing.test.tsx"
+          - "ui/web-client/src/components/dashboard/widgets/StatCard/TrendIndicator.test.tsx"
+      integration:
+        command: "npm run test:integration -- tests/integration/dashboard/stat-cards.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/dashboard/stat-cards.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/dashboard/stat-cards.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/dashboard/stat-cards.spec.ts"
+      ai:
+        prompt: |
+          请验证统计卡片组件是否完整：
+          1. 检查是否提供多种统计卡片类型（数字、进度环、对比、趋势）
+          2. 检查数字统计是否支持格式化（千分位、百分比、货币）
+          3. 检查进度环是否支持自定义颜色和阈值警告
+          4. 检查趋势指示器是否正确显示上升/下降箭头和百分比
+          5. 检查卡片是否支持标题、副标题、图标、操作按钮
+          6. 检查数据加载和错误状态是否有适当的占位UI
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/components/dashboard/widgets/StatCard/StatCard.tsx"
+          - "ui/web-client/src/components/dashboard/widgets/StatCard/ProgressRing.tsx"
+          - "ui/web-client/src/components/dashboard/widgets/StatCard/TrendIndicator.tsx"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-003~criterion-4"
+    name: "图表组件集成"
+    description: "集成图表库支持柱状图、折线图、饼图、甘特图等多种图表类型"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/components/dashboard/widgets/charts/"
+        test_files:
+          - "ui/web-client/src/components/dashboard/widgets/charts/BarChart.test.tsx"
+          - "ui/web-client/src/components/dashboard/widgets/charts/LineChart.test.tsx"
+          - "ui/web-client/src/components/dashboard/widgets/charts/PieChart.test.tsx"
+          - "ui/web-client/src/components/dashboard/widgets/charts/GanttChart.test.tsx"
+      integration:
+        command: "npm run test:integration -- tests/integration/dashboard/charts.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/dashboard/charts.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/dashboard/charts.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/dashboard/charts.spec.ts"
+      ai:
+        prompt: |
+          请验证图表组件集成是否完整：
+          1. 检查是否集成成熟的图表库（如Recharts、Victory、或ECharts）
+          2. 检查是否支持柱状图、折线图、饼图、环形图、面积图等基础类型
+          3. 检查甘特图是否正确展示任务时间线和依赖关系
+          4. 检查图表是否支持主题适配（明暗模式自动切换颜色）
+          5. 检查图表是否支持交互（tooltip提示、点击选中、缩放）
+          6. 检查图表数据更新时是否有平滑过渡动画
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/components/dashboard/widgets/charts/BarChart.tsx"
+          - "ui/web-client/src/components/dashboard/widgets/charts/LineChart.tsx"
+          - "ui/web-client/src/components/dashboard/widgets/charts/PieChart.tsx"
+          - "ui/web-client/src/components/dashboard/widgets/charts/GanttChart.tsx"
+        model: "claude-sonnet-4-6"
+    execution_time: "<20 seconds"
+
+  - id: "ISSUE-UI-003~criterion-5"
+    name: "列表面板组件"
+    description: "提供可配置的列表面板，支持行为列表、待办列表、最近活动等"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/components/dashboard/widgets/lists/"
+        test_files:
+          - "ui/web-client/src/components/dashboard/widgets/lists/BehaviorList.test.tsx"
+          - "ui/web-client/src/components/dashboard/widgets/lists/TodoList.test.tsx"
+          - "ui/web-client/src/components/dashboard/widgets/lists/ActivityList.test.tsx"
+      integration:
+        command: "npm run test:integration -- tests/integration/dashboard/lists.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/dashboard/lists.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/dashboard/lists.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/dashboard/lists.spec.ts"
+      ai:
+        prompt: |
+          请验证列表面板组件是否完整：
+          1. 检查是否提供多种列表模板（行为列表、待办列表、活动日志）
+          2. 检查列表是否支持排序、筛选、分页
+          3. 检查列表项是否显示关键信息（图标、标题、状态、时间）
+          4. 检查是否支持列表项的快捷操作（完成、编辑、删除按钮）
+          5. 检查空列表状态是否有适当的占位提示
+          6. 检查列表数据更新时是否有平滑的动画效果
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/components/dashboard/widgets/lists/BehaviorList.tsx"
+          - "ui/web-client/src/components/dashboard/widgets/lists/TodoList.tsx"
+          - "ui/web-client/src/components/dashboard/widgets/lists/ActivityList.tsx"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-003~criterion-6"
+    name: "实时数据更新"
+    description: "支持面板数据实时更新，提供刷新按钮、自动刷新、数据变化通知等功能"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/hooks/useRealtimeData.test.ts"
+        test_files:
+          - "ui/web-client/src/hooks/useRealtimeData.test.ts"
+          - "ui/web-client/src/hooks/useAutoRefresh.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/dashboard/realtime.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/dashboard/realtime.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/dashboard/realtime.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/dashboard/realtime.spec.ts"
+      ai:
+        prompt: |
+          请验证实时数据更新功能是否完整：
+          1. 检查是否实现WebSocket或轮询机制获取实时数据
+          2. 检查每个面板是否提供手动刷新按钮
+          3. 检查是否支持配置自动刷新间隔（1分钟、5分钟、关闭）
+          4. 检查数据更新时是否有视觉提示（微妙的高亮或徽章）
+          5. 检查断网或连接失败时是否有适当的错误处理和重试机制
+          6. 检查是否支持数据变化时的Toast通知
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/hooks/useRealtimeData.ts"
+          - "ui/web-client/src/hooks/useAutoRefresh.ts"
+          - "ui/web-client/src/services/websocket.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<20 seconds"

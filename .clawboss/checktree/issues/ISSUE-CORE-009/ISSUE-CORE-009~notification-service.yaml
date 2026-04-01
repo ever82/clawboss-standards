@@ -1,0 +1,176 @@
+id: "ISSUE-CORE-009"
+issue_number: 16
+title: "通知服务"
+slug: "notification-service"
+status: "pending"
+description: "实现通知服务，支持多种通知渠道（应用内、邮件、桌面等），支持通知模板、通知偏好设置、通知历史管理。帮助用户及时了解重要事件。"
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-004"
+  - "ISSUE-CORE-005"
+  - "ISSUE-CORE-011"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CORE-009~criterion-1"
+    name: "通知类型定义"
+    description: "定义通知类型系统，包括通知渠道、通知级别、通知模板等"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/notification/types.test.ts"
+        test_files: ["src/core/notification/types.test.ts"]
+      integration:
+        command: "npm test -- src/core/notification/types.integration.test.ts"
+        test_files: ["src/core/notification/types.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- notification-types"
+        test_files: ["e2e/notification-types.spec.ts"]
+      ai:
+        prompt: "请验证通知类型定义:\n1. 检查 NotificationType 枚举定义\n2. 验证 NotificationChannel 枚举定义（IN_APP, EMAIL, DESKTOP）\n3. 检查 NotificationLevel 枚举定义（INFO, WARNING, ERROR）\n4. 验证 NotificationTemplate 类型定义\n5. 检查支持自定义通知类型\n6. 验证类型严格性\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/notification/types.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<30 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-009~criterion-2"
+    name: "应用内通知"
+    description: "实现应用内通知功能，支持通知列表、通知标记已读、通知清理"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/notification/in-app.test.ts"
+        test_files: ["src/core/notification/in-app.test.ts"]
+      integration:
+        command: "npm test -- src/core/notification/in-app.integration.test.ts"
+        test_files: ["src/core/notification/in-app.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- in-app-notification"
+        test_files: ["e2e/in-app-notification.spec.ts"]
+      ai:
+        prompt: "请验证应用内通知功能:\n1. 检查支持发送应用内通知\n2. 验证支持通知列表查询\n3. 检查支持标记已读\n4. 验证支持全部标记已读\n5. 检查支持删除通知\n6. 验证支持未读计数\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/notification/in-app.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-009~criterion-3"
+    name: "通知模板管理"
+    description: "实现通知模板管理，支持模板定义、变量替换、多语言模板"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/notification/templates.test.ts"
+        test_files: ["src/core/notification/templates.test.ts"]
+      integration:
+        command: "npm test -- src/core/notification/templates.integration.test.ts"
+        test_files: ["src/core/notification/templates.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- notification-templates"
+        test_files: ["e2e/notification-templates.spec.ts"]
+      ai:
+        prompt: "请验证通知模板管理功能:\n1. 检查支持模板定义\n2. 验证支持变量替换（{{variable}}）\n3. 检查支持多语言模板\n4. 验证支持模板预览\n5. 检查支持模板版本管理\n6. 验证模板缓存性能\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/notification/templates.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-009~criterion-4"
+    name: "通知偏好设置"
+    description: "实现通知偏好设置，支持按类型、按渠道设置通知偏好，支持免打扰模式"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/notification/preferences.test.ts"
+        test_files: ["src/core/notification/preferences.test.ts"]
+      integration:
+        command: "npm test -- src/core/notification/preferences.integration.test.ts"
+        test_files: ["src/core/notification/preferences.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- notification-preferences"
+        test_files: ["e2e/notification-preferences.spec.ts"]
+      ai:
+        prompt: "请验证通知偏好设置功能:\n1. 检查支持按类型设置偏好\n2. 验证支持按渠道设置偏好\n3. 检查支持免打扰模式\n4. 验证支持时间段设置\n5. 检查偏好实时生效\n6. 验证偏好导入/导出\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/notification/preferences.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-009~criterion-5"
+    name: "通知触发与调度"
+    description: "实现通知触发与调度功能，支持事件驱动通知、定时通知、延迟通知"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/notification/triggers.test.ts"
+        test_files: ["src/core/notification/triggers.test.ts"]
+      integration:
+        command: "npm test -- src/core/notification/triggers.integration.test.ts"
+        test_files: ["src/core/notification/triggers.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- notification-triggers"
+        test_files: ["e2e/notification-triggers.spec.ts"]
+      ai:
+        prompt: "请验证通知触发与调度功能:\n1. 检查支持事件驱动通知\n2. 验证支持定时通知\n3. 检查支持延迟通知\n4. 验证支持重复通知\n5. 检查支持通知聚合\n6. 验证调度器可靠性\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/notification/triggers.ts", "src/core/notification/scheduler.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-009~criterion-6"
+    name: "通知历史管理"
+    description: "实现通知历史管理，支持历史查询、历史清理、历史统计"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/notification/history.test.ts"
+        test_files: ["src/core/notification/history.test.ts"]
+      integration:
+        command: "npm test -- src/core/notification/history.integration.test.ts"
+        test_files: ["src/core/notification/history.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- notification-history"
+        test_files: ["e2e/notification-history.spec.ts"]
+      ai:
+        prompt: "请验证通知历史管理功能:\n1. 检查记录所有发送的通知\n2. 验证支持历史查询\n3. 检查支持按条件过滤\n4. 验证支持历史清理\n5. 检查支持历史统计\n6. 验证支持历史导出\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/notification/history.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []

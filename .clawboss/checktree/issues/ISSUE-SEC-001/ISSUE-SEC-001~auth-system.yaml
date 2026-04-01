@@ -1,0 +1,147 @@
+id: "ISSUE-SEC-001"
+issue_number: 1
+title: "用户认证系统"
+slug: "auth-system"
+status: "pending"
+description: "实现用户认证系统，提供安全的用户登录、登出和会话管理功能。包括密码加密存储、会话令牌生成与验证、登录失败处理、账户锁定策略等安全机制。作为单机工具，主要面向本地用户认证场景。"
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-003B"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-SEC-001~criterion-1"
+    name: "用户注册与登录功能实现"
+    description: "实现用户注册和登录核心功能，支持用户名/密码认证方式，登录成功后生成会话令牌"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/security/auth/auth.service.test.ts"
+        test_files: ["src/security/auth/auth.service.test.ts"]
+      integration:
+        command: "npm test -- src/security/auth/auth.integration.test.ts"
+        test_files: ["src/security/auth/auth.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- auth"
+        test_files: ["e2e/auth/login.spec.ts", "e2e/auth/register.spec.ts"]
+      ai:
+        prompt: "请验证用户认证系统实现:\n1. 用户注册流程完整，包含用户名/密码验证\n2. 用户登录流程正确，支持密码校验\n3. 会话令牌生成机制安全\n4. 错误处理机制完善\n返回: {\"passed\": true/false, \"reason\": \"说明\"}"
+        context_files: ["src/security/auth/auth.service.ts", "src/security/auth/auth.controller.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<30 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-SEC-001~criterion-2"
+    name: "密码安全存储机制"
+    description: "使用强哈希算法(如Argon2或bcrypt)存储密码，支持盐值随机生成，禁止明文存储密码"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/security/auth/password.service.test.ts"
+        test_files: ["src/security/auth/password.service.test.ts"]
+      integration:
+        command: "npm test -- src/security/auth/password.integration.test.ts"
+        test_files: ["src/security/auth/password.integration.test.ts"]
+      e2e:
+        command: ""
+        test_files: []
+      ai:
+        prompt: "请验证密码安全存储机制:\n1. 使用推荐的强哈希算法(Argon2/bcrypt)\n2. 盐值随机且唯一\n3. 哈希参数配置合理(work factor/time cost)\n4. 验证密码时不存在时序攻击漏洞\n5. 禁止任何明文密码存储\n返回: {\"passed\": true/false, \"reason\": \"说明\"}"
+        context_files: ["src/security/auth/password.service.ts", "src/config/security.config.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<20 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-SEC-001~criterion-3"
+    name: "会话管理与令牌安全"
+    description: "实现安全的会话管理机制，包括JWT令牌生成/验证、令牌刷新、会话超时处理和安全登出"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/security/session/session.service.test.ts"
+        test_files: ["src/security/session/session.service.test.ts"]
+      integration:
+        command: "npm test -- src/security/session/session.integration.test.ts"
+        test_files: ["src/security/session/session.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- session"
+        test_files: ["e2e/auth/session.spec.ts"]
+      ai:
+        prompt: "请验证会话管理机制:\n1. JWT令牌包含必要的声明(claims)且签名安全\n2. 令牌过期策略合理(access token/refresh token)\n3. 刷新令牌机制安全，防止重放攻击\n4. 登出时令牌正确失效\n5. 会话存储安全\n返回: {\"passed\": true/false, \"reason\": \"说明\"}"
+        context_files: ["src/security/session/session.service.ts", "src/security/session/token.service.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<30 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-SEC-001~criterion-4"
+    name: "登录安全策略"
+    description: "实现登录失败处理、账户锁定策略、暴力破解防护等安全机制"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/security/auth/login-protection.service.test.ts"
+        test_files: ["src/security/auth/login-protection.service.test.ts"]
+      integration:
+        command: "npm test -- src/security/auth/login-protection.integration.test.ts"
+        test_files: ["src/security/auth/login-protection.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- login-protection"
+        test_files: ["e2e/auth/login-protection.spec.ts"]
+      ai:
+        prompt: "请验证登录安全策略:\n1. 登录失败次数限制功能正常\n2. 账户锁定机制合理(时间/次数)\n3. 暴力破解防护措施有效\n4. 登录尝试审计日志完整\n5. 安全错误提示(不泄露账户存在性)\n返回: {\"passed\": true/false, \"reason\": \"说明\"}"
+        context_files: ["src/security/auth/login-protection.service.ts", "src/security/audit/login-audit.service.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<25 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-SEC-001~criterion-5"
+    name: "认证中间件与API保护"
+    description: "实现认证中间件，保护需要认证的API端点，提供统一的认证状态检查"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/security/middleware/auth.middleware.test.ts"
+        test_files: ["src/security/middleware/auth.middleware.test.ts"]
+      integration:
+        command: "npm test -- src/security/middleware/auth.middleware.integration.test.ts"
+        test_files: ["src/security/middleware/auth.middleware.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- auth-middleware"
+        test_files: ["e2e/auth/auth-middleware.spec.ts"]
+      ai:
+        prompt: "请验证认证中间件实现:\n1. 中间件正确验证认证令牌\n2. 未认证请求返回正确错误码(401)\n3. 令牌过期正确处理\n4. 认证信息正确传递到后续处理\n5. 支持多种认证方式(Bearer/Cookie)\n返回: {\"passed\": true/false, \"reason\": \"说明\"}"
+        context_files: ["src/security/middleware/auth.middleware.ts", "src/security/guards/auth.guard.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<20 seconds"
+    prerequisites: []

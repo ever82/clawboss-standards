@@ -1,0 +1,174 @@
+id: "ISSUE-CORE-010C"
+issue_number: 19
+title: "分析报告导出"
+slug: "analytics-export"
+status: "pending"
+description: "实现分析报告导出功能，支持导出为多种格式（PDF、Excel、HTML、Markdown），支持自定义导出内容和样式。"
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-010B"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CORE-010C~criterion-1"
+    name: "PDF 导出"
+    description: "实现 PDF 导出功能，支持自定义样式、页眉页脚、图表嵌入"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/export/pdf.test.ts"
+        test_files: ["src/core/export/pdf.test.ts"]
+      integration:
+        command: "npm test -- src/core/export/pdf.integration.test.ts"
+        test_files: ["src/core/export/pdf.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- export-pdf"
+        test_files: ["e2e/export-pdf.spec.ts"]
+      ai:
+        prompt: "请验证 PDF 导出功能:\n1. 检查支持 PDF 文件生成\n2. 验证支持自定义样式\n3. 检查支持页眉页脚\n4. 验证支持图表嵌入\n5. 检查支持中文显示\n6. 验证 PDF 文件可正常打开\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/export/pdf.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-010C~criterion-2"
+    name: "Excel 导出"
+    description: "实现 Excel 导出功能，支持多工作表、公式、图表、样式"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/export/excel.test.ts"
+        test_files: ["src/core/export/excel.test.ts"]
+      integration:
+        command: "npm test -- src/core/export/excel.integration.test.ts"
+        test_files: ["src/core/export/excel.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- export-excel"
+        test_files: ["e2e/export-excel.spec.ts"]
+      ai:
+        prompt: "请验证 Excel 导出功能:\n1. 检查支持 xlsx 文件生成\n2. 验证支持多工作表\n3. 检查支持单元格样式\n4. 验证支持公式计算\n5. 检查支持图表嵌入\n6. 验证 Excel 文件可正常打开\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/export/excel.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-010C~criterion-3"
+    name: "HTML 导出"
+    description: "实现 HTML 导出功能，支持响应式布局、样式内联、交互组件"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/export/html.test.ts"
+        test_files: ["src/core/export/html.test.ts"]
+      integration:
+        command: "npm test -- src/core/export/html.integration.test.ts"
+        test_files: ["src/core/export/html.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- export-html"
+        test_files: ["e2e/export-html.spec.ts"]
+      ai:
+        prompt: "请验证 HTML 导出功能:\n1. 检查支持 HTML 文件生成\n2. 验证支持响应式布局\n3. 检查支持样式内联\n4. 验证支持图表（SVG/Canvas）\n5. 检查支持打印样式\n6. 验证 HTML 在浏览器正常显示\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/export/html.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-010C~criterion-4"
+    name: "Markdown 导出"
+    description: "实现 Markdown 导出功能，支持表格、列表、代码块、图表链接"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/export/markdown.test.ts"
+        test_files: ["src/core/export/markdown.test.ts"]
+      integration:
+        command: "npm test -- src/core/export/markdown.integration.test.ts"
+        test_files: ["src/core/export/markdown.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- export-markdown"
+        test_files: ["e2e/export-markdown.spec.ts"]
+      ai:
+        prompt: "请验证 Markdown 导出功能:\n1. 检查支持 Markdown 文件生成\n2. 验证支持表格\n3. 检查支持列表\n4. 验证支持代码块\n5. 检查支持图表链接\n6. 验证 Markdown 格式正确\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/export/markdown.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-010C~criterion-5"
+    name: "自定义导出配置"
+    description: "实现自定义导出配置，支持选择导出内容、自定义样式、水印设置"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/export/config.test.ts"
+        test_files: ["src/core/export/config.test.ts"]
+      integration:
+        command: "npm test -- src/core/export/config.integration.test.ts"
+        test_files: ["src/core/export/config.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- export-config"
+        test_files: ["e2e/export-config.spec.ts"]
+      ai:
+        prompt: "请验证自定义导出配置功能:\n1. 检查支持选择导出内容\n2. 验证支持自定义样式\n3. 检查支持水印设置\n4. 验证支持页码设置\n5. 检查支持文件名模板\n6. 验证配置持久化\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/export/config.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-010C~criterion-6"
+    name: "批量导出"
+    description: "实现批量导出功能，支持同时导出多种格式、批量报告导出"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/export/bulk.test.ts"
+        test_files: ["src/core/export/bulk.test.ts"]
+      integration:
+        command: "npm test -- src/core/export/bulk.integration.test.ts"
+        test_files: ["src/core/export/bulk.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- export-bulk"
+        test_files: ["e2e/export-bulk.spec.ts"]
+      ai:
+        prompt: "请验证批量导出功能:\n1. 检查支持同时导出多种格式\n2. 验证支持批量报告导出\n3. 检查支持打包下载（zip）\n4. 验证支持导出进度\n5. 检查支持后台导出\n6. 验证导出性能\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/export/bulk.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []

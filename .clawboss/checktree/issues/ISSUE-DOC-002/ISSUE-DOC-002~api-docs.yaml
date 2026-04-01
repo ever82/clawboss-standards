@@ -1,0 +1,156 @@
+id: "ISSUE-DOC-002"
+issue_number: 2
+title: "API文档自动生成"
+slug: "api-docs"
+status: "pending"
+description: |
+  实现API文档的自动生成系统，从代码注释和类型定义中提取API信息，
+  生成结构化的API参考文档。支持TypeScript/JavaScript API和CLI命令接口的文档生成。
+  确保文档与代码同步更新，减少维护成本。
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-013C"
+  - "ISSUE-CLI-011A"
+  - "ISSUE-CLI-011B"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-DOC-002~criterion-1"
+    name: "文档生成工具搭建"
+    description: |
+      搭建API文档自动生成工具链，支持从代码中提取JSDoc/TypeDoc注释，
+      生成Markdown格式的API文档。工具需集成到构建流程中，支持增量更新。
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: sufficient
+    verification:
+      ai:
+        prompt: |
+          请验证文档生成工具质量:
+          1. 是否能正确提取所有导出的函数、类、接口
+          2. JSDoc/TypeDoc注释解析是否准确（参数、返回值、示例）
+          3. 生成的Markdown格式是否规范
+          4. 是否支持增量更新（仅变更部分重新生成）
+          5. 是否集成到npm scripts或CI流程
+          6. 生成的文档是否包含类型信息和源码链接
+          返回: {"passed": true/false, "reason": "详细说明", "issues": ["问题列表"]}
+        context_files: ["package.json", "typedoc.config.js", "docs/api/"]
+        model: "claude-sonnet-4-6"
+      manual:
+        instructions: |
+          1. 运行文档生成命令: npm run docs:generate
+          2. 验证生成过程无错误
+          3. 检查生成的文档文件是否完整
+          4. 修改源代码注释后重新生成，验证增量更新
+          5. 检查生成的文档链接是否可点击
+        required_tools: ["terminal", "node", "browser"]
+    execution_time: "<10 minutes"
+    prerequisites: []
+
+  - id: "ISSUE-DOC-002~criterion-2"
+    name: "Core API文档完成"
+    description: |
+      生成Core模块的完整API文档，包含Behavior实体、树操作、查询服务、
+      状态管理等核心API。每个API需包含功能描述、参数说明、返回值、示例代码和错误处理。
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: sufficient
+    verification:
+      ai:
+        prompt: |
+          请验证Core API文档质量:
+          1. 是否覆盖所有Core模块的公开API
+          2. 函数签名是否与代码一致
+          3. 参数说明是否包含类型和约束条件
+          4. 示例代码是否可直接运行
+          5. 错误类型和错误码是否完整说明
+          6. 文档分类和导航是否清晰
+          返回: {"passed": true/false, "reason": "详细说明"}
+        context_files: ["docs/api/core/", "src/core/"]
+        model: "claude-sonnet-4-6"
+      manual:
+        instructions: |
+          1. 从API文档中随机选取5个Core API
+          2. 根据文档示例编写测试代码
+          3. 验证代码能否正确运行
+          4. 对比实际输出与文档描述是否一致
+        required_tools: ["terminal", "node", "code-editor"]
+    execution_time: "<20 minutes"
+    prerequisites: []
+
+  - id: "ISSUE-DOC-002~criterion-3"
+    name: "CLI接口文档完成"
+    description: |
+      生成CLI命令的接口文档，与Shell自动补全(DOC-002)和输出格式化(CLI-011B)结合，
+      提供结构化的命令参考。支持JSON/YAML格式的程序化处理。
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: sufficient
+    verification:
+      ai:
+        prompt: |
+          请验证CLI接口文档质量:
+          1. 是否包含所有CLI命令及其子命令
+          2. 参数说明是否与CLI-011A的补全定义一致
+          3. 输出格式示例是否与CLI-011B一致
+          4. 是否支持JSON/YAML格式的结构化输出
+          5. 是否包含交互式命令的特殊说明
+          返回: {"passed": true/false, "reason": "详细说明"}
+        context_files: ["docs/api/cli/", "src/cli/"]
+        model: "claude-sonnet-4-6"
+      manual:
+        instructions: |
+          1. 导出CLI接口为JSON格式
+          2. 验证JSON结构是否完整
+          3. 使用JSON生成测试文档页面
+          4. 检查与手动编写的用户文档的一致性
+        required_tools: ["terminal", "jq"]
+    execution_time: "<15 minutes"
+    prerequisites: []
+
+  - id: "ISSUE-DOC-002~criterion-4"
+    name: "文档版本管理实现"
+    description: |
+      实现API文档的版本管理机制，支持多版本API文档并存。
+      文档需标注适用的软件版本，支持版本切换和弃用警告。
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: sufficient
+    verification:
+      ai:
+        prompt: |
+          请验证文档版本管理质量:
+          1. 每个API是否标注引入版本和弃用版本
+          2. 是否支持多版本文档并存
+          3. 弃用API是否有清晰的迁移指南
+          4. 版本切换是否便捷
+          5. 版本历史记录是否完整
+          返回: {"passed": true/false, "reason": "详细说明"}
+        context_files: ["docs/api/versions.json", "docs/api/changelog.md"]
+        model: "claude-sonnet-4-6"
+      manual:
+        instructions: |
+          1. 检查API文档页面是否显示版本选择器
+          2. 切换不同版本，验证内容变化
+          3. 查找带有弃用标记的API，验证迁移指南
+          4. 确认版本与软件发布版本对应
+        required_tools: ["browser"]
+    execution_time: "<10 minutes"
+    prerequisites: []

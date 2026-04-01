@@ -1,0 +1,174 @@
+id: "ISSUE-CORE-002B2"
+issue_number: 4
+title: "高级查询服务"
+slug: "advanced-query"
+status: "pending"
+description: "实现 Behavior 高级查询服务，支持复杂条件组合查询、全文搜索、树关联查询、依赖关系查询、时间聚合查询等功能。提供强大的数据检索能力，满足复杂业务场景需求。"
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-002B1"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CORE-002B2~criterion-1"
+    name: "复合条件查询"
+    description: "实现复杂条件组合查询，支持 AND/OR/NOT 逻辑组合，支持条件嵌套和分组"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/behavior/services/advanced-query/composite.test.ts"
+        test_files: ["src/core/behavior/services/advanced-query/composite.test.ts"]
+      integration:
+        command: "npm test -- src/core/behavior/services/advanced-query/composite.integration.test.ts"
+        test_files: ["src/core/behavior/services/advanced-query/composite.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- behavior-composite-query"
+        test_files: ["e2e/behavior-composite-query.spec.ts"]
+      ai:
+        prompt: "请验证复合条件查询功能:\n1. 检查支持 AND 条件组合（同时满足多个条件）\n2. 验证支持 OR 条件组合（满足任一条件）\n3. 检查支持 NOT 条件（排除特定条件）\n4. 验证支持条件嵌套和分组\n5. 检查复杂条件查询性能可接受\n6. 验证条件 DSL 语法清晰易用\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/behavior/services/advanced-query.service.ts", "src/core/behavior/dto/query-builder.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-002B2~criterion-2"
+    name: "全文搜索功能"
+    description: "实现全文搜索功能，支持在名称和描述中搜索关键词，支持模糊匹配、同义词、搜索结果排序"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/behavior/services/advanced-query/fulltext.test.ts"
+        test_files: ["src/core/behavior/services/advanced-query/fulltext.test.ts"]
+      integration:
+        command: "npm test -- src/core/behavior/services/advanced-query/fulltext.integration.test.ts"
+        test_files: ["src/core/behavior/services/advanced-query/fulltext.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- behavior-fulltext-search"
+        test_files: ["e2e/behavior-fulltext-search.spec.ts"]
+      ai:
+        prompt: "请验证全文搜索功能:\n1. 检查支持在 name 和 description 中搜索\n2. 验证支持模糊匹配（模糊查询）\n3. 检查支持关键词高亮\n4. 验证搜索结果按相关性排序\n5. 检查支持搜索建议（suggestions）\n6. 验证中文搜索支持良好\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/behavior/services/advanced-query.service.ts", "src/core/search/search.service.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-002B2~criterion-3"
+    name: "树关联查询"
+    description: "实现基于树结构的查询，支持查询特定节点的子树、查询节点的祖先路径、查询孤立节点"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/behavior/services/advanced-query/tree-query.test.ts"
+        test_files: ["src/core/behavior/services/advanced-query/tree-query.test.ts"]
+      integration:
+        command: "npm test -- src/core/behavior/services/advanced-query/tree-query.integration.test.ts"
+        test_files: ["src/core/behavior/services/advanced-query/tree-query.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- behavior-tree-query"
+        test_files: ["e2e/behavior-tree-query.spec.ts"]
+      ai:
+        prompt: "请验证树关联查询功能:\n1. 检查支持查询特定节点的所有后代（递归）\n2. 验证支持查询节点的祖先路径\n3. 检查支持查询孤立节点（不在任何树中的行为）\n4. 验证支持按树层级过滤\n5. 检查支持查询同一父节点下的兄弟节点\n6. 验证树查询性能（深层嵌套树）\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/behavior/services/advanced-query.service.ts", "src/core/tree/tree.repository.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-002B2~criterion-4"
+    name: "依赖关系查询"
+    description: "实现依赖关系查询，支持查询行为的依赖项、被依赖项、查询依赖链、检测循环依赖"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/behavior/services/advanced-query/dependency-query.test.ts"
+        test_files: ["src/core/behavior/services/advanced-query/dependency-query.test.ts"]
+      integration:
+        command: "npm test -- src/core/behavior/services/advanced-query/dependency-query.integration.test.ts"
+        test_files: ["src/core/behavior/services/advanced-query/dependency-query.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- behavior-dependency-query"
+        test_files: ["e2e/behavior-dependency-query.spec.ts"]
+      ai:
+        prompt: "请验证依赖关系查询功能:\n1. 检查支持查询行为的直接依赖项\n2. 验证支持查询行为被哪些其他行为依赖\n3. 检查支持递归查询整个依赖链\n4. 验证支持检测依赖循环\n5. 检查支持查询可执行的行为（依赖已完成）\n6. 验证支持查询阻塞中的行为\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/behavior/services/advanced-query.service.ts", "src/core/dependency/dependency.service.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-002B2~criterion-5"
+    name: "查询缓存与性能优化"
+    description: "实现查询结果缓存机制，支持缓存策略配置、缓存失效、查询性能监控"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/behavior/services/advanced-query/cache.test.ts"
+        test_files: ["src/core/behavior/services/advanced-query/cache.test.ts"]
+      integration:
+        command: "npm test -- src/core/behavior/services/advanced-query/cache.integration.test.ts"
+        test_files: ["src/core/behavior/services/advanced-query/cache.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- behavior-query-cache"
+        test_files: ["e2e/behavior-query-cache.spec.ts"]
+      ai:
+        prompt: "请验证查询缓存与性能优化:\n1. 检查相同查询结果从缓存读取\n2. 验证缓存支持 TTL 过期策略\n3. 检查数据变更时缓存自动失效\n4. 验证支持手动清除缓存\n5. 检查支持缓存命中率监控\n6. 验证复杂查询性能提升明显\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/behavior/services/advanced-query.service.ts", "src/core/cache/query-cache.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-002B2~criterion-6"
+    name: "查询 DSL 解析器"
+    description: "实现高级查询 DSL（领域特定语言），支持 JSON 格式的复杂查询表达式，支持验证和转换"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/behavior/services/advanced-query/dsl-parser.test.ts"
+        test_files: ["src/core/behavior/services/advanced-query/dsl-parser.test.ts"]
+      integration:
+        command: "npm test -- src/core/behavior/services/advanced-query/dsl-parser.integration.test.ts"
+        test_files: ["src/core/behavior/services/advanced-query/dsl-parser.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- behavior-query-dsl"
+        test_files: ["e2e/behavior-query-dsl.spec.ts"]
+      ai:
+        prompt: "请验证查询 DSL 解析器:\n1. 检查支持标准 JSON 查询格式\n2. 验证支持 AND/OR/NOT 操作符\n3. 检查无效 DSL 返回友好错误信息\n4. 验证支持字段路径（嵌套对象访问）\n5. 检查支持数组操作符（in, contains, size）\n6. 验证 DSL 文档完整且有示例\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/behavior/dsl/query-dsl.ts", "src/core/behavior/dsl/dsl-parser.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []

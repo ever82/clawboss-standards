@@ -1,0 +1,264 @@
+id: "ISSUE-CLI-008"
+issue_number: 8
+slug: "search-commands"
+title: "搜索命令"
+description: |
+  实现AI-Me CLI的搜索相关命令，支持全文搜索、高级过滤、搜索历史、搜索结果导出等功能。
+  命令需要与CORE-007A/B搜索服务集成。
+status: "pending"
+is_parent: false
+sub_issues: []
+prerequisites:
+  - "ISSUE-CLI-001B"
+  - "ISSUE-CORE-007A"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CLI-008~criterion-1"
+    name: "基础全文搜索"
+    description: |
+      实现 `ai-me search` 命令的基础功能，支持关键词搜索、结果展示和基本过滤。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/search/basic.test.ts"
+        test_files:
+          - "src/cli/commands/search/basic.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/search/integration.test.ts"
+        test_files:
+          - "src/cli/commands/search/integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/search/basic"
+        test_files:
+          - "e2e/cli/search/basic.spec.ts"
+      ai:
+        prompt: |
+          请验证基础全文搜索功能的实现:
+          1. 关键词搜索: `ai-me search "关键词"` 搜索名称和描述
+          2. 多关键词: `ai-me search "关键词1 关键词2"` 支持多个关键词
+          3. 短语搜索: `ai-me search ""精确短语""` 精确匹配
+          4. 结果展示: 显示行为ID、名称、状态、匹配高亮
+          5. 结果限制: `--limit 20` 限制返回结果数
+          6. 结果排序: `--sort relevance|date|priority` 排序方式
+          7. 空结果: 无匹配时给出友好提示和建议
+          8. 搜索时间: 显示搜索耗时
+
+          检查点:
+          - 与CORE-007A搜索服务正确集成
+          - 搜索结果包含匹配上下文
+          - 大结果集分页显示
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/search/index.ts"
+          - "src/core/services/search/basic.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CLI-008~criterion-2"
+    name: "高级搜索过滤"
+    description: |
+      实现高级搜索功能，支持复杂的过滤条件和查询语法，与CORE-007B服务集成。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/search/advanced.test.ts"
+        test_files:
+          - "src/cli/commands/search/advanced.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/search/advanced.integration.test.ts"
+        test_files:
+          - "src/cli/commands/search/advanced.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/search/advanced"
+        test_files:
+          - "e2e/cli/search/advanced.spec.ts"
+      ai:
+        prompt: |
+          请验证高级搜索过滤功能的实现:
+          1. 字段过滤: `--field name:"关键词"` 只在指定字段搜索
+          2. 逻辑操作: `ai-me search "A AND B"`, `ai-me search "A OR B"`, `ai-me search "NOT C"`
+          3. 范围查询: `--created-after "2026-01-01" --created-before "2026-12-31"`
+          4. 标签过滤: `--tags work,urgent` 包含任一标签，`--tags-all work,urgent` 包含所有
+          5. 状态过滤: `--status todo,doing` 多状态选择
+          6. 优先级: `--priority high --priority medium` 或 `--priority high..critical`
+          7. 父行为: `--parent-id <id>` 搜索特定父下的子行为
+          8. 查询语法: `ai-me search "status:doing AND priority:high"` 查询DSL
+          9. 保存查询: `--save "my-query"` 保存当前查询条件
+
+          检查点:
+          - 与CORE-007B高级搜索服务正确集成
+          - 复杂查询解析正确
+          - 组合过滤条件逻辑正确
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/search/advanced.ts"
+          - "src/core/services/search/advanced.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites:
+      - "ISSUE-CLI-008~criterion-1"
+      - "ISSUE-CORE-007B"
+
+  - id: "ISSUE-CLI-008~criterion-3"
+    name: "搜索历史与快捷方式"
+    description: |
+      实现搜索历史和快捷方式功能，支持保存常用搜索、快速调用历史搜索。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/search/history.test.ts"
+        test_files:
+          - "src/cli/commands/search/history.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/search/history.integration.test.ts"
+        test_files:
+          - "src/cli/commands/search/history.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/search/history"
+        test_files:
+          - "e2e/cli/search/history.spec.ts"
+      ai:
+        prompt: |
+          请验证搜索历史与快捷方式功能的实现:
+          1. 历史记录: 自动保存最近搜索历史
+          2. 查看历史: `ai-me search --history` 显示历史搜索列表
+          3. 快速搜索: `ai-me search --repeat` 执行上一次搜索
+          4. 保存快捷方式: `ai-me search --save "urgent-work" --priority high --tags urgent,work`
+          5. 使用快捷方式: `ai-me search --use "urgent-work"`
+          6. 列出快捷方式: `ai-me search --shortcuts` 显示所有保存的快捷方式
+          7. 删除快捷方式: `ai-me search --delete-shortcut "urgent-work"`
+          8. 搜索建议: 输入时根据历史提供搜索建议
+
+          检查点:
+          - 历史记录持久化保存
+          - 快捷方式包含完整查询条件
+          - 建议功能响应迅速
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/search/history.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-008~criterion-1"
+
+  - id: "ISSUE-CLI-008~criterion-4"
+    name: "搜索结果导出与分享"
+    description: |
+      实现搜索结果的导出和分享功能，支持多种格式导出和链接生成。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/search/export.test.ts"
+        test_files:
+          - "src/cli/commands/search/export.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/search/export.integration.test.ts"
+        test_files:
+          - "src/cli/commands/search/export.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/search/export"
+        test_files:
+          - "e2e/cli/search/export.spec.ts"
+      ai:
+        prompt: |
+          请验证搜索结果导出与分享功能的实现:
+          1. JSON导出: `ai-me search "关键词" --export-json results.json`
+          2. CSV导出: `ai-me search "关键词" --export-csv results.csv`
+          3. Markdown导出: `ai-me search "关键词" --export-md results.md`
+          4. 导出字段: `--fields id,name,status,description` 指定导出字段
+          5. 生成链接: `--share` 生成可分享的搜索链接(如适用)
+          6. 邮件发送: `--email user@example.com` 发送搜索结果
+          7. 复制到剪贴板: `--copy` 复制结果到系统剪贴板
+          8. 打印友好: `--print` 生成打印友好的格式
+
+          检查点:
+          - 导出格式正确，数据完整
+          - 大结果集导出显示进度
+          - 导出文件编码正确(UTF-8)
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/search/export.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-008~criterion-2"
+
+  - id: "ISSUE-CLI-008~criterion-5"
+    name: "搜索性能优化"
+    description: |
+      实现搜索性能优化功能，包括搜索缓存、异步搜索、结果流式输出。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/commands/search/performance.test.ts"
+        test_files:
+          - "src/cli/commands/search/performance.test.ts"
+      integration:
+        command: "npm test -- src/cli/commands/search/performance.integration.test.ts"
+        test_files:
+          - "src/cli/commands/search/performance.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/search/performance"
+        test_files:
+          - "e2e/cli/search/performance.spec.ts"
+      ai:
+        prompt: |
+          请验证搜索性能优化功能的实现:
+          1. 搜索缓存: 相同查询缓存结果，提高重复搜索速度
+          2. 缓存控制: `--no-cache` 绕过缓存进行搜索
+          3. 异步搜索: 大查询使用异步处理，不阻塞CLI
+          4. 流式输出: `--stream` 实时显示找到的结果
+          5. 超时控制: `--timeout 30` 设置搜索超时时间
+          6. 进度指示: 大搜索显示进度条或加载动画
+          7. 搜索统计: `--stats` 显示索引命中率和查询性能
+          8. 并发限制: 控制同时进行的搜索数量
+
+          检查点:
+          - 缓存命中率可监控
+          - 流式输出顺序正确
+          - 超时后优雅降级
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/commands/search/performance.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-008~criterion-3"

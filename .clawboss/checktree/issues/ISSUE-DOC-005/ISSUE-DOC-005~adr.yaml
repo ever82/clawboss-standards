@@ -1,0 +1,155 @@
+id: "ISSUE-DOC-005"
+issue_number: 5
+title: "架构决策记录"
+slug: "adr"
+status: "pending"
+description: |
+  建立架构决策记录(ADR)系统，记录项目关键架构决策的背景、考虑因素、
+  决策结果和后果。ADR基于INFRA-002目录结构定义，为项目演进提供历史背景。
+  ADR是团队协作和新人 onboarding 的重要参考资料。
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-002"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-DOC-005~criterion-1"
+    name: "ADR模板和流程定义"
+    description: |
+      定义ADR文档模板和创建流程，包含决策标题、背景、考虑因素、
+      决策方案、决策结果、后果、相关决策等标准章节。
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: sufficient
+    verification:
+      ai:
+        prompt: |
+          请验证ADR模板和流程质量:
+          1. 模板章节是否完整（背景/考虑因素/决策/后果）
+          2. 每个章节的说明是否清晰
+          3. 决策编号规则是否定义（如ADR-001）
+          4. 状态流转是否说明（提议/接受/否决/弃用）
+          5. 创建流程是否简单可行
+          6. 是否提供模板文件下载
+          返回: {"passed": true/false, "reason": "详细说明"}
+        context_files: ["docs/adr/template.md", "docs/adr/README.md"]
+        model: "claude-sonnet-4-6"
+      manual:
+        instructions: |
+          1. 阅读ADR模板和流程文档
+          2. 使用模板创建一份示例ADR
+          3. 验证模板字段是否足够且清晰
+          4. 检查ADR在目录中的索引是否自动更新
+        required_tools: ["editor", "file-explorer"]
+    execution_time: "<10 minutes"
+    prerequisites: []
+
+  - id: "ISSUE-DOC-005~criterion-2"
+    name: "核心架构ADR完成"
+    description: |
+      编写核心架构决策记录，包含技术栈选择、数据库选型、架构模式、
+      模块划分等关键决策。每个ADR需说明决策背景和当前状态。
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: sufficient
+    verification:
+      ai:
+        prompt: |
+          请验证核心架构ADR质量:
+          1. 是否包含关键技术决策（数据库/框架/架构模式）
+          2. 背景描述是否充分（问题/约束/目标）
+          3. 考虑因素是否列出替代方案
+          4. 决策理由是否有说服力
+          5. 后果分析是否全面（正面/负面/风险）
+          6. 与当前实现是否一致
+          返回: {"passed": true/false, "reason": "详细说明", "issues": ["问题列表"]}
+        context_files: ["docs/adr/ADR-001-*.md", "docs/adr/ADR-002-*.md", ".clawboss/spec/TECH_STACK.md"]
+        model: "claude-sonnet-4-6"
+      manual:
+        instructions: |
+          1. 阅读所有核心架构ADR
+          2. 对照代码验证决策的实际应用
+          3. 检查是否有重要决策未被记录
+          4. 向新开发者展示ADR，验证信息完整性
+        required_tools: ["code-editor", "browser"]
+    execution_time: "<20 minutes"
+    prerequisites: []
+
+  - id: "ISSUE-DOC-005~criterion-3"
+    name: "ADR索引和检索系统"
+    description: |
+      建立ADR索引系统，支持按状态、日期、模块、标签等维度检索。
+      包含ADR目录、状态看板、关联关系图等导航工具。
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: sufficient
+    verification:
+      ai:
+        prompt: |
+          请验证ADR索引和检索系统质量:
+          1. 是否提供完整的ADR目录清单
+          2. 是否支持按状态筛选（接受/提议/弃用）
+          3. 日期和版本信息是否清晰
+          4. 相关ADR链接是否正确
+          5. 是否有可视化关系图
+          6. 索引是否自动维护
+          返回: {"passed": true/false, "reason": "详细说明"}
+        context_files: ["docs/adr/index.md", "docs/adr/status-board.md"]
+        model: "claude-sonnet-4-6"
+      manual:
+        instructions: |
+          1. 查看ADR目录页面
+          2. 测试按状态筛选功能
+          3. 点击相关ADR链接，验证跳转正确
+          4. 检查索引是否包含所有ADR文件
+        required_tools: ["browser"]
+    execution_time: "<10 minutes"
+    prerequisites: []
+
+  - id: "ISSUE-DOC-005~criterion-4"
+    name: "ADR维护指南完成"
+    description: |
+      编写ADR维护指南，说明何时创建ADR、如何更新ADR状态、
+      如何废弃旧ADR、ADR审查流程等。确保ADR机制能长期有效运行。
+    status: "pending"
+    coverage:
+      unit: not_needed
+      integration: not_needed
+      e2e: not_needed
+      ai: sufficient
+      manual: sufficient
+    verification:
+      ai:
+        prompt: |
+          请验证ADR维护指南质量:
+          1. 创建ADR的时机说明是否清晰
+          2. 状态更新流程是否定义（谁可以更新/如何审批）
+          3. 废弃ADR的流程是否完整
+          4. 审查标准和checklist是否提供
+          5. 与代码审查的集成是否说明
+          6. 版本历史记录要求是否明确
+          返回: {"passed": true/false, "reason": "详细说明"}
+        context_files: ["docs/adr/maintenance-guide.md", "docs/adr/review-checklist.md"]
+        model: "claude-sonnet-4-6"
+      manual:
+        instructions: |
+          1. 阅读维护指南
+          2. 模拟一个需要新建ADR的场景
+          3. 按照指南完成ADR创建流程
+          4. 模拟ADR状态变更，验证流程
+        required_tools: ["editor", "git"]
+    execution_time: "<15 minutes"
+    prerequisites: []

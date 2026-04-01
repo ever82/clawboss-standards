@@ -1,0 +1,264 @@
+id: "ISSUE-UI-004A"
+issue_number: 4
+title: "推荐数据收集"
+slug: "recommendation-data"
+module: "UI"
+status: "pending"
+description: |
+  构建推荐系统所需的数据收集基础设施，包括用户行为追踪、行为树访问模式记录、
+  时间分布分析、上下文数据采集等。为推荐引擎提供高质量的训练和推理数据。
+is_parent: false
+prerequisites:
+  - "ISSUE-UI-003"
+  - "ISSUE-CORE-010A"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-UI-004A~criterion-1"
+    name: "用户行为追踪系统"
+    description: "实现用户行为追踪机制，记录用户在应用中的操作路径、点击热区、停留时长等"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/analytics/tracking/"
+        test_files:
+          - "ui/web-client/src/analytics/tracking/Tracker.test.ts"
+          - "ui/web-client/src/analytics/tracking/EventQueue.test.ts"
+          - "ui/web-client/src/analytics/tracking/useTracking.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/analytics/tracking.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/analytics/tracking.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/analytics/tracking.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/analytics/tracking.spec.ts"
+      ai:
+        prompt: |
+          请验证用户行为追踪系统是否完整：
+          1. 检查是否实现了事件追踪器，支持页面浏览、点击、滚动、输入等事件
+          2. 检查是否使用队列机制批量发送事件，减少网络请求
+          3. 检查是否对用户敏感信息进行脱敏处理（隐私保护）
+          4. 检查是否支持会话标识和用户标识的关联
+          5. 检查是否有适当的采样率控制（避免全量收集导致性能问题）
+          6. 检查是否支持离线缓存和重试机制
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/analytics/tracking/Tracker.ts"
+          - "ui/web-client/src/analytics/tracking/EventQueue.ts"
+          - "ui/web-client/src/analytics/tracking/privacy.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-004A~criterion-2"
+    name: "行为树访问模式记录"
+    description: "记录用户对行为树的访问模式，包括查看频率、编辑历史、节点展开偏好等"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/analytics/tree-usage/"
+        test_files:
+          - "ui/web-client/src/analytics/tree-usage/TreeUsageTracker.test.ts"
+          - "ui/web-client/src/analytics/tree-usage/NodeAccess.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/analytics/tree-usage.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/analytics/tree-usage.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/analytics/tree-usage.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/analytics/tree-usage.spec.ts"
+      ai:
+        prompt: |
+          请验证行为树访问模式记录功能是否完整：
+          1. 检查是否记录每个行为节点的查看次数和最后查看时间
+          2. 检查是否记录节点的编辑历史（创建、修改、删除、状态变更）
+          3. 检查是否记录用户的折叠/展开偏好设置
+          4. 检查是否记录用户在树上的停留时间和滚动深度
+          5. 检查是否记录节点间的导航路径（从哪个节点跳转到哪个节点）
+          6. 检查数据是否支持按时间维度聚合（今日、本周、本月）
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/analytics/tree-usage/TreeUsageTracker.ts"
+          - "ui/web-client/src/analytics/tree-usage/NodeAccess.ts"
+          - "ui/web-client/src/analytics/tree-usage/types.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-004A~criterion-3"
+    name: "时间分布分析采集"
+    description: "采集用户时间分布数据，包括活跃时段、任务完成时间、时间投入分布等"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/analytics/time/"
+        test_files:
+          - "ui/web-client/src/analytics/time/TimeDistribution.test.ts"
+          - "ui/web-client/src/analytics/time/ActiveHours.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/analytics/time.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/analytics/time.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/analytics/time.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/analytics/time.spec.ts"
+      ai:
+        prompt: |
+          请验证时间分布分析采集功能是否完整：
+          1. 检查是否记录用户每日活跃时段分布（24小时热力图数据）
+          2. 检查是否记录任务完成时间（从创建到完成的时长）
+          3. 检查是否记录不同类型行为的时间投入分布
+          4. 检查是否记录用户的周/月工作模式（工作日vs周末偏好）
+          5. 检查是否记录用户的响应时间（收到通知到查看的时间）
+          6. 检查时区处理是否正确（使用UTC存储，本地时区显示）
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/analytics/time/TimeDistribution.ts"
+          - "ui/web-client/src/analytics/time/ActiveHours.ts"
+          - "ui/web-client/src/analytics/time/utils.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-004A~criterion-4"
+    name: "上下文数据采集"
+    description: "采集推荐所需的上下文数据，包括当前时间、地点（可选）、设备信息、其他相关行为状态等"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/analytics/context/"
+        test_files:
+          - "ui/web-client/src/analytics/context/ContextCollector.test.ts"
+          - "ui/web-client/src/analytics/context/DeviceInfo.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/analytics/context.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/analytics/context.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/analytics/context.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/analytics/context.spec.ts"
+      ai:
+        prompt: |
+          请验证上下文数据采集功能是否完整：
+          1. 检查是否采集当前时间上下文（小时、星期、是否节假日）
+          2. 检查是否采集设备信息（类型、操作系统、屏幕尺寸）
+          3. 检查是否采集应用状态上下文（当前视图、选中节点）
+          4. 检查是否采集其他相关行为的状态（兄弟节点、父节点的进度）
+          5. 检查地理位置采集是否有明确的用户授权（隐私合规）
+          6. 检查上下文数据是否支持实时更新和缓存
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/analytics/context/ContextCollector.ts"
+          - "ui/web-client/src/analytics/context/DeviceInfo.ts"
+          - "ui/web-client/src/analytics/context/types.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-004A~criterion-5"
+    name: "数据存储与导出"
+    description: "本地数据存储方案，支持IndexedDB缓存和批量导出到后端"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/analytics/storage/"
+        test_files:
+          - "ui/web-client/src/analytics/storage/IndexedDBStorage.test.ts"
+          - "ui/web-client/src/analytics/storage/DataExporter.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/analytics/storage.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/analytics/storage.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/analytics/storage.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/analytics/storage.spec.ts"
+      ai:
+        prompt: |
+          请验证数据存储与导出功能是否完整：
+          1. 检查是否使用IndexedDB进行本地数据持久化存储
+          2. 检查是否实现数据分区存储（按日期、按类型）
+          3. 检查是否支持定期批量导出到后端API
+          4. 检查是否实现存储配额管理和数据清理策略
+          5. 检查导出过程是否有压缩和加密（保护隐私）
+          6. 检查是否有导出失败的重试和恢复机制
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/analytics/storage/IndexedDBStorage.ts"
+          - "ui/web-client/src/analytics/storage/DataExporter.ts"
+          - "ui/web-client/src/analytics/storage/quota.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-004A~criterion-6"
+    name: "隐私与合规"
+    description: "数据收集符合隐私规范，支持用户数据导出、删除请求，提供透明的隐私设置"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/analytics/privacy/"
+        test_files:
+          - "ui/web-client/src/analytics/privacy/GDPRCompliance.test.ts"
+          - "ui/web-client/src/analytics/privacy/DataControl.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/analytics/privacy.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/analytics/privacy.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/analytics/privacy.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/analytics/privacy.spec.ts"
+      ai:
+        prompt: |
+          请验证隐私与合规功能是否完整：
+          1. 检查是否提供隐私设置面板，用户可以查看和控制数据收集选项
+          2. 检查是否支持用户导出个人数据（GDPR数据可携带权）
+          3. 检查是否支持用户删除个人数据请求（GDPR被遗忘权）
+          4. 检查敏感数据是否在收集前进行匿名化或哈希处理
+          5. 检查是否有明确的隐私政策链接和用户同意机制
+          6. 检查数据保留期限是否可配置并自动执行
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/analytics/privacy/GDPRCompliance.ts"
+          - "ui/web-client/src/analytics/privacy/DataControl.ts"
+          - "ui/web-client/src/analytics/privacy/ConsentManager.ts"
+          - "ui/web-client/src/pages/settings/PrivacySettings.tsx"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"

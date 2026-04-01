@@ -1,0 +1,269 @@
+id: "ISSUE-BC-006"
+issue_number: 6
+title: "行为类注册表"
+slug: "class-registry"
+status: "pending"
+description: |
+  实现行为类注册表，提供类的统一注册、发现、查找服务。
+  支持按名称、版本、标签等多维度查询，类别名映射，命名空间管理。
+  与BC-002的类加载器协同工作，提供高性能的类缓存和索引。
+is_parent: false
+prerequisites:
+  - "ISSUE-BC-002"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-BC-006~criterion-1"
+    name: "类注册与注销"
+    description: |
+      实现行为类的注册和注销功能，支持运行时动态注册和批量注册。
+      注册时进行类定义验证，确保注册的类符合规范。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/registry/registration.test.ts"
+        test_files:
+          - "src/behavior-class/registry/registration.test.ts"
+          - "src/behavior-class/registry/validation.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/registry/registration-integration.test.ts"
+        test_files:
+          - "src/behavior-class/registry/registration-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/registration"
+        test_files:
+          - "tests/e2e/behavior-class/registration.spec.ts"
+      ai:
+        prompt: |
+          请验证行为类注册与注销功能实现：
+          1. 支持单个类注册和批量注册
+          2. 注册时验证类定义完整性
+          3. 重复注册处理策略：报错、覆盖、忽略
+          4. 支持类注销和清理
+          5. 注册事件触发和监听
+          6. 注册元数据记录（时间、来源等）
+          请检查注册机制的健壮性和可扩展性。
+        context_files:
+          - "src/behavior-class/registry/registration.ts"
+          - "src/behavior-class/registry/validation.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-006~criterion-2"
+    name: "多维度查询"
+    description: |
+      实现行为类的多维度查询功能，支持按类名、版本、标签、
+      父类、作者等条件查询。支持模糊搜索和高级过滤。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/registry/query.test.ts"
+        test_files:
+          - "src/behavior-class/registry/query.test.ts"
+          - "src/behavior-class/registry/search.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/registry/query-integration.test.ts"
+        test_files:
+          - "src/behavior-class/registry/query-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/registry-query"
+        test_files:
+          - "tests/e2e/behavior-class/registry-query.spec.ts"
+      ai:
+        prompt: |
+          请验证多维度查询功能实现：
+          1. 按类名精确查询和模糊查询
+          2. 按版本号查询，支持版本范围
+          3. 按标签查询（多标签交集/并集）
+          4. 按父类查询（获取所有子类）
+          5. 组合查询条件（AND/OR）
+          6. 查询结果分页和排序
+          请检查查询功能的灵活性和性能。
+        context_files:
+          - "src/behavior-class/registry/query.ts"
+          - "src/behavior-class/registry/search.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-006~criterion-3"
+    name: "类别名映射"
+    description: |
+      实现类别名映射系统，允许为类注册一个或多个别名。
+      支持别名解析、别名冲突检测、别名链解析等。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/registry/alias.test.ts"
+        test_files:
+          - "src/behavior-class/registry/alias.test.ts"
+          - "src/behavior-class/registry/alias-resolution.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/registry/alias-integration.test.ts"
+        test_files:
+          - "src/behavior-class/registry/alias-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/alias"
+        test_files:
+          - "tests/e2e/behavior-class/alias.spec.ts"
+      ai:
+        prompt: |
+          请验证类别名映射系统实现：
+          1. 支持为类注册多个别名
+          2. 别名解析到实际类
+          3. 别名冲突检测和报告
+          4. 支持别名链（别名指向另一个别名）
+          5. 别名循环引用检测
+          6. 别名和类名同时存在时的优先级
+          请检查别名系统的正确性和可用性。
+        context_files:
+          - "src/behavior-class/registry/alias.ts"
+          - "src/behavior-class/registry/alias-resolution.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-006~criterion-4"
+    name: "命名空间管理"
+    description: |
+      实现类的命名空间管理，支持按命名空间组织类，
+      命名空间层级结构，命名空间级别的权限控制。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/registry/namespace.test.ts"
+        test_files:
+          - "src/behavior-class/registry/namespace.test.ts"
+          - "src/behavior-class/registry/namespace-tree.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/registry/namespace-integration.test.ts"
+        test_files:
+          - "src/behavior-class/registry/namespace-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/namespace"
+        test_files:
+          - "tests/e2e/behavior-class/namespace.spec.ts"
+      ai:
+        prompt: |
+          请验证命名空间管理功能实现：
+          1. 支持多级命名空间（如org.example.core）
+          2. 命名空间层级结构和遍历
+          3. 命名空间级别的类列表查询
+          4. 默认命名空间处理
+          5. 命名空间别名（简短引用）
+          6. 命名空间隔离和权限控制接口
+          请检查命名空间系统的设计合理性。
+        context_files:
+          - "src/behavior-class/registry/namespace.ts"
+          - "src/behavior-class/registry/namespace-tree.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-006~criterion-5"
+    name: "高性能索引与缓存"
+    description: |
+      实现类注册表的高性能索引系统，支持按各种维度建立索引。
+      与BC-002的缓存机制协同，提供内存和持久化缓存策略。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/registry/index.test.ts"
+        test_files:
+          - "src/behavior-class/registry/index.test.ts"
+          - "src/behavior-class/registry/index-manager.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/registry/index-integration.test.ts"
+        test_files:
+          - "src/behavior-class/registry/index-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/registry-index"
+        test_files:
+          - "tests/e2e/behavior-class/registry-index.spec.ts"
+      ai:
+        prompt: |
+          请验证高性能索引与缓存系统实现：
+          1. 支持按类名、标签、命名空间等多维度索引
+          2. 索引更新与类注册/注销同步
+          3. 索引持久化（数据库/文件）
+          4. 与BC-002缓存机制协同
+          5. 查询性能优化（索引命中统计）
+          6. 索引重建和修复机制
+          请检查索引系统的性能和可靠性。
+        context_files:
+          - "src/behavior-class/registry/index.ts"
+          - "src/behavior-class/registry/index-manager.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+
+  - id: "ISSUE-BC-006~criterion-6"
+    name: "与类加载器协同"
+    description: |
+      实现注册表与BC-002类加载器的协同工作机制，
+      支持自动加载未注册但已知的类，延迟加载和按需注册。
+    status: "pending"
+    coverage:
+      unit: lacking
+      integration: lacking
+      e2e: lacking
+      ai: lacking
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/behavior-class/registry/loader-coordination.test.ts"
+        test_files:
+          - "src/behavior-class/registry/loader-coordination.test.ts"
+      integration:
+        command: "npm test -- src/behavior-class/registry/loader-integration.test.ts"
+        test_files:
+          - "src/behavior-class/registry/loader-integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- behavior-class/loader-coordination"
+        test_files:
+          - "tests/e2e/behavior-class/loader-coordination.spec.ts"
+      ai:
+        prompt: |
+          请验证与类加载器的协同机制实现：
+          1. 查询未命中时自动触发类加载
+          2. 加载成功后自动注册到注册表
+          3. 延迟加载配置（是否自动加载）
+          4. 加载失败时的错误处理
+          5. 注册表和加载器状态同步
+          6. 避免重复加载的协调机制
+          请检查协同工作的正确性和效率。
+        context_files:
+          - "src/behavior-class/registry/loader-coordination.ts"
+          - "src/behavior-class/registry/loader-integration.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<10 seconds"
+    prerequisites:
+      - "ISSUE-BC-006~criterion-1"
+      - "ISSUE-BC-006~criterion-2"

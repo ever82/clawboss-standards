@@ -1,0 +1,268 @@
+id: "ISSUE-UI-004C"
+issue_number: 4
+title: "ML推荐模型"
+slug: "recommendation-ml"
+module: "UI"
+status: "pending"
+description: |
+  构建机器学习推荐模型，基于用户历史数据和行为特征，提供更智能的个性化推荐。
+  支持模型训练、推理服务、特征工程、模型评估和A/B测试。
+is_parent: false
+prerequisites:
+  - "ISSUE-UI-004B"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-UI-004C~criterion-1"
+    name: "特征工程管道"
+    description: "构建特征工程管道，从原始数据提取和转换ML可用的特征向量"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/ml/features/"
+        test_files:
+          - "ui/web-client/src/ml/features/FeatureExtractor.test.ts"
+          - "ui/web-client/src/ml/features/FeatureTransformer.test.ts"
+          - "ui/web-client/src/ml/features/FeaturePipeline.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/ml/features.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/ml/features.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/ml/features.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/ml/features.spec.ts"
+      ai:
+        prompt: |
+          请验证特征工程管道是否完整：
+          1. 检查是否实现用户特征提取（历史行为、偏好模式、时间分布）
+          2. 检查是否实现行为特征提取（类型、优先级、截止时间、依赖关系）
+          3. 检查是否实现上下文特征提取（时间、设备、当前状态）
+          4. 检查是否支持特征标准化和编码（one-hot、embedding）
+          5. 检查是否有特征选择机制（去除低相关性特征）
+          6. 检查特征提取性能是否优化（支持批量处理）
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/ml/features/FeatureExtractor.ts"
+          - "ui/web-client/src/ml/features/FeatureTransformer.ts"
+          - "ui/web-client/src/ml/features/FeaturePipeline.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<20 seconds"
+
+  - id: "ISSUE-UI-004C~criterion-2"
+    name: "模型训练基础设施"
+    description: "建立模型训练流程，支持本地训练和远程训练，包含数据准备、超参数调优"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/ml/training/"
+        test_files:
+          - "ui/web-client/src/ml/training/Trainer.test.ts"
+          - "ui/web-client/src/ml/training/DataSplitter.test.ts"
+          - "ui/web-client/src/ml/training/HyperparameterTuner.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/ml/training.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/ml/training.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/ml/training.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/ml/training.spec.ts"
+      ai:
+        prompt: |
+          请验证模型训练基础设施是否完整：
+          1. 检查是否支持训练/验证/测试数据分割
+          2. 检查是否实现超参数网格搜索或贝叶斯优化
+          3. 检查是否支持模型版本管理和实验追踪
+          4. 检查是否支持增量训练（在已有模型基础上更新）
+          5. 检查训练过程是否有进度监控和早期停止
+          6. 检查训练资源使用是否有限制（CPU/内存）
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/ml/training/Trainer.ts"
+          - "ui/web-client/src/ml/training/HyperparameterTuner.ts"
+          - "ui/web-client/src/ml/experiment/ExperimentTracker.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<20 seconds"
+
+  - id: "ISSUE-UI-004C~criterion-3"
+    name: "推理服务"
+    description: "实现轻量级推理服务，支持本地实时推理和缓存，响应时间小于100ms"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/ml/inference/"
+        test_files:
+          - "ui/web-client/src/ml/inference/InferenceEngine.test.ts"
+          - "ui/web-client/src/ml/inference/ModelCache.test.ts"
+          - "ui/web-client/src/ml/inference/BatchInference.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/ml/inference.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/ml/inference.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/ml/inference-performance.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/ml/inference-performance.spec.ts"
+      ai:
+        prompt: |
+          请验证推理服务是否完整：
+          1. 检查是否支持本地实时推理（WebAssembly/onnxruntime-web）
+          2. 检查推理响应时间是否在100ms以内（单条）
+          3. 检查是否实现模型缓存机制（内存+IndexedDB）
+          4. 检查是否支持批量推理以提高吞吐量
+          5. 检查是否有模型热更新机制（下载新版本不中断服务）
+          6. 检查是否有推理降级策略（模型加载失败时回退到规则引擎）
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/ml/inference/InferenceEngine.ts"
+          - "ui/web-client/src/ml/inference/ModelCache.ts"
+          - "ui/web-client/src/ml/inference/BatchInference.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<20 seconds"
+
+  - id: "ISSUE-UI-004C~criterion-4"
+    name: "模型评估与监控"
+    description: "建立模型评估体系，支持离线评估和在线监控，追踪推荐效果和用户反馈"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/ml/evaluation/"
+        test_files:
+          - "ui/web-client/src/ml/evaluation/OfflineEvaluator.test.ts"
+          - "ui/web-client/src/ml/evaluation/OnlineMonitor.test.ts"
+          - "ui/web-client/src/ml/evaluation/MetricsCalculator.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/ml/evaluation.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/ml/evaluation.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/ml/monitoring.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/ml/monitoring.spec.ts"
+      ai:
+        prompt: |
+          请验证模型评估与监控是否完整：
+          1. 检查离线评估指标是否完整（Precision@K、Recall@K、NDCG）
+          2. 检查是否实现A/B测试统计显著性检验
+          3. 检查在线监控是否追踪点击率、完成率、用户满意度
+          4. 检查是否有模型漂移检测（特征分布变化、性能下降）
+          5. 检查是否有自动告警机制（关键指标低于阈值）
+          6. 检查评估报告是否可视化展示（dashboard）
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/ml/evaluation/OfflineEvaluator.ts"
+          - "ui/web-client/src/ml/evaluation/OnlineMonitor.ts"
+          - "ui/web-client/src/ml/evaluation/MetricsCalculator.ts"
+          - "ui/web-client/src/components/ml/ModelDashboard.tsx"
+        model: "claude-sonnet-4-6"
+    execution_time: "<20 seconds"
+
+  - id: "ISSUE-UI-004C~criterion-5"
+    name: "推荐排序与去重"
+    description: "实现推荐结果的后处理，包括重排序、多样性控制、去重、过滤等"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/ml/postprocessing/"
+        test_files:
+          - "ui/web-client/src/ml/postprocessing/Reranker.test.ts"
+          - "ui/web-client/src/ml/postprocessing/Deduplicator.test.ts"
+          - "ui/web-client/src/ml/postprocessing/DiversityController.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/ml/postprocessing.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/ml/postprocessing.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/ml/recommendation-quality.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/ml/recommendation-quality.spec.ts"
+      ai:
+        prompt: |
+          请验证推荐后处理功能是否完整：
+          1. 检查是否实现业务规则重排序（业务优先级调整）
+          2. 检查是否实现多样性控制（避免推荐结果过于相似）
+          3. 检查是否实现去重（避免推荐已完成的或重复的行为）
+          4. 检查是否支持过滤规则（用户屏蔽特定类型）
+          5. 检查是否实现推荐列表长度和分页控制
+          6. 检查是否有新鲜度控制（新添加的行为适当加权）
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/ml/postprocessing/Reranker.ts"
+          - "ui/web-client/src/ml/postprocessing/Deduplicator.ts"
+          - "ui/web-client/src/ml/postprocessing/DiversityController.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"
+
+  - id: "ISSUE-UI-004C~criterion-6"
+    name: "模型部署与更新"
+    description: "建立模型部署和自动更新机制，支持灰度发布和回滚"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm run test:unit -- src/ml/deployment/"
+        test_files:
+          - "ui/web-client/src/ml/deployment/ModelDeployer.test.ts"
+          - "ui/web-client/src/ml/deployment/CanaryRelease.test.ts"
+          - "ui/web-client/src/ml/deployment/Rollback.test.ts"
+      integration:
+        command: "npm run test:integration -- tests/integration/ml/deployment.test.ts"
+        test_files:
+          - "ui/web-client/tests/integration/ml/deployment.test.ts"
+      e2e:
+        command: "npm run test:e2e -- tests/e2e/ml/deployment.spec.ts"
+        test_files:
+          - "ui/web-client/tests/e2e/ml/deployment.spec.ts"
+      ai:
+        prompt: |
+          请验证模型部署与更新机制是否完整：
+          1. 检查是否支持模型版本管理（版本号、时间戳、哈希）
+          2. 检查是否支持灰度发布（部分用户试用新模型）
+          3. 检查是否支持自动回滚（检测到性能下降时）
+          4. 检查模型下载是否有断点续传和压缩
+          5. 检查是否支持模型差异化更新（只下载变更部分）
+          6. 检查是否有模型存储空间管理和清理
+          返回格式：{"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "ui/web-client/src/ml/deployment/ModelDeployer.ts"
+          - "ui/web-client/src/ml/deployment/CanaryRelease.ts"
+          - "ui/web-client/src/ml/deployment/Rollback.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<15 seconds"

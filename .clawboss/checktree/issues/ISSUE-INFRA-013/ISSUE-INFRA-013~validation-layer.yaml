@@ -1,0 +1,180 @@
+id: "ISSUE-INFRA-013"
+issue_number: 13
+title: "验证层"
+slug: "validation-layer"
+status: "pending"
+description: |
+  实现统一的验证层，支持：数据验证规则定义、
+  验证 Schema 组合、自定义验证器、批量验证、
+  验证错误收集、多语言错误消息。
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-002"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-INFRA-013~criterion-1"
+    name: "验证规则引擎实现完成"
+    description: |
+      实现验证规则系统：
+      - 内置规则（required, min, max, pattern, email, url 等）
+      - 规则组合（and, or, not）
+      - 规则参数化
+      - 规则缓存
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    verification:
+      unit:
+        command: "npm test -- src/infra/validation-rules.test.ts"
+        test_files: ["src/infra/validation-rules.test.ts"]
+      integration:
+        command: "npm test -- src/infra/validation-rules.integration.test.ts"
+        test_files: ["src/infra/validation-rules.integration.test.ts"]
+      manual:
+        instructions: |
+          1. 测试内置规则验证正确
+          2. 验证规则组合逻辑（and/or/not）
+          3. 检查规则参数传递
+          4. 测试规则缓存性能
+          5. 验证规则链式调用
+        required_tools: ["npm", "bash"]
+    execution_time: "<30 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-INFRA-013~criterion-2"
+    name: "验证 Schema 定义完成"
+    description: |
+      实现 Schema 定义 DSL：
+      - 对象 Schema 定义
+      - 数组 Schema 定义
+      - 嵌套 Schema 支持
+      - Schema 继承和组合
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    verification:
+      unit:
+        command: "npm test -- src/infra/validation-schema.test.ts"
+        test_files: ["src/infra/validation-schema.test.ts"]
+      integration:
+        command: "npm test -- src/infra/validation-schema.integration.test.ts"
+        test_files: ["src/infra/validation-schema.integration.test.ts"]
+      manual:
+        instructions: |
+          1. 定义对象 Schema 验证数据结构
+          2. 测试数组 Schema 验证元素
+          3. 验证嵌套 Schema 正确解析
+          4. 测试 Schema 继承扩展
+          5. 检查 Schema 组合复用
+        required_tools: ["npm", "bash"]
+    execution_time: "<30 seconds"
+    prerequisites: ["ISSUE-INFRA-013~criterion-1"]
+
+  - id: "ISSUE-INFRA-013~criterion-3"
+    name: "自定义验证器支持完成"
+    description: |
+      实现扩展验证机制：
+      - 自定义验证函数
+      - 异步验证支持
+      - 验证器注册
+      - 验证上下文传递
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    verification:
+      unit:
+        command: "npm test -- src/infra/validation-custom.test.ts"
+        test_files: ["src/infra/validation-custom.test.ts"]
+      integration:
+        command: "npm test -- src/infra/validation-custom.integration.test.ts"
+        test_files: ["src/infra/validation-custom.integration.test.ts"]
+      manual:
+        instructions: |
+          1. 注册自定义验证器
+          2. 测试自定义验证逻辑执行
+          3. 验证异步验证器支持
+          4. 检查上下文数据传递
+          5. 测试验证器参数接收
+        required_tools: ["npm", "bash"]
+    execution_time: "<30 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-INFRA-013~criterion-4"
+    name: "批量验证和错误收集完成"
+    description: |
+      实现批量验证：
+      - 全字段验证（不短路）
+      - 错误收集和整理
+      - 错误字段路径
+      - 错误分组和统计
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    verification:
+      unit:
+        command: "npm test -- src/infra/validation-batch.test.ts"
+        test_files: ["src/infra/validation-batch.test.ts"]
+      integration:
+        command: "npm test -- src/infra/validation-batch.integration.test.ts"
+        test_files: ["src/infra/validation-batch.integration.test.ts"]
+      manual:
+        instructions: |
+          1. 验证多个错误字段全部被收集
+          2. 检查错误包含字段路径（user.address.zip）
+          3. 测试错误按字段分组
+          4. 验证错误统计信息
+          5. 检查错误格式统一
+        required_tools: ["npm", "bash"]
+    execution_time: "<30 seconds"
+    prerequisites: ["ISSUE-INFRA-013~criterion-2"]
+
+  - id: "ISSUE-INFRA-013~criterion-5"
+    name: "多语言错误消息支持完成"
+    description: |
+      实现错误消息国际化：
+      - 消息模板系统
+      - 占位符替换
+      - 多语言支持（i18n）
+      - 消息自定义覆盖
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    verification:
+      unit:
+        command: "npm test -- src/infra/validation-i18n.test.ts"
+        test_files: ["src/infra/validation-i18n.test.ts"]
+      integration:
+        command: "npm test -- src/infra/validation-i18n.integration.test.ts"
+        test_files: ["src/infra/validation-i18n.integration.test.ts"]
+      manual:
+        instructions: |
+          1. 测试英文错误消息
+          2. 验证中文错误消息
+          3. 检查占位符正确替换
+          4. 测试自定义消息覆盖
+          5. 验证消息模板嵌套
+        required_tools: ["npm", "bash"]
+    execution_time: "<30 seconds"
+    prerequisites: []

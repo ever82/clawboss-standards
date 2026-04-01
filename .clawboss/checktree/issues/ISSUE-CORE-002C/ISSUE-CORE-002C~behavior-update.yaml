@@ -1,0 +1,147 @@
+id: "ISSUE-CORE-002C"
+issue_number: 5
+title: "Behavior Update 服务"
+slug: "behavior-update"
+status: "pending"
+description: "实现 Behavior 更新服务，支持单个和批量更新行为实体。包括数据验证、变更检测、乐观锁、时间戳更新、关联数据更新等功能。同时支持更新时触发依赖行为的状态检查。"
+is_parent: false
+prerequisites:
+  - "ISSUE-CORE-001"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CORE-002C~criterion-1"
+    name: "单行为更新功能"
+    description: "实现单个 Behavior 更新功能，支持部分字段更新、变更检测、乐观锁防止并发冲突"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/behavior/services/update.service.test.ts"
+        test_files: ["src/core/behavior/services/update.service.test.ts"]
+      integration:
+        command: "npm test -- src/core/behavior/services/update.service.integration.test.ts"
+        test_files: ["src/core/behavior/services/update.service.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- behavior-update"
+        test_files: ["e2e/behavior-update.spec.ts"]
+      ai:
+        prompt: "请验证单行为更新功能:\n1. 检查 updateBehavior 方法支持部分字段更新\n2. 验证 updatedAt 自动更新\n3. 检查乐观锁：version 字段不匹配时返回冲突错误\n4. 验证无变更字段时跳过更新\n5. 检查更新前数据验证\n6. 验证返回更新后的完整对象\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/behavior/services/update.service.ts", "src/core/behavior/repository.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-002C~criterion-2"
+    name: "批量行为更新"
+    description: "实现批量更新功能，支持事务处理，支持部分成功模式，返回成功和失败明细"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/behavior/services/bulk-update.service.test.ts"
+        test_files: ["src/core/behavior/services/bulk-update.service.test.ts"]
+      integration:
+        command: "npm test -- src/core/behavior/services/bulk-update.service.integration.test.ts"
+        test_files: ["src/core/behavior/services/bulk-update.service.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- behavior-bulk-update"
+        test_files: ["e2e/behavior-bulk-update.spec.ts"]
+      ai:
+        prompt: "请验证批量行为更新功能:\n1. 检查 updateBehaviors 支持批量更新\n2. 验证事务支持：原子性更新\n3. 检查部分成功模式：跳过失败项\n4. 验证返回成功列表和失败列表\n5. 检查失败项包含详细错误信息\n6. 验证大批量更新性能\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/behavior/services/update.service.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<90 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-002C~criterion-3"
+    name: "状态转换验证"
+    description: "实现状态转换验证，确保只允许合法的状态转换，记录状态变更历史"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/behavior/services/status-transition.test.ts"
+        test_files: ["src/core/behavior/services/status-transition.test.ts"]
+      integration:
+        command: "npm test -- src/core/behavior/services/status-transition.integration.test.ts"
+        test_files: ["src/core/behavior/services/status-transition.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- behavior-status-transition"
+        test_files: ["e2e/behavior-status-transition.spec.ts"]
+      ai:
+        prompt: "请验证状态转换验证功能:\n1. 检查非法状态转换被阻止\n2. 验证合法状态转换被允许\n3. 检查状态变更历史记录\n4. 验证状态变更触发相应事件\n5. 检查状态转换时自动更新时间戳\n6. 验证批量状态更新支持\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/behavior/services/update.service.ts", "src/core/behavior/status-transitions.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-002C~criterion-4"
+    name: "关联数据更新"
+    description: "支持更新关联数据（标签、依赖、验收标准），确保关联数据的一致性"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/behavior/services/update-relations.test.ts"
+        test_files: ["src/core/behavior/services/update-relations.test.ts"]
+      integration:
+        command: "npm test -- src/core/behavior/services/update-relations.integration.test.ts"
+        test_files: ["src/core/behavior/services/update-relations.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- behavior-update-relations"
+        test_files: ["e2e/behavior-update-relations.spec.ts"]
+      ai:
+        prompt: "请验证关联数据更新功能:\n1. 检查支持更新标签（添加/移除）\n2. 验证支持更新依赖关系\n3. 检查支持更新验收标准\n4. 验证关联数据变更触发验证\n5. 检查关联数据更新支持部分更新\n6. 验证事务中回滚关联更新\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/behavior/services/update.service.ts", "src/core/tag/tag.service.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CORE-002C~criterion-5"
+    name: "更新事件发布"
+    description: "更新成功后发布事件，支持变更差异信息，供其他模块处理"
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/core/behavior/services/update-events.test.ts"
+        test_files: ["src/core/behavior/services/update-events.test.ts"]
+      integration:
+        command: "npm test -- src/core/behavior/services/update-events.integration.test.ts"
+        test_files: ["src/core/behavior/services/update-events.integration.test.ts"]
+      e2e:
+        command: "npm run test:e2e -- behavior-update-events"
+        test_files: ["e2e/behavior-update-events.spec.ts"]
+      ai:
+        prompt: "请验证更新事件发布功能:\n1. 检查更新后发布 behavior.updated 事件\n2. 验证事件包含变更前后差异\n3. 检查批量更新发布汇总事件\n4. 验证状态变更发布专门事件\n5. 检查事件异步非阻塞\n6. 验证监听者可接收处理\n返回: {\"passed\": true/false, \"reason\": \"详细说明\"}"
+        context_files: ["src/core/behavior/services/update.service.ts", "src/core/event/event-bus.ts"]
+        model: "claude-sonnet-4-6"
+    execution_time: "<60 seconds"
+    prerequisites: []

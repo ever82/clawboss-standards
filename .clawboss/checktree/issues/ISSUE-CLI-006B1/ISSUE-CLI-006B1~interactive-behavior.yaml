@@ -1,0 +1,217 @@
+id: "ISSUE-CLI-006B1"
+issue_number: 6
+slug: "interactive-behavior"
+title: "行为交互式命令"
+description: |
+  实现AI-Me CLI的行为管理交互式命令，基于CLI-006A框架提供交互式的行为创建、编辑、查看体验。
+  依赖CLI-002的基础行为命令。
+status: "pending"
+is_parent: false
+sub_issues: []
+prerequisites:
+  - "ISSUE-CLI-006A"
+  - "ISSUE-CLI-002"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-CLI-006B1~criterion-1"
+    name: "交互式行为创建"
+    description: |
+      实现交互式行为创建向导，通过问答方式引导用户创建行为，自动使用CLI-002的行为创建服务。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/interactive/behavior/create.test.ts"
+        test_files:
+          - "src/cli/interactive/behavior/create.test.ts"
+      integration:
+        command: "npm test -- src/cli/interactive/behavior/create.integration.test.ts"
+        test_files:
+          - "src/cli/interactive/behavior/create.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/interactive/behavior-create"
+        test_files:
+          - "e2e/cli/interactive/behavior/create.spec.ts"
+      ai:
+        prompt: |
+          请验证交互式行为创建功能的实现:
+          1. 启动向导: `ai-me behavior create --interactive` 或 `-i`
+          2. 基本信息: 依次提示输入名称、描述、优先级
+          3. 优先级选择: 使用select组件选择high/medium/low
+          4. 截止日期: 日期选择器或相对时间(如"3天后")
+          5. 标签输入: 多选或输入新标签，支持自动补全
+          6. 父行为: 搜索并选择父行为(可选)
+          7. 验收标准: 可添加多个验收标准
+          8. 预览确认: 创建前显示行为摘要供确认
+          9. 快速创建: 支持 `--quick` 使用最少问题快速创建
+
+          检查点:
+          - 向导步骤流畅，可前进后退
+          - 每一步都有清晰的说明和示例
+          - 默认值合理，减少输入量
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/interactive/behavior/create.ts"
+          - "src/cli/commands/behavior/create.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-CLI-006B1~criterion-2"
+    name: "交互式行为编辑"
+    description: |
+      实现交互式行为编辑功能，允许用户选择要编辑的行为字段并实时修改。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/interactive/behavior/edit.test.ts"
+        test_files:
+          - "src/cli/interactive/behavior/edit.test.ts"
+      integration:
+        command: "npm test -- src/cli/interactive/behavior/edit.integration.test.ts"
+        test_files:
+          - "src/cli/interactive/behavior/edit.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/interactive/behavior-edit"
+        test_files:
+          - "e2e/cli/interactive/behavior/edit.spec.ts"
+      ai:
+        prompt: |
+          请验证交互式行为编辑功能的实现:
+          1. 启动编辑: `ai-me behavior edit <id> --interactive`
+          2. 字段选择: 显示可编辑字段列表供选择
+          3. 编辑名称: 文本输入框预填充当前值
+          4. 编辑描述: 多行文本编辑器支持
+          5. 状态变更: 下拉选择新状态，自动校验流转
+          6. 进度更新: 滑块或数字输入选择进度(0-100)
+          7. 标签管理: 交互式添加/删除标签
+          8. 批量确认: 编辑完成后汇总变更供确认
+          9. 撤销: 支持在确认前撤销某些修改
+
+          检查点:
+          - 字段编辑后立即显示新值
+          - 非法值(如无效状态流转)被阻止
+          - 编辑历史可查看，支持撤销
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/interactive/behavior/edit.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites:
+      - "ISSUE-CLI-006B1~criterion-1"
+
+  - id: "ISSUE-CLI-006B1~criterion-3"
+    name: "交互式行为浏览"
+    description: |
+      实现交互式行为浏览功能，支持在终端中导航、筛选、查看行为详情。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/interactive/behavior/browse.test.ts"
+        test_files:
+          - "src/cli/interactive/behavior/browse.test.ts"
+      integration:
+        command: "npm test -- src/cli/interactive/behavior/browse.integration.test.ts"
+        test_files:
+          - "src/cli/interactive/behavior/browse.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/interactive/behavior-browse"
+        test_files:
+          - "e2e/cli/interactive/behavior/browse.spec.ts"
+      ai:
+        prompt: |
+          请验证交互式行为浏览功能的实现:
+          1. 启动浏览: `ai-me behavior browse` 进入交互式列表
+          2. 列表导航: 上下箭头浏览，Enter查看详情
+          3. 实时过滤: 输入文字实时过滤列表
+          4. 排序切换: 按优先级/截止日期/状态排序
+          5. 快速操作: 选中后按快捷键执行操作(d=删除, e=编辑, s=状态)
+          6. 详情面板: 选中行为在侧边显示详情
+          7. 树形浏览: 层级展示父子关系，可展开折叠
+          8. 状态筛选: 快速筛选todo/doing/done
+          9. 退出: q或Esc退出浏览模式
+
+          检查点:
+          - 大列表滚动流畅
+          - 键盘快捷键响应迅速
+          - 选中项高亮清晰
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/interactive/behavior/browse.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<5 seconds"
+    prerequisites:
+      - "ISSUE-CLI-006B1~criterion-1"
+
+  - id: "ISSUE-CLI-006B1~criterion-4"
+    name: "交互式状态管理"
+    description: |
+      实现交互式状态管理界面，支持拖拽式或选择式的状态变更，实时显示状态历史。
+    status: pending
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: sufficient
+      ai: sufficient
+      manual: not_needed
+    verification:
+      unit:
+        command: "npm test -- src/cli/interactive/behavior/status.test.ts"
+        test_files:
+          - "src/cli/interactive/behavior/status.test.ts"
+      integration:
+        command: "npm test -- src/cli/interactive/behavior/status.integration.test.ts"
+        test_files:
+          - "src/cli/interactive/behavior/status.integration.test.ts"
+      e2e:
+        command: "npm run test:e2e -- cli/interactive/behavior-status"
+        test_files:
+          - "e2e/cli/interactive/behavior/status.spec.ts"
+      ai:
+        prompt: |
+          请验证交互式状态管理功能的实现:
+          1. 状态面板: `ai-me behavior status <id> --interactive` 显示状态流转图
+          2. 状态选择: 可视化选择可流转的目标状态
+          3. 进度滑块: 拖动滑块更新进度，实时预览
+          4. 时间追踪: 显示当前状态已持续时间
+          5. 预计完成: 根据历史数据估算完成时间
+          6. 阻塞原因: 如blocked状态可输入阻塞原因
+          7. 批量操作: 可同时更新多个行为的状态
+          8. 历史查看: 查看完整的状态变更历史
+
+          检查点:
+          - 只允许合法的状态流转
+          - 进度更新联动状态(如100%=done)
+          - 时间数据准确显示
+
+          Return format: {"passed": true/false, "reason": "详细解释"}
+        context_files:
+          - "src/cli/interactive/behavior/status.ts"
+          - "src/core/services/status/manager.ts"
+        model: "claude-sonnet-4-6"
+    execution_time: "<4 seconds"
+    prerequisites:
+      - "ISSUE-CLI-006B1~criterion-2"
+      - "ISSUE-CORE-004"

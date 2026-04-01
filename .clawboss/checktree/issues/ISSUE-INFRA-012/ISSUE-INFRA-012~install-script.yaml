@@ -1,0 +1,180 @@
+id: "ISSUE-INFRA-012"
+issue_number: 12
+title: "安装脚本"
+slug: "install-script"
+status: "pending"
+description: |
+  实现多平台安装脚本，支持：自动依赖检查、
+  多平台支持（Windows/macOS/Linux）、版本管理、
+  更新机制、卸载功能、安装验证。
+is_parent: false
+prerequisites:
+  - "ISSUE-INFRA-004"
+created_at: "2026-04-01"
+completed_at: null
+logic: sufficient_necessary
+criteria:
+  - id: "ISSUE-INFRA-012~criterion-1"
+    name: "Shell 安装脚本完成"
+    description: |
+      实现 Unix/Linux/macOS 安装脚本：
+      - 一键安装命令（curl | bash）
+      - Node.js 版本检查
+      - 依赖自动安装
+      - 安装路径选择
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    verification:
+      unit:
+        command: "npm test -- src/infra/install-shell.test.ts"
+        test_files: ["src/infra/install-shell.test.ts"]
+      integration:
+        command: "npm test -- src/infra/install-shell.integration.test.ts"
+        test_files: ["src/infra/install-shell.integration.test.ts"]
+      manual:
+        instructions: |
+          1. 在 Linux/macOS 运行安装脚本
+          2. 验证 Node.js 版本检查
+          3. 检查依赖自动安装
+          4. 测试自定义安装路径
+          5. 验证可执行文件链接创建
+        required_tools: ["bash", "curl"]
+    execution_time: "<2 minutes"
+    prerequisites: []
+
+  - id: "ISSUE-INFRA-012~criterion-2"
+    name: "Windows 安装脚本完成"
+    description: |
+      实现 Windows 安装脚本：
+      - PowerShell 脚本
+      - Chocolatey/Scoop 支持
+      - Windows 特定路径处理
+      - 环境变量设置
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    verification:
+      unit:
+        command: "npm test -- src/infra/install-windows.test.ts"
+        test_files: ["src/infra/install-windows.test.ts"]
+      integration:
+        command: "npm test -- src/infra/install-windows.integration.test.ts"
+        test_files: ["src/infra/install-windows.integration.test.ts"]
+      manual:
+        instructions: |
+          1. 在 Windows PowerShell 运行安装脚本
+          2. 验证管理员权限检查
+          3. 检查 PATH 环境变量更新
+          4. 测试安装目录创建
+          5. 验证 PowerShell 执行策略提示
+        required_tools: ["powershell", "cmd"]
+    execution_time: "<2 minutes"
+    prerequisites: []
+
+  - id: "ISSUE-INFRA-012~criterion-3"
+    name: "版本管理和更新机制完成"
+    description: |
+      实现版本管理：
+      - 版本检查（对比 GitHub Release）
+      - 自动更新检测
+      - 更新脚本执行
+      - 版本回滚支持
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    verification:
+      unit:
+        command: "npm test -- src/infra/version-manager.test.ts"
+        test_files: ["src/infra/version-manager.test.ts"]
+      integration:
+        command: "npm test -- src/infra/version-manager.integration.test.ts"
+        test_files: ["src/infra/version-manager.integration.test.ts"]
+      manual:
+        instructions: |
+          1. 运行版本检查命令
+          2. 验证新版本检测逻辑
+          3. 测试自动更新流程
+          4. 检查更新前备份
+          5. 验证版本回滚功能
+        required_tools: ["npm", "bash", "ai-me"]
+    execution_time: "<60 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-INFRA-012~criterion-4"
+    name: "卸载脚本完成"
+    description: |
+      实现卸载功能：
+      - 文件清理
+      - 配置备份提示
+      - 环境变量清理
+      - 用户确认
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    verification:
+      unit:
+        command: "npm test -- src/infra/uninstall.test.ts"
+        test_files: ["src/infra/uninstall.test.ts"]
+      integration:
+        command: "npm test -- src/infra/uninstall.integration.test.ts"
+        test_files: ["src/infra/uninstall.integration.test.ts"]
+      manual:
+        instructions: |
+          1. 运行卸载脚本
+          2. 验证用户确认提示
+          3. 检查配置文件备份询问
+          4. 验证安装目录删除
+          5. 检查 PATH 清理
+        required_tools: ["bash/powershell", "ai-me"]
+    execution_time: "<30 seconds"
+    prerequisites: []
+
+  - id: "ISSUE-INFRA-012~criterion-5"
+    name: "安装验证和文档完成"
+    description: |
+      实现安装验证：
+      - 安装后自动验证
+      - 版本号检查
+      - 基本功能测试
+      - 安装文档
+    status: "pending"
+    coverage:
+      unit: sufficient
+      integration: sufficient
+      e2e: not_needed
+      ai: not_needed
+      manual: sufficient
+    verification:
+      unit:
+        command: "npm test -- src/infra/install-verify.test.ts"
+        test_files: ["src/infra/install-verify.test.ts"]
+      integration:
+        command: "npm test -- src/infra/install-verify.integration.test.ts"
+        test_files: ["src/infra/install-verify.integration.test.ts"]
+      manual:
+        instructions: |
+          1. 安装后自动运行验证
+          2. 验证 ai-me --version 输出正确
+          3. 测试基本命令（ai-me --help）
+          4. 检查安装文档完整性
+          5. 验证各平台安装说明
+        required_tools: ["bash/powershell", "ai-me"]
+    execution_time: "<30 seconds"
+    prerequisites: []
