@@ -21,13 +21,16 @@ Issue name rule: ISSUE-{Module}-{NUMBER}~{slug}
 
 ```mermaid
 flowchart TD
-    subgraph Init["📋 Project Initialization"]
-        INIT000[⏳ ISSUE-INIT-000~project-init<br/>项目初始化（父 Issue）]
-        INIT000A[⏳ ISSUE-INIT-000-A~create-project-spec<br/>创建 PROJECT.md]
-        INIT000B[⏳ ISSUE-INIT-000-B~create-tech-stack<br/>创建 TECH_STACK.md]
-        INIT000C[⏳ ISSUE-INIT-000-C~create-architecture<br/>创建 ARCHITECTURE.md]
-        INIT000D[⏳ ISSUE-INIT-000-D~create-concepts<br/>创建 CONCEPTS.md]
+    subgraph Setup["📋 Setup"]
+        INIT001[⏳ ISSUE-SETUP-001<br/>创建 Spec 文档]
+        INIT002[⏳ ISSUE-SETUP-002<br/>创建 Issues]
+        INIT002A[⏳ ISSUE-SETUP-002A<br/>完善 CheckTree.md]
+        INIT002B[⏳ ISSUE-SETUP-002B<br/>生成 Issues]
     end
+
+    INIT001 --> INIT002
+    INIT002 --> INIT002a
+    INIT002 --> INIT002b
 
     subgraph Security["🔒 Security Module"]
         SEC001[⏳ ISSUE-SEC-001~auth-system<br/>用户认证系统]
@@ -200,14 +203,11 @@ flowchart TD
     end
 
     %% ========== Init Dependencies ==========
-    INIT000 --> INIT000A
-    INIT000 --> INIT000B
-    INIT000 --> INIT000C
-    INIT000 --> INIT000D
-    INIT000A --> INIT000B
-    INIT000A --> INIT000C
-    INIT000A --> INIT000D
-    INIT000 --> INFRA001
+    INIT001 --> INIT002
+    INIT002 --> INIT002A
+    INIT002 --> INIT002B
+    INIT002A --> INFRA001
+    INIT002B --> INFRA001
 
     %% ========== Security Dependencies ==========
     INFRA003B --> SEC001
