@@ -1,0 +1,3 @@
+[submodule ".clawboss-standards"]
+	path = .clawboss-standards
+	url = https://github.com/ever82/clawboss-standards.git
