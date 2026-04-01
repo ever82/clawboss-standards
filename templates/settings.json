@@ -1,0 +1,45 @@
+{
+  "version": "1.0.0",
+  "llm": {
+    "default_provider": "anthropic",
+    "providers": {
+      "anthropic": {
+        "api_key": "",
+        "model": "claude-3-5-sonnet-20241022",
+        "base_url": "https://api.anthropic.com"
+      },
+      "openai": {
+        "api_key": "",
+        "model": "gpt-4",
+        "base_url": "https://api.openai.com"
+      }
+    }
+  },
+  "channels": {
+    "feishu": {
+      "enabled": false,
+      "app_id": "",
+      "app_secret": "",
+      "encrypt_key": "",
+      "verification_token": ""
+    },
+    "discord": {
+      "enabled": false,
+      "token": "",
+      "client_id": "",
+      "guild_id": ""
+    },
+    "telegram": {
+      "enabled": false,
+      "token": "",
+      "webhook_url": ""
+    }
+  },
+  "preferences": {
+    "confirmation_mode": "manual",
+    "default_priority": "P1",
+    "auto_classification": true,
+    "similarity_threshold": 0.8,
+    "timezone": "Asia/Shanghai"
+  }
+}
