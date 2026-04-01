@@ -1,0 +1,12 @@
+name:
+  en: AI-Me System Behavior Class Tree
+  zh: AI-Me 系统行为类树
+description:
+  en: Officially maintained behavior class collection covering learning, work, and life domains
+  zh: 官方维护的行为类集合，涵盖学习、工作、生活等领域
+version: "1.0.0"
+author: ai-me-team
+repository: https://github.com/ai-me/behavior-classes
+license: MIT
+locales: ["en", "zh"]
+default_locale: "en"

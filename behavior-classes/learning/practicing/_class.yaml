@@ -1,0 +1,15 @@
+id: practicing
+name:
+  en: Practicing
+  zh: 实践
+description:
+  en: Master skills through hands-on practice
+  zh: 通过动手实践来掌握技能
+icon: "🔧"
+color: "#ec4899"
+author: ai-me-team
+version: "1.0.0"
+created_at: "2024-03-29"
+updated_at: "2024-03-29"
+tags: ["learning", "hands-on"]
+locales: ["en", "zh"]

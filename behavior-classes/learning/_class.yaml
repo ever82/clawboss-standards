@@ -1,0 +1,15 @@
+id: learning
+name:
+  en: Learning
+  zh: 学习
+description:
+  en: The process of acquiring new knowledge and skills, the core driver of human progress
+  zh: 获取新知识和技能的过程，是人类进步的核心驱动力
+icon: "📚"
+color: "#4f46e5"
+author: ai-me-team
+version: "1.0.0"
+created_at: "2024-03-29"
+updated_at: "2024-03-29"
+tags: ["general", "growth", "core"]
+locales: ["en", "zh"]

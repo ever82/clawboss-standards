@@ -1,0 +1,15 @@
+id: reading
+name:
+  en: Reading
+  zh: 阅读
+description:
+  en: Acquire knowledge through reading books, articles, documentation, etc.
+  zh: 通过阅读书籍、文章、文档等获取知识
+icon: "📖"
+color: "#8b5cf6"
+author: ai-me-team
+version: "1.0.0"
+created_at: "2024-03-29"
+updated_at: "2024-03-29"
+tags: ["learning", "input"]
+locales: ["en", "zh"]
