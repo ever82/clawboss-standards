@@ -6,63 +6,87 @@ CheckTree is a tree-structured issue management system that maps the entire proj
 
 This document visualizes the issue dependency graph using Mermaid diagrams. Each issue is a node, and arrows indicate dependencies (prerequisites).
 
-issue name rule:ISSUE-{Module}-{NUMBER}
+**任何时候查看 CheckTree.md 就能掌握项目的当前进展。**
 
+## Issue Naming Rule
 
-### Key Features
+`ISSUE-{Module}-{NUMBER}`
+
+## Issue Status
+
+每个 Issue 必须包含状态字段：
+
+| Status | Symbol | Meaning |
+|--------|--------|---------|
+| `pending` | ⏳ | Not started |
+| `in_progress` | 🔄 | In progress |
+| `completed` | ✅ | Completed |
+| `blocked` | 🔴 | Blocked |
+
+## Issue Dependency Graph
+
+```mermaid
+flowchart TD
+    subgraph Setup["📋 Setup"]
+        INIT001[⏳ ISSUE-SETUP-001<br/>创建 Spec 文档]
+        INIT002[⏳ ISSUE-SETUP-002<br/>创建 Issues]
+    end
+
+    subgraph SetupChildren["📋 Setup Children"]
+        INIT002a[⏳ ISSUE-SETUP-002a<br/>完善 CheckTree.md]
+        INIT002b[⏳ ISSUE-SETUP-002b<br/>生成 Issues]
+    end
+
+    INIT001 --> INIT002
+    INIT002 --> INIT002a
+    INIT002 --> INIT002b
+
+    subgraph Features["✨ Features"]
+        FEAT001[⏳ ISSUE-FEAT-001<br/>{FEAT_TITLE}]
+    end
+
+    subgraph Components["🧩 Components"]
+        COMP001[⏳ ISSUE-COMP-001<br/>{COMP_TITLE}]
+    end
+
+    subgraph Testing["🧪 Testing"]
+        TEST001[⏳ ISSUE-TEST-001<br/>{TEST_TITLE}]
+    end
+
+    %% Default setup dependencies
+    INIT002a --> FEAT001
+    FEAT001 --> COMP001
+    COMP001 --> TEST001
+```
+
+## Default Issues
+
+每个新项目默认包含以下 Issue：
+
+### ISSUE-SETUP-001: 创建 Spec 文档
+
+- **状态**: pending
+- **描述**: 创建 `.clawboss/spec/` 目录下的规格文档
+- **包含子任务**:
+  - [ ] CONCEPTS.md - 核心概念定义
+  - [ ] PROJECT.md - 项目介绍
+  - [ ] TECH_STACK.md - 技术栈
+  - [ ] ARCHITECTURE.md - 架构与模块设计
+
+### ISSUE-SETUP-002: 创建 Issues
+
+- **状态**: pending
+- **描述**: 根据 CheckTree.md 生成所有 Issue 文件
+- **依赖**: ISSUE-SETUP-001
+- **包含子 Issue**:
+  - **ISSUE-SETUP-002a**: 完善 CheckTree.md — 细化各 Issue 的描述
+  - **ISSUE-SETUP-002b**: 生成 Issues — 根据 CheckTree.md 创建所有 Issue YAML 文件
+
+## Key Features
 
 - **Tree Structure**: Issues form a logical dependency tree, not linear GitHub issues
 - **YAML Format**: Each issue is a YAML file with structured metadata
 - **Criteria-based**: Each issue contains multiple criteria (acceptance criteria) with independent status
 - **Dependency Tracking**: Prerequisites define execution order
 - **Visual Graph**: Mermaid diagram shows issue relationships and progress
-- **Test Strategy**: Five-level testing (unit/integration/e2e/agent/human)
-## Legend
-
-| Symbol | Meaning |
-|--------|---------|
-| ✅ | Completed |
-| 🔄 | In Progress |
-| ⏳ | Pending |
-| 🔴 | Blocked |
-
-## Issue Dependency Graph
-
-```mermaid
-flowchart TD
-    subgraph Infrastructure["🏗️ Infrastructure"]
-        INFRA001[⏳ ISSUE-INFRA-1<br/>{INFRA_TITLE}]
-        INFRA002[⏳ ISSUE-INFRA-2<br/>{INFRA_TITLE_2}]
-    end
-
-    subgraph Features["✨ Features"]
-        FEAT001[⏳ ISSUE-FEAT-1<br/>{FEAT_TITLE}]
-        FEAT002[⏳ ISSUE-FEAT-2<br/>{FEAT_TITLE_2}]
-    end
-
-    subgraph Components["🧩 Components"]
-        COMP001[⏳ ISSUE-COMP-1<br/>{COMP_TITLE}]
-        COMP002[⏳ ISSUE-COMP-2<br/>{COMP_TITLE_2}]
-    end
-
-    subgraph Testing["🧪 Testing"]
-        TEST001[⏳ ISSUE-TEST-1<br/>{TEST_TITLE}]
-        TEST002[⏳ ISSUE-TEST-2<br/>{TEST_TITLE_2}]
-    end
-
-    subgraph Milestones["🎯 Milestones"]
-        MILESTONE001[⏳ MILESTONE-1<br/>{MILESTONE_TITLE}]
-    end
-
-    %% Dependencies
-    INFRA001 --> FEAT001
-    INFRA002 --> COMP001
-    FEAT001 --> COMP001
-    COMP001 --> TEST001
-    COMP002 --> TEST002
-    TEST001 --> MILESTONE001
-    TEST002 --> MILESTONE001
-```
-
-
-
+- **Single Source of Truth**: CheckTree.md is the single source of truth for project progress
