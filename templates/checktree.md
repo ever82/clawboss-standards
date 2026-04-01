@@ -33,13 +33,13 @@ flowchart TD
     end
 
     subgraph SetupChildren["📋 Setup Children"]
-        INIT002a[⏳ ISSUE-SETUP-002a<br/>完善 CheckTree.md]
-        INIT002b[⏳ ISSUE-SETUP-002b<br/>生成 Issues]
+        INIT002A[⏳ ISSUE-SETUP-002A<br/>完善 CheckTree.md]
+        INIT002B[⏳ ISSUE-SETUP-002B<br/>生成 Issues]
     end
 
     INIT001 --> INIT002
-    INIT002 --> INIT002a
-    INIT002 --> INIT002b
+    INIT002 --> INIT002A
+    INIT002 --> INIT002B
 
     subgraph Features["✨ Features"]
         FEAT001[⏳ ISSUE-FEAT-001<br/>{FEAT_TITLE}]
@@ -79,8 +79,8 @@ flowchart TD
 - **描述**: 根据 CheckTree.md 生成所有 Issue 文件
 - **依赖**: ISSUE-SETUP-001
 - **包含子 Issue**:
-  - **ISSUE-SETUP-002a**: 完善 CheckTree.md — 细化各 Issue 的描述
-  - **ISSUE-SETUP-002b**: 生成 Issues — 根据 CheckTree.md 创建所有 Issue YAML 文件
+  - **ISSUE-SETUP-002A**: 完善 CheckTree.md — 细化各 Issue 的描述
+  - **ISSUE-SETUP-002B**: 生成 Issues — 根据 CheckTree.md 创建所有 Issue YAML 文件
 
 ## Key Features
 
