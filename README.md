@@ -93,7 +93,74 @@ Templates use `{VARIABLE}` format placeholders, which the ClawBoss program autom
 
 Users can place custom templates in the `~/.clawboss/templates/` directory to override default templates. ClawBoss will prioritize user custom templates.
 
+## Parallel Development System
+
+The CheckTree Parallel Development System enables autonomous, parallel Issue development with Claude Code.
+
+### Core Features
+
+- **Parallel Execution**: Run multiple Issues concurrently (configurable max: 2-5)
+- **Worktree Isolation**: Each Issue gets its own git worktree
+- **Dependency Management**: Automatic dependency resolution from CheckTree.md
+- **Test Integration**: Unit tests in worktree, integration/E2E on main branch
+
+### Quick Start
+
+```bash
+# Analyze dependencies
+python .clawboss-standards/scripts/orchestrator.py analyze
+
+# Start parallel development
+python .clawboss-standards/scripts/orchestrator.py run --mode=auto --max-agents=3
+
+# View status
+python .clawboss-standards/scripts/orchestrator.py status
+```
+
+### Components
+
+| Component | Description |
+|-----------|-------------|
+| [orchestrator.py](./scripts/orchestrator.py) | Main orchestrator script |
+| [orchestrator-config.yaml](./templates/orchestrator-config.yaml) | Default configuration |
+| [parallel-development.md](./sop/parallel-development.md) | Detailed SOP |
+| [parallel-development-system.md](./docs/parallel-development-system.md) | System design |
+| [hooks/](./hooks/) | Claude Code hooks for automation |
+| [run-integration-tests.py](./scripts/run-integration-tests.py) | Integration test runner |
+
+### Claude Code Skills
+
+| Skill | Command |
+|-------|---------|
+| `/checktree-status` | Show development status |
+| `/checktree-analyze` | Analyze dependency graph |
+| `/checktree-run` | Start parallel development |
+| `/checktree-next` | Start next ready Issue |
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────────┐
+│              Orchestrator (Python)              │
+│  Dependency Graph → Parallel Scheduler          │
+└───────────────────────┬─────────────────────────┘
+                        │
+        ┌───────────────┼───────────────┐
+        │               │               │
+   Worktree 1     Worktree 2     Worktree N
+   (Issue A)      (Issue B)      (Issue C)
+        │               │               │
+        └───────────────┼───────────────┘
+                        │
+              ┌─────────▼─────────┐
+              │  Merge & Test     │
+              │  (Main Branch)    │
+              └───────────────────┘
+```
+
 ## References
 
 - [Project Documentation](../.clawboss/spec/PROJECT.md)
 - [Core Concepts](../.clawboss/spec/CONCEPTS.md)
+- [Parallel Development System](./docs/parallel-development-system.md)
+- [Parallel Development SOP](./sop/parallel-development.md)

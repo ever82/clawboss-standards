@@ -1,0 +1,198 @@
+# CheckTree Orchestrator 默认配置
+# 复制此文件到 .clawboss/config/orchestrator.yaml 并根据需要修改
+
+# 并行执行配置
+parallel:
+  # 最大并行 Agent 数量（建议 2-5，取决于机器性能）
+  max_agents: 3
+
+  # 单个 Issue 失败后的最大重试次数
+  max_retries: 2
+
+  # 单个 Issue 的超时时间（分钟）
+  timeout_minutes: 120
+
+  # 调度策略: parallel | priority | milestone_first
+  strategy: "parallel"
+
+  # 优先级规则（当 strategy 为 priority 时使用）
+  priority_rules:
+    - pattern: "ISSUE-INFRA-*"
+      priority: 1
+    - pattern: "ISSUE-CORE-*"
+      priority: 2
+    - pattern: "ISSUE-SEC-*"
+      priority: 1
+
+# Worktree 配置
+worktree:
+  # Worktree 基础目录
+  base_path: ".clawboss/worktrees"
+
+  # Issue 完成后是否自动清理 worktree
+  auto_cleanup: false
+
+  # 失败时是否保留 worktree（便于调试）
+  keep_on_failure: true
+
+  # Worktree 命名格式: {base_path}/{issue_id}
+  naming_pattern: "{issue_id}"
+
+# 测试配置
+testing:
+  # 单元测试配置
+  unit:
+    # 是否在 worktree 中自动运行
+    auto_run: true
+
+    # 失败时是否继续（true=继续，false=停止）
+    continue_on_failure: false
+
+  # 集成测试配置
+  integration:
+    # 是否自动创建临时合并分支运行测试
+    auto_merge: true
+
+    # 临时分支前缀
+    branch_prefix: "test/integration"
+
+    # 触发时机: per_issue | batch | manual
+    trigger: "batch"
+
+    # 每批处理的 Issue 数量
+    batch_size: 5
+
+  # E2E 测试配置
+  e2e:
+    # 触发时机: milestone | batch | manual
+    trigger: "milestone"
+
+    # 每批处理的 Issue 数量
+    batch_size: 10
+
+    # 是否阻塞主分支合并
+    block_on_failure: true
+
+  # 验收测试配置
+  acceptance:
+    # 触发时机: milestone | manual
+    trigger: "milestone"
+
+    # 是否需要人工确认
+    require_manual_approval: true
+
+# Agent 配置
+agent:
+  # Claude Code 模式: auto | plan | ask
+  mode: "auto"
+
+  # Agent 启动时的额外提示
+  system_prompt: |
+    You are implementing an Issue from the CheckTree system.
+    Follow the acceptance criteria and update the Issue status when done.
+
+  # 是否自动创建 Task 文件
+  auto_create_task: true
+
+  # 完成后是否自动提交代码
+  auto_commit: false
+
+  # 提交信息模板
+  commit_template: "feat({issue_id}): {issue_title}"
+
+# 通知配置
+notifications:
+  # Issue 开始时的通知
+  on_issue_start: false
+
+  # Issue 完成时的通知
+  on_issue_complete: true
+
+  # Issue 失败时的通知
+  on_failure: true
+
+  # 里程碑完成时的通知
+  on_milestone: true
+
+  # 通知方式: console | file | webhook
+  channels:
+    - type: "console"
+    - type: "file"
+      path: ".clawboss/logs/orchestrator.log"
+    # - type: "webhook"
+    #   url: "https://hooks.example.com/checktree"
+    #   headers:
+    #     Authorization: "Bearer ${WEBHOOK_TOKEN}"
+
+# 资源限制
+resources:
+  # Worktree 总大小限制（GB）
+  max_disk_gb: 50
+
+  # 单个 Agent 内存限制（GB）
+  max_memory_gb: 8
+
+  # CPU 使用率限制（百分比）
+  max_cpu_percent: 80
+
+# 钩子配置
+hooks:
+  # Issue 开始前执行的脚本
+  pre_issue_start: null
+  # pre_issue_start: "scripts/notify-start.sh"
+
+  # Issue 完成后执行的脚本
+  post_issue_complete: null
+  # post_issue_complete: "scripts/notify-complete.sh"
+
+  # Issue 失败时执行的脚本
+  on_issue_failure: null
+  # on_issue_failure: "scripts/notify-failure.sh"
+
+  # 集成测试前执行的脚本
+  pre_integration_test: null
+
+  # 集成测试后执行的脚本
+  post_integration_test: null
+
+  # E2E 测试前执行的脚本
+  pre_e2e_test: null
+
+  # E2E 测试后执行的脚本
+  post_e2e_test: null
+
+# 依赖解析配置
+dependency:
+  # 从 CheckTree.md 解析依赖
+  parse_from_checktree: true
+
+  # 从 Issue YAML 解析依赖（prerequisites 字段）
+  parse_from_yaml: true
+
+  # 是否允许循环依赖（建议保持 false）
+  allow_cycles: false
+
+# 日志配置
+logging:
+  # 日志级别: DEBUG | INFO | WARNING | ERROR
+  level: "INFO"
+
+  # 日志文件路径
+  file: ".clawboss/logs/orchestrator.log"
+
+  # 是否输出到控制台
+  console: true
+
+  # 日志格式
+  format: "%(asctime)s - %(levelname)s - %(message)s"
+
+# 里程碑配置
+milestones:
+  # 从 CheckTree.md 自动识别里程碑
+  auto_detect: true
+
+  # 里程碑完成时暂停等待人工确认
+  pause_on_milestone: true
+
+  # 里程碑完成后的自动操作: none | tag | release
+  post_milestone_action: "tag"
